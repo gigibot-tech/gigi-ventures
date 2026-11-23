@@ -251,7 +251,7 @@ window.GIGI_DATA.vegan = {
       title: 'Halve meat consumption, or end all household meat waste?',
       halveLabel: 'fewer animals a year if meat consumption is halved',
       householdLabel: 'fewer animals a year if ALL household meat waste ends',
-      ratioLabel: 'times the difference (rounded down)',
+      ratioLabel: 'the difference (rounded down)',
       src: ['destatis', 'fleischatlas'],
     },
 
