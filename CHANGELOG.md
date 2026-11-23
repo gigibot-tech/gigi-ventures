@@ -27,6 +27,37 @@ The site is plain HTML/CSS/JS with no build step, so there are no version number
 - `netlify.toml`: publish the repo root, no build; security headers; assets revalidate on every visit.
 - This changelog.
 
+### Added (later the same day)
+- **`levers.html` — how far can each lever go?** A page of its own, linked from the Two levers section on GiGi Vegan.
+  The reach charts and the Germany / species notes moved here from `vegan.html`; new: a **yearly projection** (2025–2050) for the
+  world, Europe and Germany with goal presets, two sliders per lever, per-year or cumulative view, a keyboard-readable chart and a
+  table view; and **four goals read in animal lives** — ProVeg International (50% of animal products replaced by 2040), the Albert
+  Schweitzer Foundation (no number or year of its own; cites a 70–80% cut in European meat), UN SDG 12.3 and the EU 2030 food-waste
+  law. Waste goals are read as a share of the *wasted* lives with the world stage shares (SDG ≈ 24%, EU ≈ 16%). Each goal has a caveat;
+  assumptions P1–P7 are on the page. Goals are paraphrased and sourced; the ProVeg wording is dated (June 2024).
+- **“When a number changes”** (GiGi Vegan and the levers page): wherever the same thing appears with a different number — another
+  year, model, scope or rounding — a Roman-numeral mark (≠i) points to a note that says what changed and links to every version
+  (≈ 18 bn vs 17.97 bn; 335 Mt vs 374 Mt; 16% vs 16.7%; Europe-43 / EU-28 / EU-27; 10.5 m vs 39–85 m; 74.6 kt vs ≈ 125 kt; …).
+- Drill-down links from the wasted figures in the Two levers bars into that region’s row of the waste matrix; the ≥ 39.3 m scenario
+  card links to “Germany, two paths”.
+
+### Changed (third pass)
+- The tree links into the matrix: a “Drill down” on its Total, Animal lives and Weight rows, and every number that has a card
+  (10.8 Mt, 74.6 kt, …) is a link to that card.
+- In the waste matrix, “All food waste → the plate” sits one block up (right after “Meat lost or wasted”, before the chain); the
+  blocks are separated by a rule and more space and carry a short visible title.
+- The number-note marks are Roman numerals (≠i … ≠ix) so they no longer collide with the dimension letters A–D.
+
+### Changed (later the same day)
+- **GiGi Vegan, first section as an overview:** meat weight before animal lives in every region; each bar shows its shares and a
+  “Drill down” link, the full list (numbers in right-hand columns, sources, tags) is folded under “Details”, with one “Show all
+  details” switch; the assumptions L1–L6 are folded too.
+- **Section order:** Two levers → Drill-down (the tree) → Europe → the waste matrix (dual grids, chain, warning) → Germany → anchors.
+- The dual grids lost their block titles, intro lines and A/B, C/D column headings (the repetition); each cell carries its own
+  small label, and the “Focus” tag stays on the plate.
+- In the tree, wasted meat wears the coral of the two levers; meat eaten stays green.
+- Bar-chart rows stack the label above the bar on phones.
+
 ### Changed
 - **GiGi Vegan** order is now: Two levers → drill-down (the waste matrix) → Europe → Germany → anchors.
   The World → Europe → Germany matrix (tree, A|B and C|D dual grids, "at consumption" chain) is demoted to

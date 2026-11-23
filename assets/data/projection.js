@@ -1,0 +1,253 @@
+/* GiGi Vegan — data/projection.js
+   Everything on levers.html lives HERE: the reach of the two levers, a year-by-year projection, and the goals
+   (ProVeg, Albert Schweitzer Foundation, UN SDG 12.3, EU 2030) read in animal lives. Edit this file; the page redraws.
+
+   The model is deliberately small, so every step can be checked by hand:
+     demand lever A   d(t) = cut · ramp(t → target year)            (linear from the start year, then flat)
+     waste lever B    w(t) = cut · ramp(t → target year)            (cut = share of the WASTED lives removed)
+     lives saved      s(t) = 1 − (1 − d)(1 − w·f)  = d + (1 − d)·w·f   f = wasted share of all animal lives
+   The goals are paraphrased, never quoted at length; each one carries its source, its wording date and a caveat.
+   sources: numbered by the ORDER below = the numbered "Sources & method" list in levers.html (id="src-<key>").
+   notes:   same idea as on vegan.html — a number that differs from the one on vegan.html is marked (≠a) and explained. */
+
+window.GIGI_DATA = window.GIGI_DATA || {};
+
+window.GIGI_DATA.projection = {
+  ui: {
+    sourced: 'Sourced',
+    scenario: 'Scenario',
+    source: 'Source',
+    sources: 'Sources',
+    noteMark: 'Number note',
+    notesTitle: 'When a number changes',
+    notesLead: 'Some numbers here differ from the same thing on the GiGi Vegan page — another year, another base. Each mark (≠i) points to what changed and links to both versions.',
+    tableView: 'View as table',
+    regionLegend: 'Region',
+    wasteLegend: 'How big is the waste slice?',
+    presetLegend: 'Start from a goal',
+    leverA: 'Lever A — reduce demand',
+    leverB: 'Lever B — reduce food waste',
+    cut: 'Reduction',
+    byYear: 'reached by',
+    modeLegend: 'Show',
+    modeYear: 'Per year',
+    modeCum: 'Cumulative',
+    assumed: 'year assumed',
+    showIn: 'Show in the projection',
+    none: 'Nothing changes',
+  },
+
+  sources: {
+    klaura: {
+      short: 'Klaura et al. 2023',
+      label: 'Klaura et al. 2023, Leiden University — animal lives in meat loss and waste, 2019 data: 17.97 bn, and their share by chain stage (production & rearing 24.9%, storage & transport 7.8%, slaughter & processing 20.0%, distribution & retail 20.6%, households & food service 26.7%)',
+    },
+    faostat: {
+      short: 'FAO slaughter',
+      label: 'FAO (FAOSTAT) live animals slaughtered — 86.3 bn in 2024, 91% of them chickens',
+    },
+    destatis: {
+      short: 'Destatis 2025',
+      label: 'Destatis press release 049/2026 — 2025 slaughter: 48.5 m mammals + 697.3 m poultry; the sum (≈ 746 m) is ours',
+    },
+    brief: {
+      short: 'Research brief',
+      label: 'GiGi research brief — not re-verified: Europe-43 total ≈ 12.5 bn animals; average meat per animal (chicken ≈ 1.6 kg, bovine ≈ 323 kg)',
+    },
+    proveg: {
+      short: 'ProVeg 2024',
+      label: 'ProVeg International, press release of 3 June 2024 (its “About ProVeg” boilerplate)',
+    },
+    provegold: {
+      short: 'ProVeg, earlier',
+      label: 'vegconomist interview with ProVeg: the mission as “50 by 40” — halve global meat consumption before 2040 (earlier wording)',
+    },
+    asf: {
+      short: 'ASF report 2023',
+      label: 'Albert Schweitzer Stiftung für unsere Mitwelt, Transparenz- und Wirkungsbericht 2023 — vision, mission, and the aim to improve conditions for hundreds of millions of animals, mainly broiler chickens',
+    },
+    asfclimate: {
+      short: 'ASF, climate page',
+      label: 'Albert Schweitzer Stiftung, “Tierprodukte befeuern die Klimakrise” — states that meat consumption in Europe would have to fall by 70–80% (Planetary Health Diet); no target year',
+    },
+    sdg: {
+      short: 'UN SDG 12.3',
+      label: 'United Nations, Sustainable Development Goal 12, target 12.3 — halve per-capita food waste at retail and consumer level by 2030; cut food losses along production and supply chains',
+    },
+    euwfd: {
+      short: 'EU 2025/1892',
+      label: 'Directive (EU) 2025/1892 amending the Waste Framework Directive — binding national food-waste targets for 2030: −10% processing and manufacturing, −30% per capita retail and consumption; baseline 2021–2023',
+    },
+    fleischatlas: {
+      short: 'Meat Atlas 2021',
+      label: 'Meat Atlas (Fleischatlas) 2021 — an advocacy source: ≈ 10.5 m land animals in household meat waste in Germany; calculation method not fully published',
+    },
+    model: {
+      short: 'GiGi projection model',
+      label: 'Our own calculation — the assumptions P1–P7 on this page, and the lever assumptions L1–L6 on the GiGi Vegan page',
+    },
+  },
+
+  notes: [
+    {
+      id: 'i', topic: 'World animals slaughtered: 86.3 bn or ≈ 80 bn',
+      text: 'The projection starts from the FAO count for 2024 (86.3 bn). The two levers on the GiGi Vegan page show ≈ 80 bn, a rounded figure for 2019, the year of the Klaura model. The 22% waste share was built on that 2019 pair and is held constant here (P6).',
+      at: [
+        { href: '#base-world', value: '86.3 bn', where: 'Projection', scope: 'World · 2024 · FAO' },
+        { href: 'vegan.html#lv-world-lives-total', value: '≈ 80 bn', where: 'GiGi Vegan, two levers', scope: 'World · 2019 · rounded' },
+      ],
+    },
+    {
+      id: 'ii', topic: 'Germany’s waste slice: 1.4%, 5.3% or 11.3%',
+      text: 'The same Germany, three sizes of the wasted share of animal lives. Households only: 10.5 m of 746 m (Meat Atlas 2021, an advocacy source) = 1.4%. Whole chain, lower and upper bound: ≥ 39.3 m (5.3%) and ≈ 84.5 m (11.3%), our scenarios. Only the first is sourced.',
+      at: [
+        { href: '#base-germany', value: '1.4% · 5.3% · 11.3%', where: 'Projection', scope: 'Germany · 2025 · three slices' },
+        { href: 'vegan.html#lv-germany-lives-hh', value: '10.5 m', where: 'GiGi Vegan, two levers', scope: 'households only' },
+        { href: 'vegan.html#cell-A-germany', value: '≥ 39.3 m … ≈ 84.5 m', where: 'GiGi Vegan, matrix', scope: 'whole chain · our scenarios' },
+      ],
+    },
+    {
+      id: 'iii', topic: 'ProVeg’s goal in two wordings',
+      text: 'Until about 2021 the aim was to halve global consumption of animals by 2040; the June 2024 press release speaks of replacing half of all animal products with plant-based and cultivated foods by 2040. Same 50% and the same year — the first counts animals eaten, the second products replaced.',
+      at: [
+        { href: '#src-proveg', value: 'products, 2024', where: 'Sources', scope: 'ProVeg press release' },
+        { href: '#src-provegold', value: 'animals eaten, earlier', where: 'Sources', scope: 'vegconomist interview' },
+      ],
+    },
+    {
+      id: 'iv', topic: 'Waste goals are for all food, our lever counts animals',
+      text: 'SDG 12.3 and the EU law set percentages for food waste in tonnes, all foods. We read them as meat by assuming the same percentage at every chain stage (P5), weighted with the world shares of wasted animal lives per stage: processing 20.0%, retail 20.6%, households & food service 26.7%. That turns “halve retail and consumer waste” into ≈ 24% of the wasted lives, and the EU law into ≈ 16%.',
+      at: [
+        { href: '#goal-sdg', value: '≈ 24%', where: 'Goals', scope: 'SDG 12.3 · of the wasted lives' },
+        { href: '#goal-eu', value: '≈ 16%', where: 'Goals', scope: 'EU 2030 law · of the wasted lives' },
+      ],
+    },
+  ],
+
+  // The reach of each lever: grouped bars and the curve for both together (moved here from GiGi Vegan).
+  // What each lever can save. f = the wasted share of all animal lives (≈ 18 bn ÷ ≈ 80 bn).
+  // waste only = f·x · demand only = x · together, in sequence: 1 − (1 − d)(1 − w·f).
+  impact: {
+    f: 0.22,
+    steps: [0.25, 0.5, 1],
+    series: { waste: 'Waste only', demand: 'Demand only' },
+    capMax: 'max via waste',
+    groupTitle: 'Share of all animal lives saved',
+    groupSub: 'When a lever is applied at 25%, 50% or 100% of its reach · world average',
+    xLabel: 'How far the lever goes',
+    curve: {
+      title: 'Both levers together',
+      sub: 'Animal lives saved when demand is cut by d and waste by w',
+      wasteCuts: [0, 0.5, 1],
+      labels: { 0: 'Demand only', 0.5: '+ half the waste removed', 1: '+ all waste removed' },
+      mark: { d: 0.5, w: 0.5 },
+      xLabel: 'Demand cut (share of meat eaten)',
+      yLabel: 'Lives saved',
+    },
+    caption: 'Levers combine in sequence, not by adding up. Even removing ALL waste (22%) saves less than a 25% demand cut.',
+  },
+
+  // What the reach means in Germany: halving meat consumption vs ending all household meat waste, and the species behind it.
+  blocks: { germany: { title: 'What that means in Germany' }, species: { title: 'Why chickens dominate both levers' } },
+  germany: {
+    total: 746, household: 10.5, share: 0.5, unit: 'm',
+    title: 'Halve meat consumption, or end all household meat waste?',
+    halveLabel: 'fewer animals a year if meat consumption is halved',
+    householdLabel: 'fewer animals a year if ALL household meat waste ends',
+    ratioLabel: 'the difference (rounded down)',
+    src: ['destatis', 'fleischatlas'],
+  },
+
+  species: {
+    chicken: { kg: 1.6, name: 'one chicken' },
+    bovine: { kg: 323, name: 'one bovine' },
+    text: 'Chickens dominate both levers by animal count. Fish are excluded — including them would enlarge the demand lever.',
+    src: 'brief',
+  },
+
+  model: { start: 2025, end: 2050, defaultRegion: 'germany', defaultPreset: 'both' },
+
+  // Where each region starts. baseline = land animals slaughtered a year. f = the wasted share of those lives.
+  regions: [
+    {
+      id: 'world', name: 'World', baseline: 86.3e9, year: 2024, src: 'faostat', mark: 'i', tag: null,
+      basis: '86.3 bn a year · FAO, 2024',
+      waste: [{ id: 'est', label: 'World estimate', sub: '≈ 22% · Klaura ÷ FAO', f: 0.22, kind: 'sourced' }],
+    },
+    {
+      id: 'europe', name: 'Europe', baseline: 12.5e9, year: 2019, src: 'brief', tag: 'Approximate',
+      basis: '≈ 12.5 bn a year · Europe-43, 2019',
+      waste: [{ id: 'est', label: 'Same as the world', sub: '≈ 22% · Klaura', f: 0.22, kind: 'sourced' }],
+    },
+    {
+      id: 'germany', name: 'Germany', baseline: 746e6, year: 2025, src: 'destatis', mark: 'ii', tag: null,
+      basis: '746 m a year · Destatis, 2025',
+      waste: [
+        { id: 'hh', label: 'Households only', sub: '10.5 m · 1.4% · sourced', f: 10.5 / 746, kind: 'sourced' },
+        { id: 'low', label: 'Whole chain, lower bound', sub: '39.3 m · 5.3% · scenario', f: 39.3 / 746, kind: 'scenario' },
+        { id: 'high', label: 'Whole chain, upper bound', sub: '84.5 m · 11.3% · scenario', f: 84.5 / 746, kind: 'scenario' },
+      ],
+      defaultWaste: 'low',
+    },
+  ],
+
+  // Klaura et al., world: the share of all wasted animal lives lost at each chain stage. Used to read food-waste goals.
+  stages: {
+    src: 'klaura',
+    shares: { processing: 0.200, retail: 0.206, consumers: 0.267 },
+    labels: { processing: 'slaughter & processing', retail: 'distribution & retail', consumers: 'households & food service' },
+  },
+
+  goals: [
+    {
+      id: 'proveg', org: 'ProVeg International', lever: 'A', src: ['proveg', 'provegold'], mark: 'iii',
+      said: 'Replace half of all animal products worldwide with plant-based and cultivated foods by 2040.',
+      aside: 'Wording of June 2024. Until about 2021: halve global consumption of animals by 2040.',
+      model: { demand: 0.5, year: 2040 },
+      reading: 'In our model: lever A, a 50% cut by 2040.',
+      caveat: 'The goal counts animal products, not animal lives. We assume every species falls by the same share. Replacing beef first would spare far fewer animals than replacing chicken first — one bovine is about 200 chickens’ worth of meat.',
+    },
+    {
+      id: 'asf', org: 'Albert Schweitzer Foundation', lever: 'A', src: ['asf', 'asfclimate'],
+      said: 'Vision: no animal suffers for food production. Mission: raise animal-welfare standards, reduce the consumption of animal products and spread the vegan idea. It sets no number or year of its own, and cites a 70–80% cut in meat in Europe as what the Planetary Health Diet implies.',
+      aside: 'Its planning horizon is three years.',
+      model: { demand: 0.7, year: 2050, yearAssumed: true },
+      reading: 'In our model: lever A, a 70% cut — the low end of the range it cites — reached by 2050. The year is our assumption.',
+      caveat: 'Most of its current work, for broiler chickens above all, changes how animals live, not how many there are. That third lever, welfare standards, is not in this model.',
+    },
+    {
+      id: 'sdg', org: 'United Nations · SDG 12.3', lever: 'B', src: 'sdg', mark: 'iv',
+      said: 'By 2030, halve per-capita food waste at retail and consumer level, and reduce food losses along production and supply chains.',
+      stageCuts: { retail: 0.5, consumers: 0.5 }, year: 2030,
+      reading: 'In our model: lever B. Only retail and consumer waste is halved — together 47.3% of the wasted lives in the world data — so the goal removes ≈ 24% of the wasted lives by 2030.',
+      caveat: 'The target is for food in tonnes, not for meat or animals (P5). The other chain stages get no number.',
+    },
+    {
+      id: 'eu', org: 'European Union · Waste Framework Directive', lever: 'B', src: 'euwfd', mark: 'iv',
+      said: 'Binding for member states by 31 December 2030: 10% less food waste in processing and manufacturing, and 30% less per capita in retail and consumption together, against the 2021–2023 average.',
+      aside: 'In force since October 2025. The Commission is to review stronger targets, including 2035.',
+      stageCuts: { processing: 0.10, retail: 0.30, consumers: 0.30 }, year: 2030,
+      reading: 'In our model: lever B, ≈ 16% of the wasted lives by 2030.',
+      caveat: 'Same reading as SDG 12.3: food in tonnes, applied to meat (P5). It binds states, not companies or households.',
+    },
+  ],
+
+  presets: [
+    { id: 'both', label: 'ProVeg + SDG 12.3', goals: ['proveg', 'sdg'] },
+    { id: 'proveg', label: 'ProVeg 2040', goals: ['proveg'] },
+    { id: 'asf', label: 'Albert Schweitzer', goals: ['asf'] },
+    { id: 'sdg', label: 'SDG 12.3', goals: ['sdg'] },
+    { id: 'eu', label: 'EU 2030 law', goals: ['eu'] },
+    { id: 'none', label: 'Nothing changes', goals: [] },
+  ],
+
+  assumptions: [
+    { id: 'P1', text: 'The baseline is held flat at the latest count (no growth, no existing decline). “Lives saved” is measured against that flat line; it is a what-if, not a forecast. The Albert Schweitzer Foundation notes that meat consumption and slaughter numbers in Germany are falling slowly — that trend is not in here.' },
+    { id: 'P2', text: 'Each lever ramps up in a straight line from 2025 to its target year, then stays there. Real change is lumpier.' },
+    { id: 'P3', text: 'A demand cut removes the same share of every species. A goal counted in kilos or in products is not a goal counted in lives: replacing beef first would spare far fewer animals than replacing chicken first (≈ 200 chickens per bovine).' },
+    { id: 'P4', text: 'The waste lever only touches the wasted share f — the coral slice — and the levers combine in sequence: lives saved = 1 − (1 − d)(1 − w·f), not d + w·f (L3, L4 on the GiGi Vegan page).' },
+    { id: 'P5', text: 'SDG 12.3 and the EU law are targets for food waste in tonnes, all foods. We assume meat follows the same percentage at each chain stage, and weight the stages with the world shares of wasted animal lives (Klaura): processing 20.0%, retail 20.6%, households & food service 26.7%. The same shares are used for every region.' },
+    { id: 'P6', text: 'f is the wasted share of all animal lives: ≈ 22% for the world and Europe (≈ 18 bn ÷ ≈ 80 bn, a 2019 pair, applied to the 2024 count), and 1.4% / 5.3% / 11.3% for Germany (households only; whole chain, lower and upper bound). Only the household figure is sourced.' },
+    { id: 'P7', text: 'Fish and other aquatic animals are not counted, and neither is the third lever — welfare standards for the animals that are still raised.' },
+  ],
+};

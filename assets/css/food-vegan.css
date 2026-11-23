@@ -1180,30 +1180,7 @@
 }
 
 /* ---- 2 · Dual grids: two dimensions side by side, one row per region ---- */
-.dual__heads { display: grid; gap: 12px; }
 .dual__rows { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-.dhead { position: relative; display: grid; gap: 4px; align-content: start; }
-.dhead__title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.3rem;
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -.03em;
-}
-.dhead--focus .dbadge { background: var(--accent); color: #ffffff; }
-.dhead__focus { background: var(--accent); color: #ffffff; }
-.dhead__unit {
-  font-family: var(--f-mono);
-  font-size: .66rem;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--text-3);
-}
-.dhead__q { font-size: .95rem; font-weight: 600; line-height: 1.3; }
-.dhead__so { font-size: .86rem; line-height: 1.4; color: var(--text-2); }
-.dhead__drill { margin-top: 2px; font-size: .84rem; }
 
 .dgeo {
   --text-3: #55575d; /* darker muted ink: ≥ 5:1 on the tinted backgrounds */
@@ -1238,6 +1215,7 @@
   box-shadow: inset 0 0 0 2px var(--accent);
 }
 .dcell__dim { display: flex; align-items: center; gap: 8px; font-size: .92rem; font-weight: 700; }
+.dcell__focus { background: var(--accent); color: #ffffff; }
 .dcell__scope {
   font-family: var(--f-mono);
   font-size: .64rem;
@@ -1258,15 +1236,13 @@
   .dpair__joint::before { content: "→"; content: "→" / ""; font-size: 1.4rem; }
 }
 @media (min-width: 720px) {
-  .dual__heads { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0 14px; }
   .dgeo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .dgeo__head { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 14px; }
-  .dcell__dim { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .dual--link .dcell + .dcell::before {
     content: "→";
     content: "→" / "";
     position: absolute;
-    top: 44px;
+    top: 66px;
     left: -16px;
     z-index: 1;
     width: 20px;
@@ -1277,8 +1253,6 @@
   }
 }
 @media (min-width: 1100px) {
-  .dual__heads { grid-template-columns: 170px repeat(2, minmax(0, 1fr)); }
-  .dual__heads::before { content: ""; }
   .dgeo { grid-template-columns: 170px repeat(2, minmax(0, 1fr)); }
   .dgeo__head { grid-column: auto; display: grid; padding-top: 12px; }
 }
@@ -1680,163 +1654,119 @@
 .lseg:last-child { border-radius: 0 8px 8px 0; }
 .lseg:only-child { border-radius: 8px; }
 
-/* What each segment is — the text version of the bar */
-.lbar__list { display: grid; gap: 8px; margin: 6px 0 0; padding: 0; list-style: none; }
-.lbar__item { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 8px; }
-.lbar__body { display: grid; gap: 2px; min-width: 0; }
-.lbar__line { font-size: .9rem; line-height: 1.3; }
-.lbar__iname { color: var(--text-2); }
-.lbar__ival { font-weight: 700; font-variant-numeric: tabular-nums; }
-.lbar__ishare { font-family: var(--f-mono); font-size: .74rem; color: var(--text-2); }
-.lbar__isub { font-size: .76rem; line-height: 1.4; color: var(--text-2); }
-.lbar__ifoot { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-family: var(--f-mono); font-size: .64rem; line-height: 1.5; color: var(--text-3); }
+/* What each segment is — the text version of the bar, as a small table:
+   the name on the left, the numbers in the right-hand columns (value, then share / per-person). */
+.lbar__list {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto auto;
+  column-gap: 8px;
+  row-gap: 12px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.lbar__item {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid; /* every row shares the list's number columns, so they line up */
+  align-items: baseline;
+  row-gap: 3px;
+}
+@supports not (grid-template-columns: subgrid) {
+  .lbar__item { grid-template-columns: 14px minmax(0, 1fr) auto auto; column-gap: 8px; }
+}
+.lbar__item > .lswatch { grid-column: 1; align-self: center; margin-top: 0; }
+.lbar__iname { grid-column: 2; font-size: .9rem; line-height: 1.3; color: var(--text-2); }
+.lbar__ival { grid-column: 3; justify-self: end; font-size: .95rem; font-weight: 700; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.lbar__ishare { grid-column: 4; justify-self: end; font-family: var(--f-mono); font-size: .74rem; text-align: right; white-space: nowrap; color: var(--text-2); }
+.lbar__item--noshare .lbar__ival { grid-column: 3 / 5; }
+.lbar__isub { grid-column: 2 / -1; font-size: .76rem; line-height: 1.4; color: var(--text-2); }
+.lbar__ifoot { grid-column: 2 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-family: var(--f-mono); font-size: .64rem; line-height: 1.5; color: var(--text-3); }
 .lbar__ifoot .gfact__tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.lbar__go { font-family: var(--f-body); font-size: .78rem; }
 
-/* What each lever can reach */
-.limpact__grid { display: grid; gap: 16px; }
-.limpact__cap { max-width: 80ch; font-size: 1.05rem; font-weight: 600; line-height: 1.4; }
-@media (min-width: 900px) { .limpact__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } }
-.lchart {
-  display: grid;
-  gap: 12px;
-  min-width: 0;
-  padding: 18px 20px 16px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-l);
-  background: var(--card);
-}
-.lchart__cap { display: grid; gap: 2px; }
-.lchart__frame { display: grid; gap: 4px; }
-.lchart__x,
-.lchart__y { margin: 0; font-family: var(--f-mono); font-size: .66rem; letter-spacing: .04em; color: var(--text-2); }
-.lchart__x { text-align: center; }
-.lplot { position: relative; margin: 6px 6px 34px 42px; }
-.lplot--bars { height: 250px; margin-top: 30px; margin-right: 96px; }
-.lplot--curve { aspect-ratio: 5 / 4; margin-right: 12px; }
-.lplot__grid { position: absolute; right: 0; bottom: calc(var(--y) * 1%); left: 0; border-top: 1px solid var(--line); }
-.lplot__tick {
-  position: absolute;
-  right: 100%;
-  bottom: calc(var(--y) * 1%);
-  padding-right: 8px;
-  transform: translateY(50%);
-  font-family: var(--f-mono);
-  font-size: .66rem;
-  white-space: nowrap;
-  color: var(--text-3);
-}
-.lplot__xtick {
-  position: absolute;
-  top: 100%;
-  left: calc(var(--x) * 1%);
-  padding-top: 6px;
-  transform: translateX(-50%);
-  font-family: var(--f-mono);
-  font-size: .66rem;
-  color: var(--text-3);
-}
-.lplot__cap { position: absolute; right: -96px; bottom: calc(var(--y) * 1%); left: 0; z-index: 3; border-top: 2px dashed var(--text-2); }
-.lplot__captext { position: absolute; right: 0; bottom: 4px; width: 88px; font-family: var(--f-mono); font-size: .64rem; line-height: 1.35; color: var(--text); }
-.lgroups { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: space-around; }
-.lgroup { position: relative; display: flex; align-items: flex-end; gap: 3px; height: 100%; }
-.lgroup__label { position: absolute; top: 100%; right: 0; left: 0; padding-top: 6px; text-align: center; font-size: .8rem; color: var(--text-2); }
-.lvbar { position: relative; width: clamp(16px, 4.4vw, 40px); height: calc(var(--v) * 1%); border-radius: 4px 4px 0 0; }
-.lvbar--waste { background: var(--waste); }
-.lvbar--demand { background: var(--consumed); }
-.lvbar__v {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  display: grid;
-  justify-items: center;
-  padding-bottom: 3px;
-  transform: translateX(-50%);
-  font-family: var(--f-mono);
-  font-size: .7rem;
-  line-height: 1.25;
-  white-space: nowrap;
-  color: var(--text);
-}
-.lvbar__n { font-size: .6rem; color: var(--text-2); }
-.lchart__legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; font-size: .84rem; color: var(--text-2); }
-.lchart__legend li { display: inline-flex; align-items: center; gap: 8px; }
-.lchart__legend .lswatch { margin-top: 0; }
-.lswatch--waste { background: var(--waste); }
-.lswatch--demand { background: var(--consumed); }
-.lswatch--line { height: 3px; width: 18px; border-radius: 2px; }
-.lswatch--line0 { background: var(--consumed); }
-.lswatch--line1 { background: #6b6e75; }
-.lswatch--line2 { background: var(--waste); }
-.lcurve__svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.lcurve__line { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-.lcurve__line--0 { stroke: var(--consumed); }
-.lcurve__line--1 { stroke: #6b6e75; }
-.lcurve__line--2 { stroke: var(--waste); }
-.lcurve__dot {
-  position: absolute;
-  left: calc(var(--x) * 1%);
-  bottom: calc(var(--y) * 1%);
-  width: 12px;
-  height: 12px;
-  box-sizing: border-box;
-  transform: translate(-50%, 50%);
-  border: 3px solid var(--text);
-  border-radius: 50%;
-  background: var(--card);
-}
-.lcurve__call {
-  position: absolute;
-  top: calc((100 - var(--y)) * 1% + 14px);
-  left: calc(var(--x) * 1% + 12px);
-  display: grid;
-  gap: 1px;
-  width: max-content;
-  max-width: 46%;
+/* Links that lead somewhere else on the page get a trailing arrow (drawn, so it is not part of the name) */
+.link--go::after { content: " →"; content: " →" / ""; }
+.dval__link { margin-top: 2px; font-size: .8rem; }
+.lnext {
+  max-width: 100ch;
   margin: 0;
-  padding: 6px 9px;
+  padding: 12px 16px;
   border: 1px solid var(--line-strong);
-  border-radius: 10px;
+  border-radius: 14px;
   background: var(--card);
-  font-size: .78rem;
-  line-height: 1.3;
-  color: var(--text-2);
-}
-.lcurve__call strong { font-family: var(--f-mono); font-size: .8rem; font-weight: 500; color: var(--text); }
-@media (max-width: 520px) {
-  .lvbar__n { display: none; }
-  .lplot--bars { margin-right: 84px; }
-  .lplot__cap { right: -84px; }
-  .lplot__captext { width: 78px; }
+  font-weight: 600;
+  line-height: 1.4;
 }
 
-/* Germany + species */
-.lcase__grid { display: grid; gap: 16px; }
-@media (min-width: 900px) { .lcase__grid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: start; } }
-.lger,
-.lsp {
-  display: grid;
-  gap: 12px;
-  min-width: 0;
-  padding: 18px 20px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r-l);
-  background: var(--card);
+/* "≠a": the same thing, a different number — the mark, and the list it points to */
+.nmark { font-size: .66rem; line-height: 0; }
+.nmark a {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: var(--sun);
+  color: var(--ink);
+  font-family: var(--f-mono);
+  font-weight: 500;
+  text-decoration: none;
 }
-.lger__title,
-.lsp__title { font-size: 1.15rem; font-weight: 800; line-height: 1.2; letter-spacing: -.02em; }
-.lger__rows { display: grid; gap: 14px; }
-.lger__row { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: baseline; gap: 4px 12px; }
-.lger__num { font-size: 1.6rem; font-weight: 700; line-height: 1; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-.lger__label { font-size: .86rem; line-height: 1.3; color: var(--text-2); }
-.lger__bar { grid-column: 1 / -1; box-sizing: border-box; display: block; width: calc(var(--w) * 1%); min-width: 6px; height: 14px; border-radius: 4px; }
-.lger__row--a .lger__bar { border: 2px dashed var(--consumed); background: color-mix(in srgb, var(--consumed) 16%, var(--card)); }
-.lger__row--b .lger__bar { background: var(--waste); }
-.lger__row .gfact__tags { grid-column: 1 / -1; display: flex; gap: 4px; }
-.lger__ratio { font-size: 1rem; color: var(--text-2); }
-.lger__ratio strong { margin-right: 6px; font-size: 1.9rem; letter-spacing: -.04em; color: var(--text); }
-.lger__src { font-family: var(--f-mono); font-size: .68rem; color: var(--text-3); }
-.lsp__nums { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 0; font-size: 1rem; }
-.lsp__sep { color: var(--text-3); }
-.lsp__text { margin: 0; font-size: .9rem; line-height: 1.45; color: var(--text-2); }
+.nmark a:hover { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.numnotes { display: grid; gap: 14px; margin-top: 12px; }
+.numnotes__lead { max-width: 80ch; margin: 0; font-size: .92rem; line-height: 1.5; color: var(--text-2); }
+.numnotes__list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin: 0; padding: 0; list-style: none; }
+@media (min-width: 900px) { .numnotes__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.numnote { display: grid; gap: 6px; padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: 14px; background: var(--card); }
+.numnote:target { outline: 3px solid var(--blue); outline-offset: 3px; }
+.numnote__head { display: flex; align-items: baseline; gap: 10px; margin: 0; }
+.numnote__id { padding: 1px 6px; border-radius: 4px; background: var(--sun); color: var(--ink); font-family: var(--f-mono); font-size: .74rem; }
+.numnote__text { margin: 0; font-size: .88rem; line-height: 1.45; color: var(--text-2); }
+.numnote__at { display: grid; gap: 3px; margin: 0; padding: 0; list-style: none; font-size: .8rem; line-height: 1.4; color: var(--text-2); }
+
+/* Anchors that land inside the page: clear of the sticky header, and shown when targeted */
+[id^="cell-"],
+[id^="matrix-"],
+[id^="lv-"],
+[id^="note-"] { scroll-margin-top: calc(var(--header-h) + 16px); }
+[id^="cell-"]:target,
+[id^="matrix-"]:target,
+[id^="lv-"]:target { outline: 3px solid var(--blue); outline-offset: 4px; border-radius: 12px; }
+
 /* the first group's "Waste only" label hangs to the left of its short bar, clear of the taller neighbour */
 .lgroup:first-child .lvbar--waste .lvbar__v { right: 0; left: auto; justify-items: end; transform: none; text-align: right; }
+
+/* In the tree, wasted meat wears the coral of the two levers (eaten meat stays green) */
+.trow--wasted .trow__label::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 7px;
+  border-radius: 3px;
+  background: var(--waste);
+}
+.trow--wasted .tcell:not(.tcell--none) .tcell__v { padding: 1px 6px; border-radius: 6px; background: var(--waste-soft); }
+
+/* ---- Two levers as an overview: shares up front, the numbers folded under "Details" ---- */
+.lsys__tools { display: grid; gap: 10px; justify-items: start; }
+@media (min-width: 900px) { .lsys__tools { grid-template-columns: minmax(0, 1fr) auto; align-items: start; } }
+.lbar__shares { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin: 4px 0 0; font-size: .92rem; color: var(--text-2); }
+.lbar__share { display: inline-flex; align-items: baseline; gap: 6px; }
+.lbar__share .lswatch { align-self: center; margin-top: 0; }
+.lbar__share strong { color: var(--text); font-size: 1rem; font-variant-numeric: tabular-nums; }
+.lbar__more { margin-top: 6px; border-top: 1px solid var(--line); }
+.lbar__more > summary { padding: 8px 0 2px; font-family: var(--f-mono); font-size: .7rem; letter-spacing: .05em; text-transform: uppercase; color: var(--text-2); cursor: pointer; }
+.lbar__more[open] > summary { padding-bottom: 8px; }
+.lbar__more .lbar__list { margin-top: 0; }
+.lassume { margin-top: 4px; }
+.lassume .passume__list { padding-top: 6px; }
+
+/* Tree: every number with a card is a link into the matrix; rows with a "Drill down" say so */
+.tcell__link { color: inherit; text-decoration: underline dotted; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+.tcell__link:hover { text-decoration-style: solid; }
+.trow__go { margin-left: 6px; font-size: .76rem; font-weight: 500; white-space: nowrap; }
+
+/* The waste matrix: its blocks are separated, each with its own short title */
+[data-matrix] > .dblock { padding-top: clamp(22px, 3vw, 36px); border-top: 1px solid var(--line-strong); }
+[data-matrix] > .dblock + .dblock { margin-top: clamp(28px, 5vw, 64px); }
+[data-matrix] > .dblock > .dblock__title { margin-bottom: 2px; }
+.nmark { text-transform: none; letter-spacing: 0; }

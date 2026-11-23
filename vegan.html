@@ -100,26 +100,27 @@
         <header class="topic-head">
           <p class="eyebrow">01 — Two levers</p>
           <h2 class="h2" id="levers-title">Eat less meat, or waste less? <span class="serif">One acts on everything. The other on a slice.</span></h2>
-          <p class="lead">Lever A — reduce demand, plant-based — acts on the whole system. Lever B — reduce food waste — acts only on what is thrown away. The bars show each region’s total system, consumed and wasted, in animal lives and in meat weight; below them, what each lever can reach.</p>
+          <p class="lead">Lever A — reduce demand, plant-based — acts on the whole system. Lever B — reduce food waste — acts only on what is thrown away. The bars show each region’s total system, consumed and wasted, in meat weight and in animal lives. How far each lever can go has its own page.</p>
         </header>
         <!-- Rendered by assets/js/glance.js from assets/data/vegan.js -->
         <div class="levers" data-levers>
           <noscript><p class="gwarn-fallback">This view is drawn from a data file and needs JavaScript. In short: reducing demand (lever A) acts on the whole system; reducing food waste (lever B) acts only on the wasted part, about 22% of animal lives worldwide. Even removing all waste would save less than a 25% cut in demand. The sources are listed at the end of the page.</p></noscript>
         </div>
+        <p class="lnext"><a class="link link--go" href="levers.html">How far can each lever go? A yearly projection, set against ProVeg, Albert Schweitzer Foundation, UN and EU goals</a></p>
       </div>
     </section>
 
-    <!-- ===================== 02 Drill-down: the waste matrix (tree · dual grids · chain) ===================== -->
+    <!-- ===================== 02 Drill-down: the tree ===================== -->
     <section id="dashboard" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="dashboard-title">
       <div class="wrap">
         <header class="topic-head">
-          <p class="eyebrow">02 — Drill-down: the waste matrix</p>
+          <p class="eyebrow">02 — Drill-down: how it breaks down</p>
           <h2 class="h2" id="dashboard-title">From all food waste <span class="serif">down to the plate.</span></h2>
-          <p class="lead">Behind the levers: animal lives and weight are two measures of the same lost meat. Set inside all food waste, they narrow down to the one number we care about: how much meat is eaten. World, Europe and Germany sit side by side — every cell names its region, year and model.</p>
+          <p class="lead">Behind the levers: animal lives and weight are two measures of the same lost meat. Set inside all food waste, they narrow down to the one number we care about: how much meat is eaten.</p>
         </header>
         <!-- Rendered by assets/js/glance.js from assets/data/vegan.js -->
         <div class="dash" data-dashboard>
-          <noscript><p class="gwarn-fallback">This dashboard is drawn from a data file and needs JavaScript. The sources are listed at the end of the page.</p></noscript>
+          <noscript><p class="gwarn-fallback">This breakdown is drawn from a data file and needs JavaScript. The sources are listed at the end of the page.</p></noscript>
         </div>
       </div>
     </section>
@@ -138,11 +139,25 @@
       </div>
     </section>
 
-    <!-- ===================== 04 Germany: two paths ===================== -->
+    <!-- ===================== 04 The waste matrix (dual grids · chain) ===================== -->
+    <section id="matrix" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="matrix-title">
+      <div class="wrap">
+        <header class="topic-head">
+          <p class="eyebrow">04 — The waste matrix</p>
+          <h2 class="h2" id="matrix-title">World, Europe and Germany <span class="serif">side by side.</span></h2>
+        </header>
+        <!-- Rendered by assets/js/glance.js from assets/data/vegan.js -->
+        <div class="dash" data-matrix>
+          <noscript><p class="gwarn-fallback">This matrix is drawn from a data file and needs JavaScript. The sources are listed at the end of the page.</p></noscript>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 05 Germany: two paths ===================== -->
     <section id="paths" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="paths-title">
       <div class="wrap">
         <header class="topic-head">
-          <p class="eyebrow">04 — Germany, two paths</p>
+          <p class="eyebrow">05 — Germany, two paths</p>
           <h2 class="h2" id="paths-title">The lives path scales. <span class="serif">The weight path doesn’t.</span></h2>
           <p class="lead">From Germany’s household numbers to the whole chain: animal lives can be scaled with assumptions we name, one by one. Tonnes can’t — an animal-count share says nothing about kilos.</p>
         </header>
@@ -153,11 +168,11 @@
       </div>
     </section>
 
-    <!-- ===================== 05 Anchors ===================== -->
+    <!-- ===================== 06 Anchors ===================== -->
     <section id="anchors" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="anchors-title">
       <div class="wrap">
         <header class="topic-head" data-reveal>
-          <p class="eyebrow">05 — Where we’d anchor</p>
+          <p class="eyebrow">06 — Where we’d anchor</p>
           <h2 class="h2" id="anchors-title">From the whole chain <span class="serif">to one plate.</span></h2>
         </header>
         <div class="anchors">
@@ -234,9 +249,15 @@
           </div>
         </div>
 
+        <details class="sources" id="numbernotes">
+          <summary>When a number changes</summary>
+          <!-- Rendered by assets/js/glance.js from assets/data/vegan.js (notes) -->
+          <div class="numnotes" data-notes="vegan"></div>
+        </details>
+
         <details class="sources" id="sources">
           <summary>Sources &amp; method</summary>
-          <p class="sources__how">Numbers in brackets in the two levers, the dashboard and the charts point to this list.</p>
+          <p class="sources__how">Numbers in brackets in the two levers, the dashboard and the charts point to this list; marks (≠i) point to “When a number changes”.</p>
           <ol class="sources__list" role="list">
             <li id="src-klaura">Animal lives and meat loss: Klaura et al. 2023, Leiden University — global model of animal lives embodied in meat loss and waste, six land-animal species, 2019 data (17.97 bn animals; 77.4 Mt carcass weight ≈ 52.4 Mt boneless edible meat, “about one sixth” of production; stage shares; Europe = 43 countries, 2.76 bn animals, 3.61 per person).</li>
             <li id="src-jrc">EU-28 meat waste: European Commission Joint Research Centre (JRC), mass-flow model by product group and supply-chain stage, 2011 data — 61.7 Mt meat available, 14.2 Mt wasted (primary production 0.5, processing 2.9, retail 1.7, households 7.3, food service 1.7 Mt); fresh mass, edible and inedible parts.</li>
@@ -277,6 +298,7 @@
           <ul role="list">
             <li><a href="food.html">GiGi Food</a></li>
             <li><a href="vegan.html">GiGi Vegan</a></li>
+            <li><a href="levers.html">Two levers: projection</a></li>
           </ul>
         </div>
         <div>

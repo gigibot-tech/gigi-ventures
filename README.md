@@ -1,13 +1,14 @@
 # GiGi Ventures — website v2 (static HTML)
 
-Four pages, no build step, no framework, no cookies, no trackers. Fonts come from Bunny Fonts (EU, no logging).
+Five pages, no build step, no framework, no cookies, no trackers. Fonts come from Bunny Fonts (EU, no logging).
 
 | Page | What it is |
 | --- | --- |
 | `index.html` — **Concept** | The manifesto experience: hero (“Big Tech is ~~sh\*t~~ built to keep you”), 4 changed words, 3 rules (People · Explainable · Private & interoperable by default), the ecosystem tree, **GiGi Social × Gigolingo × 4some** in one section, **GiGi AI** (on-device multimodal, concept) with **iDO × GiGi** next to it, and GiGi Food / GiGi Vegan as two concepts side by side. |
 | `company.html` — **Company** | A conventional company site: portfolio in three groups, how we work, **future roles\*** (9, with filters), partners & investors, contact. |
 | `food.html` — **GiGi Food** | An idea that starts with a €500 grain cooker: basic meals as infrastructure — the idea (“Start with the €500 cooker. Not the €250,000 robot.”), the automation ladder, economics, why every bowl is vegan (links to GiGi Vegan), a 365-day pilot plan and the ask. |
-| `vegan.html` — **GiGi Vegan** | Opens with **Two levers**: per region one total-system bar (consumed + wasted) for animal lives and for meat weight, lever A (demand) across the whole bar and lever B (waste) only on the wasted part, plus what each lever can reach. Then the drill-down, top to bottom: a **tree** (all food waste → meat, lives and weight in one node → before the plate / at the plate, the focus: meat eaten), two **dual grids** (A animal lives | B meat weight, then C all food waste | D at the plate; World, Europe, Germany as rows, each total connected to its part lost at consumption), a **chain** that shows what “at consumption” means, drill-downs attached under the cards they explain, Europe country by country, Germany’s two paths side by side (animal lives scale with named assumptions; tonnes don’t), three anchors and what’s been achieved for chickens. |
+| `vegan.html` — **GiGi Vegan** | An overview first: **Two levers** — per region one total-system bar (consumed + wasted), meat weight then animal lives, with one line of shares and a way down into the matrix; the numbers, sources and links are folded under “Details”. Then the drill-down: a **tree** (all food waste → meat, lives and weight in one node → before the plate / at the plate, the focus: meat eaten; wasted meat in coral), **Europe** country by country, **the waste matrix** (A\|B and C\|D dual grids, drill-downs under their cards, the “at consumption” chain), Germany’s two paths side by side, and three anchors. Numbers that differ between places carry a Roman-numeral mark (≠i) that points to “When a number changes”. |
+| `levers.html` — **Two levers: projection** | A page of its own for “how far can each lever go?”: the reach charts (grouped bars, both levers together), what that means in Germany, a **yearly projection** you can steer (region, goal presets, two sliders per lever, per year or cumulative), and the goals of ProVeg, the Albert Schweitzer Foundation, UN SDG 12.3 and the EU 2030 law read in animal lives, each with a caveat. |
 
 The header switch flips **Concept | Company** on the main pages and **GiGi Food | GiGi Vegan** on the two concept pages.
 
@@ -23,15 +24,19 @@ Then open http://localhost:4321. Opening the HTML files straight from Finder wor
 
 ```
 gigi-ventures/
-├── index.html · company.html · food.html · vegan.html
+├── index.html · company.html · food.html · vegan.html · levers.html
+├── netlify.toml · CHANGELOG.md
 ├── assets/
 │   ├── css/base.css        tokens, reset, header, buttons, logo, footer, reveal (shared)
 │   ├── css/concept.css     concept page sections
 │   ├── css/company.css     company page sections
 │   ├── css/food-vegan.css  GiGi Food + GiGi Vegan pages (charts, ladder, receipt, anchors)
+│   ├── css/levers.css      the levers page: reach charts, projection controls and chart, goal cards
 │   ├── data/vegan.js       GiGi Vegan two levers, tree, dual grids, chain, drill-downs, Europe charts, Germany paths: every number, caveat, source key
+│   ├── data/projection.js  the levers page: baselines, goals (paraphrased, with sources), presets, assumptions P1–P7, number notes
 │   ├── data/food.js        GiGi Food glance: KPIs, decision gates, sources
 │   ├── js/glance.js        renders the data files (two levers, tree, dual grids, chain, paths, Europe charts, food glance) + footnotes
+│   ├── js/projection.js    the levers page: reach charts, the projection model, goal cards (uses window.GIGI_UI from glance.js)
 │   ├── js/shared.js        header colour per section, mobile menu, reveal on scroll
 │   ├── js/concept.js       hero rewrite, 8-language Gigolingo demo, ecosystem tree
 │   ├── js/food-vegan.js    free-meal calculator, segmented-bar labels
@@ -57,6 +62,14 @@ gigi-ventures/
   data too: a cell’s `drill: { label, ids }` draws them as a foldable panel under that region’s row, next to the card they explain.
   A Europe chart with `others: { count }` gets a hatched “Other N countries” row — the total minus the listed rows, marked derived.
   Tree numbers repeat figures from the grids; if you change one, change both.
+
+- **The levers page (`levers.html`):** `assets/data/projection.js`. `regions` hold the baselines (animals slaughtered a year) and the
+  size of the waste slice `f` (Germany has three: households only, whole chain low / high); `goals` are paraphrases with a source key,
+  a caveat and either `model` (a demand cut and a year — lever A) or `stageCuts` + `year` (a food-waste goal, read as a share of the
+  wasted lives with the stage shares in `stages`); `presets` combine goals. The model is on the page (P1–P7) and in the file header:
+  lives saved = 1 − (1 − d)(1 − w·f). Sources are numbered by their order in the file, which must match the list in `levers.html`.
+- **“When a number changes”:** `notes` in `vegan.js` and `projection.js`. Put `mark: 'a'` on an item, segment or cell where a number
+  differs from the same thing elsewhere (year, model, scope, rounding); the note lists every version with a link.
 
 - **Contact address:** `contact@gigolingo.com` is used everywhere (search and replace).
 - **Future roles:** `company.html` → `#careers`, one `<details data-role data-team="…">` per role. Counts and filters update on their own.

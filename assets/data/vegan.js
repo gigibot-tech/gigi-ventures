@@ -43,6 +43,9 @@ window.GIGI_DATA.vegan = {
     gridLabel: 'World, Europe and Germany in four dimensions',
     drill: 'Drill down',
     drillOn: 'Drill down',
+    notesTitle: 'When a number changes',
+    notesLead: 'The same thing shows up with different numbers in different places — another year, model, scope or rounding. Each mark (≠i) on the page points here: what changed, and where to find every version.',
+    noteMark: 'Number note',
     others: 'Other',
     othersNote: 'derived: the total minus the top ten, not a Eurostat figure',
     assumptions: 'Assumptions — named',
@@ -121,10 +124,95 @@ window.GIGI_DATA.vegan = {
     },
   },
 
-  // 0 · Two levers — the primary view. Per region, ONE total-system bar per measure, split into
-  //     consumed (green) + wasted (coral).  Lever A (demand) acts on the whole bar; lever B (waste) only on the wasted segment.
+  // Same thing, a different number? Wherever a figure changes — year, model, scope, rounding — it carries a
+  // Roman-numeral mark (≠i). The list sits under the page, in "When a number changes"; each entry says what changed
+  // and links to every place the number appears.  at[].href is a page anchor or a full link.
+  notes: [
+    {
+      id: 'i', topic: 'Animal lives wasted, World',
+      text: 'One Klaura 2019 figure, shown two ways: rounded to ≈ 18 bn in the two levers (and in the tree and the headline), exact — 17.97 bn — in the drill-down.',
+      at: [
+        { href: '#lv-world-lives-wasted', value: '≈ 18 bn', where: 'Two levers', scope: 'World · 2019 · rounded' },
+        { href: '#cell-A-world', value: '17.97 bn', where: 'Drill-down, animal lives', scope: 'World · 2019 · exact' },
+      ],
+    },
+    {
+      id: 'ii', topic: 'Shares of animal lives: 22% and 26.7%',
+      text: '≈ 22% is the wasted lives divided by the lives slaughtered (≈ 18 bn ÷ ≈ 80 bn — our ratio, see L2). 26.7% is the consumption stage’s part of the wasted lives themselves (Klaura). Different denominators: they do not compare.',
+      at: [
+        { href: '#lv-world-lives-wasted', value: '≈ 22%', where: 'Two levers', scope: 'wasted ÷ slaughtered' },
+        { href: '#cell-A-world', value: '26.7%', where: 'Drill-down, animal lives', scope: 'consumption stage ÷ wasted' },
+      ],
+    },
+    {
+      id: 'iii', topic: 'Edible meat wasted, World: 16% or 16.7%',
+      text: 'The same 52.4 Mt. In the two levers it is divided by the 335 Mt of production (2019, research brief): 15.6%, shown as ≈ 16%. The drill-down says “about one sixth” (16.7%) — the headline fraction, not recomputed from 335 Mt.',
+      at: [
+        { href: '#lv-world-mass-edible', value: '52.4 Mt · ≈ 16%', where: 'Two levers', scope: 'World · 2019 · ÷ 335 Mt' },
+        { href: '#cell-B-world', value: '52.4 Mt · 16.7%', where: 'Drill-down, meat weight', scope: 'World · 2019 · “about one sixth”' },
+      ],
+    },
+    {
+      id: 'iv', topic: 'World meat production: 335 Mt or 374 Mt',
+      text: 'A different year and source. 335 Mt is 2019, the year of the Klaura model (research brief); 374 Mt is 2024 (FAO). Never put them in one ratio.',
+      at: [
+        { href: '#lv-world-mass-total', value: '335 Mt', where: 'Two levers', scope: 'World · 2019 · research brief' },
+        { href: '#cell-D-world', value: '374 Mt', where: 'Drill-down, at the plate', scope: 'World · 2024 · FAO' },
+      ],
+    },
+    {
+      id: 'v', topic: 'Europe is three scopes',
+      text: 'Europe-43 · 2019 (Klaura: animal lives, ≈ 12.5 bn in all, 2.76 bn wasted). EU-28 · 2011 (JRC: 14.2 of 61.7 Mt of meat). EU-27 · 2022 (Eurostat: 57.5 Mt of all food wasted). EU-27 · 2022–24 (EU outlook: 66.6 kg of meat per person). 61.7 Mt and 57.5 Mt look alike and measure different things.',
+      at: [
+        { href: '#lv-europe-mass-total', value: '61.7 Mt', where: 'Two levers', scope: 'EU-28 · 2011 · JRC · meat' },
+        { href: '#lv-europe-lives-total', value: '≈ 12.5 bn', where: 'Two levers', scope: 'Europe-43 · 2019 · Klaura · animals' },
+        { href: '#cell-C-europe', value: '57.5 Mt', where: 'Drill-down, all food waste', scope: 'EU-27 · 2022 · Eurostat · all food' },
+        { href: '#cell-D-europe', value: '66.6 kg', where: 'Drill-down, at the plate', scope: 'EU-27 · 2022–24 · EU outlook' },
+      ],
+    },
+    {
+      id: 'vi', topic: 'Germany, animal lives wasted: 10.5 m or 39–85 m',
+      text: 'Households only: 10.5 m (Meat Atlas 2021, an advocacy source). Whole chain, households included: ≥ 39.3 m, ≈ 51.7 m or ≈ 84.5 m (our scenarios A, B, C). The two levers show the rest of the chain without the households: 39.3 − 10.5 ≈ 29 m up to 84.5 − 10.5 ≈ 74 m.',
+      at: [
+        { href: '#lv-germany-lives-hh', value: '10.5 m', where: 'Two levers', scope: 'households only · Meat Atlas 2021' },
+        { href: '#lv-germany-lives-rest', value: '≈ 29–74 m', where: 'Two levers', scope: 'rest of the chain · our scenarios' },
+        { href: '#cell-A-germany', value: '≥ 39.3 m … ≈ 84.5 m', where: 'Drill-down, animal lives', scope: 'whole chain · our scenarios' },
+        { href: '#paths', value: 'A · B · C', where: 'Germany, two paths', scope: 'how each scenario is built' },
+      ],
+    },
+    {
+      id: 'vii', topic: 'Germany, household meat waste: 74.6 kt or ≈ 125 kt',
+      text: 'The same 4% share on two bases. 74.6 kt is 4% of the 1.87 Mt of avoidable household waste in the GfK 2020 diary study; ≈ 125 kt is 4% of ≈ 3.1 Mt, half of the official 2022 household total (Thünen). We quote the range, 75–125 kt.',
+      at: [
+        { href: '#lv-germany-mass-hh', value: '74.6 kt', where: 'Two levers', scope: 'Germany · GfK 2020 base' },
+        { href: '#cell-B-germany', value: '74.6 kt · ≈ 125 kt', where: 'Drill-down, meat weight', scope: 'Germany · both bases' },
+      ],
+    },
+    {
+      id: 'viii', topic: 'Animals slaughtered: several counts',
+      text: 'Germany: 631 m chickens in 2022 (Eurostat); 697.3 m chickens, turkeys and ducks in 2025 and 746 m land animals of all species in 2025 (Destatis; the sum is ours). EU: 6.16 bn chickens in 2022 (Eurostat, reporting countries) against ≈ 6.4 bn poultry in 2020 (research brief). Different year, species and countries.',
+      at: [
+        { href: '#lv-germany-lives-total', value: '746 m', where: 'Two levers', scope: 'Germany · 2025 · all land animals' },
+        { href: '#cell-A-germany', value: '631 m', where: 'Drill-down, animal lives', scope: 'Germany · 2022 · chickens' },
+        { href: '#lv-europe-lives-total', value: '≈ 6.4 bn', where: 'Two levers', scope: 'EU-27 · 2020 · poultry' },
+        { href: '#europe', value: '6.16 bn', where: 'Europe, country by country', scope: 'EU · 2022 · chickens' },
+      ],
+    },
+    {
+      id: 'ix', topic: 'World animals slaughtered: ≈ 80 bn or 86.3 bn',
+      text: '≈ 80 bn is a rounded figure for 2019, the year of the Klaura model; the FAO series reached 86.3 bn in 2024. The projection page starts from 86.3 bn. The 22% waste share is built on the 2019 pair.',
+      at: [
+        { href: '#lv-world-lives-total', value: '≈ 80 bn', where: 'Two levers', scope: 'World · 2019 · rounded' },
+        { href: 'levers.html#base-world', value: '86.3 bn', where: 'Projection', scope: 'World · 2024 · FAO' },
+      ],
+    },
+  ],
+
+  // 0 · Two levers — the primary view. Per region, ONE total-system bar per measure (meat weight first, then
+  //     animal lives), split into consumed (green) + wasted (coral).  Lever A (demand) acts on the whole bar; lever B (waste) only on the wasted segment.
   //     seg.kind: "sourced" → solid · "scenario" → dashed · "unknown" → hatched grey (its width carries no value).
   //     seg.v is in ONE unit per bar (bar widths are computed from it); a seg with `fixed` (% of the bar) has no value.
+  //     seg.drill → link to that region's row of the drill-down matrix · seg.link → any other link · seg.mark → a number note (a–i).
   //     Never divide tonnes by the 26.7% share — that share counts animals, not kilos.
   levers: {
     ui: {
@@ -140,7 +228,10 @@ window.GIGI_DATA.vegan = {
       scenario: 'Scenario',
       unknown: 'Unknown',
       source: 'Source',
-      impactLabel: 'What each lever can save',
+      drill: 'Drill down',
+      details: 'Details, sources and links',
+      showAll: 'Show all details',
+      hideAll: 'Hide all details',
       leverKey: 'The two levers',
     },
     keys: [
@@ -148,53 +239,60 @@ window.GIGI_DATA.vegan = {
       { id: 'B', name: 'Reduce food waste', acts: 'acts only on the wasted segment', short: 'B · waste → this segment only' },
     ],
     blocks: {
-      system: { title: 'The total system, region by region', lead: 'Each bar is everything that is produced in a region, split into what is consumed and what is wasted. Lives and weight are two measures of the same meat — they sit in separate bars and are never converted into each other.' },
-      impact: { title: 'How much each lever can reach', lead: 'Waste reduction can only ever touch the coral slice. Demand reduction touches the whole bar. Because the slice is about a fifth of the whole, the two levers are not the same size.' },
-      germany: { title: 'What that means in Germany' },
-      species: { title: 'Why chickens dominate both levers' },
-      assumptions: { title: 'Assumptions behind the levers' },
+      system: { title: 'The total system, region by region', lead: 'Each bar is everything produced in a region, split into what is consumed and what is wasted — meat weight first, then animal lives. They are two measures of the same meat, so they sit in separate bars and are never converted into each other.' },
+      assumptions: { title: 'Assumptions behind the bars (L1–L6)' },
     },
+    // Meat weight first, then animal lives — in every region.
     regions: [
       {
         id: 'world', name: 'World', basis: 'Global models',
         bars: [
           {
-            id: 'world-lives', measure: 'Animal lives', scope: 'World · 2019',
-            total: { value: '≈ 80 bn', text: 'land animals slaughtered', sub: 'FAO series: 86.3 bn in 2024, 91% chickens', tags: [{ text: 'Rounded', tone: 'rule' }], src: 'faostat' },
+            id: 'world-mass', measure: 'Meat weight', scope: 'World · 2019',
+            total: { id: 'lv-world-mass-total', value: '335 Mt', text: 'meat produced', tags: [{ text: 'Brief', tone: 'flag' }], src: 'brief', mark: 'iv' },
+            drill: 'meat-world',
+            shares: [{ role: 'consumed', label: 'Consumed', text: '≈ 77%' }, { role: 'wasted', label: 'Wasted', text: '≈ 23%' }],
             segs: [
-              { role: 'consumed', kind: 'sourced', v: 62, name: 'Consumed', value: '≈ 62 bn', share: '≈ 78%', tag: 'Derived' },
-              { role: 'wasted', kind: 'sourced', v: 18, name: 'Wasted with the meat', value: '≈ 18 bn', share: '≈ 22%', src: 'klaura' },
+              { role: 'consumed', kind: 'sourced', v: 257.6, name: 'Consumed', value: '≈ 258 Mt', share: '≈ 77%', tag: 'Derived' },
+              { id: 'lv-world-mass-edible', role: 'wasted', kind: 'sourced', v: 52.4, name: 'Wasted — edible meat', value: '52.4 Mt', share: '≈ 16%', sub: 'about one sixth of production', src: 'klaura', mark: 'iii', drill: 'meat-world' },
+              { role: 'wasted', tone: 'soft', kind: 'sourced', v: 25.0, name: 'Wasted — inedible parts', value: '≈ 25 Mt', share: '≈ 7%', sub: '77.4 Mt carcass weight in all', tag: 'Derived' },
             ],
           },
           {
-            id: 'world-mass', measure: 'Meat weight', scope: 'World · 2019',
-            total: { value: '335 Mt', text: 'meat produced', tags: [{ text: 'Brief', tone: 'flag' }], src: 'brief' },
+            id: 'world-lives', measure: 'Animal lives', scope: 'World · 2019',
+            total: { id: 'lv-world-lives-total', value: '≈ 80 bn', text: 'land animals slaughtered', sub: 'FAO series: 86.3 bn in 2024, 91% chickens', tags: [{ text: 'Rounded', tone: 'rule' }], src: 'faostat', mark: 'ix' },
+            drill: 'meat-world',
+            shares: [{ role: 'consumed', label: 'Consumed', text: '≈ 78%' }, { role: 'wasted', label: 'Wasted', text: '≈ 22%', mark: 'ii' }],
             segs: [
-              { role: 'consumed', kind: 'sourced', v: 257.6, name: 'Consumed', value: '≈ 258 Mt', share: '≈ 77%', tag: 'Derived' },
-              { role: 'wasted', kind: 'sourced', v: 52.4, name: 'Wasted — edible meat', value: '52.4 Mt', share: '≈ 16%', sub: 'about one sixth of production', src: 'klaura' },
-              { role: 'wasted', tone: 'soft', kind: 'sourced', v: 25.0, name: 'Wasted — inedible parts', value: '≈ 25 Mt', share: '≈ 7%', sub: '77.4 Mt carcass weight in all', tag: 'Derived' },
+              { role: 'consumed', kind: 'sourced', v: 62, name: 'Consumed', value: '≈ 62 bn', share: '≈ 78%', tag: 'Derived' },
+              { id: 'lv-world-lives-wasted', role: 'wasted', kind: 'sourced', v: 18, name: 'Wasted with the meat', value: '≈ 18 bn', share: '≈ 22%', src: 'klaura', mark: ['i', 'ii'], drill: 'meat-world' },
             ],
           },
         ],
       },
       {
         id: 'europe', name: 'Europe', basis: 'Three scopes — named per bar',
-        notHarmonized: 'Not harmonized: lives are Europe-43 · 2019, weight is EU-28 · 2011. Compare shares along a bar, never totals across the two.',
+        notHarmonized: 'Not harmonized: weight is EU-28 · 2011, lives are Europe-43 · 2019. Compare shares along a bar, never totals across the two.',
+        notHarmonizedMark: 'v',
         bars: [
           {
-            id: 'europe-lives', measure: 'Animal lives', scope: 'Europe-43 · 2019',
-            total: { value: '≈ 12.5 bn', text: 'land animals slaughtered', sub: 'EU-27 poultry alone ≈ 6.4 bn in 2020', tags: [{ text: 'Approximate', tone: 'flag' }], src: 'brief' },
+            id: 'europe-mass', measure: 'Meat weight', scope: 'EU-28 · 2011 · JRC model',
+            total: { id: 'lv-europe-mass-total', value: '61.7 Mt', text: 'meat available, incl. inedible parts', tags: [{ text: 'Other model', tone: 'rule' }], src: 'jrc', mark: 'v' },
+            drill: 'meat-europe',
+            shares: [{ role: 'consumed', label: 'Consumed', text: '77.0%' }, { role: 'wasted', label: 'Wasted', text: '23.0%' }],
             segs: [
-              { role: 'consumed', kind: 'sourced', v: 9.738, name: 'Consumed', value: '≈ 9.7 bn', share: '≈ 78%', tag: 'Derived' },
-              { role: 'wasted', kind: 'sourced', v: 2.762, name: 'Wasted with the meat', value: '2.76 bn', share: '≈ 22%', src: 'klaura' },
+              { role: 'consumed', kind: 'sourced', v: 47.5, name: 'Consumed', value: '47.5 Mt', share: '77.0%', tag: 'Derived' },
+              { id: 'lv-europe-mass-wasted', role: 'wasted', kind: 'sourced', v: 14.2, name: 'Wasted', value: '14.2 Mt', share: '23.0%', src: 'jrc', drill: 'meat-europe' },
             ],
           },
           {
-            id: 'europe-mass', measure: 'Meat weight', scope: 'EU-28 · 2011 · JRC model',
-            total: { value: '61.7 Mt', text: 'meat available, incl. inedible parts', tags: [{ text: 'Other model', tone: 'rule' }], src: 'jrc' },
+            id: 'europe-lives', measure: 'Animal lives', scope: 'Europe-43 · 2019',
+            total: { id: 'lv-europe-lives-total', value: '≈ 12.5 bn', text: 'land animals slaughtered', sub: 'EU-27 poultry alone ≈ 6.4 bn in 2020', tags: [{ text: 'Approximate', tone: 'flag' }], src: 'brief', mark: ['v', 'viii'] },
+            drill: 'meat-europe',
+            shares: [{ role: 'consumed', label: 'Consumed', text: '≈ 78%' }, { role: 'wasted', label: 'Wasted', text: '≈ 22%', mark: 'ii' }],
             segs: [
-              { role: 'consumed', kind: 'sourced', v: 47.5, name: 'Consumed', value: '47.5 Mt', share: '77.0%', tag: 'Derived' },
-              { role: 'wasted', kind: 'sourced', v: 14.2, name: 'Wasted', value: '14.2 Mt', share: '23.0%', src: 'jrc' },
+              { role: 'consumed', kind: 'sourced', v: 9.738, name: 'Consumed', value: '≈ 9.7 bn', share: '≈ 78%', tag: 'Derived' },
+              { id: 'lv-europe-lives-wasted', role: 'wasted', kind: 'sourced', v: 2.762, name: 'Wasted with the meat', value: '2.76 bn', share: '≈ 22%', src: 'klaura', mark: 'ii', drill: 'meat-europe' },
             ],
           },
         ],
@@ -203,64 +301,30 @@ window.GIGI_DATA.vegan = {
         id: 'germany', name: 'Germany', basis: 'National data + one advocacy model',
         bars: [
           {
-            id: 'germany-lives', measure: 'Animal lives', scope: 'Germany · 2025',
-            total: { value: '746 m', text: 'land animals slaughtered', sub: 'Destatis: 48.5 m mammals + 697.3 m poultry — the sum is ours', src: 'destatis' },
+            id: 'germany-mass', measure: 'Meat weight', scope: 'Germany · 2025 / 2020',
+            total: { value: 'Unknown', text: 'whole chain — Germany doesn’t publish it', unknown: true },
+            drill: 'meat-germany',
+            shares: [{ role: 'consumed', label: 'Eaten', text: '4.6 Mt' }, { role: 'wasted', label: 'Wasted, households', text: '1.6%', mark: 'vii' }, { role: 'unknown', kind: 'unknown', label: 'Rest of the chain', text: 'unknown' }],
             segs: [
-              { role: 'consumed', kind: 'scenario', v: 661.5, name: 'Consumed', value: '≈ 662–736 m', share: '≈ 89–99%', sub: 'depends on how much is wasted in the chain', tag: 'Derived' },
-              { role: 'wasted', kind: 'scenario', v: 74.0, name: 'Rest of the chain', value: '≈ 29–74 m', share: '≈ 4–10%', sub: 'whole chain 39–85 m, households included', src: 'model' },
-              { role: 'wasted', kind: 'sourced', v: 10.5, name: 'Households', value: '10.5 m', share: '1.4%', tags: [{ text: 'Advocacy source', tone: 'flag' }], src: 'fleischatlas' },
+              { id: 'lv-germany-mass-eaten', role: 'consumed', kind: 'sourced', v: 4600, name: 'Eaten', value: '4.6 Mt', share: '54.9 kg', sub: 'per person a year', src: 'bzl' },
+              { id: 'lv-germany-mass-hh', role: 'wasted', kind: 'sourced', v: 74.6, name: 'Households', value: '74.6 kt', share: '1.6%', sub: 'of the 4.6 Mt eaten · households only', tags: [{ text: 'Partial indicator', tone: 'flag' }], src: ['gfk', 'thuenen'], mark: 'vii', drill: 'meat-germany' },
+              { role: 'unknown', kind: 'unknown', fixed: 16, name: 'Rest of the chain', value: 'Unknown', sub: 'food service ≈ 85.8 kt — unconfirmed', src: 'ahv' },
             ],
           },
           {
-            id: 'germany-mass', measure: 'Meat weight', scope: 'Germany · 2025 / 2020',
-            total: { value: 'Unknown', text: 'whole chain — Germany doesn’t publish it', unknown: true },
+            id: 'germany-lives', measure: 'Animal lives', scope: 'Germany · 2025',
+            total: { id: 'lv-germany-lives-total', value: '746 m', text: 'land animals slaughtered', sub: 'Destatis: 48.5 m mammals + 697.3 m poultry — the sum is ours', src: 'destatis', mark: 'viii' },
+            drill: 'meat-germany',
+            shares: [{ role: 'consumed', kind: 'scenario', label: 'Consumed', text: '≈ 89–99%' }, { role: 'wasted', kind: 'scenario', label: 'Wasted', text: '≈ 1.4–11%', mark: 'vi' }],
             segs: [
-              { role: 'consumed', kind: 'sourced', v: 4600, name: 'Eaten', value: '4.6 Mt', share: '54.9 kg per person', src: 'bzl' },
-              { role: 'wasted', kind: 'sourced', v: 74.6, name: 'Households', value: '74.6 kt', share: '1.6% of the 4.6 Mt', tags: [{ text: 'Partial indicator', tone: 'flag' }], src: ['gfk', 'thuenen'] },
-              { role: 'unknown', kind: 'unknown', fixed: 16, name: 'Rest of the chain', value: 'Unknown', sub: 'food service ≈ 85.8 kt — unconfirmed', src: 'ahv' },
+              { role: 'consumed', kind: 'scenario', v: 661.5, name: 'Consumed', value: '≈ 662–736 m', share: '≈ 89–99%', sub: 'depends on how much is wasted in the chain', tag: 'Derived' },
+              { id: 'lv-germany-lives-rest', role: 'wasted', kind: 'scenario', v: 74.0, name: 'Rest of the chain', value: '≈ 29–74 m', share: '≈ 4–10%', sub: 'whole chain 39–85 m, households included', src: 'model', mark: 'vi', link: { href: '#paths', label: 'Germany: two paths' } },
+              { id: 'lv-germany-lives-hh', role: 'wasted', kind: 'sourced', v: 10.5, name: 'Households', value: '10.5 m', share: '1.4%', tags: [{ text: 'Advocacy source', tone: 'flag' }], src: 'fleischatlas', mark: 'vi', drill: 'meat-germany' },
             ],
           },
         ],
       },
     ],
-
-    // What each lever can save. f = the wasted share of all animal lives (≈ 18 bn ÷ ≈ 80 bn).
-    // waste only = f·x · demand only = x · together, in sequence: 1 − (1 − d)(1 − w·f).
-    impact: {
-      f: 0.22,
-      steps: [0.25, 0.5, 1],
-      series: { waste: 'Waste only', demand: 'Demand only' },
-      capMax: 'max via waste',
-      groupTitle: 'Share of all animal lives saved',
-      groupSub: 'When a lever is applied at 25%, 50% or 100% of its reach · world average',
-      xLabel: 'How far the lever goes',
-      curve: {
-        title: 'Both levers together',
-        sub: 'Animal lives saved when demand is cut by d and waste by w',
-        wasteCuts: [0, 0.5, 1],
-        labels: { 0: 'Demand only', 0.5: '+ half the waste removed', 1: '+ all waste removed' },
-        mark: { d: 0.5, w: 0.5 },
-        xLabel: 'Demand cut (share of meat eaten)',
-        yLabel: 'Lives saved',
-      },
-      caption: 'Levers combine in sequence, not by adding up. Even removing ALL waste (22%) saves less than a 25% demand cut.',
-    },
-
-    germany: {
-      total: 746, household: 10.5, share: 0.5, unit: 'm',
-      title: 'Halve meat consumption, or end all household meat waste?',
-      halveLabel: 'fewer animals a year if meat consumption is halved',
-      householdLabel: 'fewer animals a year if ALL household meat waste ends',
-      ratioLabel: 'the difference (rounded down)',
-      src: ['destatis', 'fleischatlas'],
-    },
-
-    species: {
-      chicken: { kg: 1.6, name: 'one chicken' },
-      bovine: { kg: 323, name: 'one bovine' },
-      text: 'Chickens dominate both levers by animal count. Fish are excluded — including them would enlarge the demand lever.',
-      src: 'brief',
-    },
 
     assumptions: [
       { id: 'L1', text: 'The wasted share f = 22% is global (≈ 18 bn ÷ ≈ 80 bn). It is used for the curves and for Europe; Germany’s sourced household share is far lower (1.4%).' },
@@ -280,33 +344,33 @@ window.GIGI_DATA.vegan = {
     lead: 'One path, top to bottom: from all food waste to meat, to the plate. Animal lives and weight sit in one node — two measures of the same meat. Read across for World, Europe and Germany.',
     cols: ['World', 'Europe', 'Germany'],
     edgeGap: 'meat’s share of food waste: not reported',
-    foot: 'Europe is three scopes here: Europe-43 (animal lives), EU-28 · 2011 (meat weight), EU-27 · 2022 (all food). “Before the plate” is the total minus “at the plate”, inside the same model. Each grid below names its scope.',
+    foot: 'Europe is three scopes here: Europe-43 (animal lives), EU-28 · 2011 (meat weight), EU-27 · 2022 (all food). “Before the plate” is the total minus “at the plate”, inside the same model. Each grid names its scope. Coral marks wasted meat, green the meat that is eaten — as in the two levers above.',
     root: {
       id: 'C', badge: 'C', title: 'All food waste', note: 'all foods, not only meat',
       rows: [
-        { label: 'Total', cells: [{ v: '1.05 bn t' }, { v: '57.5 Mt' }, { v: '10.8 Mt' }] },
-        { label: 'At consumption', cells: [{ v: '921 Mt' }, { v: '37.0 Mt' }, { v: '8.3 Mt' }] },
+        { label: 'Total', drill: 'plate', cells: [{ v: '1.05 bn t', to: 'cell-C-world' }, { v: '57.5 Mt', to: 'cell-C-europe' }, { v: '10.8 Mt', to: 'cell-C-germany' }] },
+        { label: 'At consumption', cells: [{ v: '921 Mt', to: 'cell-C-world' }, { v: '37.0 Mt', to: 'cell-C-europe' }, { v: '8.3 Mt', to: 'cell-C-germany' }] },
       ],
       children: [
         {
           id: 'AB', badge: 'A + B', title: 'Meat lost or wasted', note: 'animal lives and weight in one node',
           rows: [
-            { label: 'Animal lives', cells: [{ v: '18 bn' }, { v: '2.76 bn' }, { v: '≈ 10.5 m' }] },
-            { label: 'Weight', cells: [{ v: '52.4 Mt' }, { v: '14.2 Mt' }, { v: '74.6 kt' }] },
+            { label: 'Animal lives', tone: 'wasted', drill: 'meat', cells: [{ v: '18 bn', to: 'cell-A-world' }, { v: '2.76 bn', to: 'cell-A-europe' }, { v: '≈ 10.5 m', to: 'cell-A-germany' }] },
+            { label: 'Weight', tone: 'wasted', drill: 'meat', cells: [{ v: '52.4 Mt', to: 'cell-B-world' }, { v: '14.2 Mt', to: 'cell-B-europe' }, { v: '74.6 kt', to: 'cell-B-germany' }] },
           ],
           children: [
             {
               id: 'before', title: 'Before the plate', note: 'farm · processing · retail',
               rows: [
-                { label: 'Animal lives', cells: [{ v: '13.2 bn' }, null, null] },
-                { label: 'Weight', cells: [null, { v: '5.2 Mt' }, null] },
+                { label: 'Animal lives', tone: 'wasted', cells: [{ v: '13.2 bn' }, null, null] },
+                { label: 'Weight', tone: 'wasted', cells: [null, { v: '5.2 Mt' }, null] },
               ],
             },
             {
               id: 'plate', badge: 'D', focus: true, title: 'At the plate', note: 'food service + households',
               rows: [
-                { label: 'Lost · animal lives', cells: [{ v: '4.80 bn' }, null, null] },
-                { label: 'Lost · weight', cells: [null, { v: '9.0 Mt' }, null] },
+                { label: 'Lost · animal lives', tone: 'wasted', cells: [{ v: '4.80 bn' }, null, null] },
+                { label: 'Lost · weight', tone: 'wasted', cells: [null, { v: '9.0 Mt' }, null] },
                 { label: 'Eaten per person', focus: true, cells: [{ v: '≈ 28.4 kg' }, { v: '66.6 kg' }, { v: '54.9 kg' }] },
               ],
             },
@@ -320,14 +384,12 @@ window.GIGI_DATA.vegan = {
   blocks: [
     {
       id: 'meat',
-      title: 'Meat lost or wasted — lives and weight, side by side',
-      lead: 'Same meat, two measures. A counts animals, B weighs the meat. Under each total, the part that is lost at consumption.',
+      title: 'Meat lost or wasted',
       dims: ['A', 'B'],
     },
     {
       id: 'plate',
       title: 'All food waste → the plate',
-      lead: 'C puts meat in the context of all food wasted. D is where we act: how much meat is eaten per person.',
       dims: ['C', 'D'],
       link: true,
     },
@@ -343,9 +405,6 @@ window.GIGI_DATA.vegan = {
     {
       id: 'A',
       name: 'Animal lives',
-      unit: 'number of animals',
-      question: 'How many animals?',
-      soWhat: 'Chickens drive the count.',
       cells: {
         world: {
           scope: 'World · 2019',
@@ -358,18 +417,21 @@ window.GIGI_DATA.vegan = {
               meter: { value: 93.6, caption: 'chickens' },
               sub: '2.4 per person · six land species',
               src: 'klaura',
+              mark: 'i',
               child: {
                 kind: 'sourced',
                 value: '4.80 bn',
                 label: 'lost at consumption — households + food service',
                 meter: { value: 26.7, caption: 'of all animal lives lost' },
                 src: 'klaura',
+                mark: 'ii',
               },
             },
           ],
         },
         europe: {
           scope: 'Europe-43 · 2019 · same model',
+          mark: 'v',
           items: [
             {
               kind: 'sourced',
@@ -398,6 +460,7 @@ window.GIGI_DATA.vegan = {
               tags: [{ text: 'Advocacy source', tone: 'flag' }],
               sub: '85% chickens · fish not counted',
               src: 'fleischatlas',
+              mark: 'vi',
             },
             {
               kind: 'scenario',
@@ -406,19 +469,17 @@ window.GIGI_DATA.vegan = {
               tags: [{ text: 'Lower bound', tone: 'rule' }],
               sub: 'B ≈ 51.7 m · C ≈ 84.5 m',
               src: 'model',
+              mark: 'vi',
+              link: { href: '#paths', label: 'How we get there: Germany, two paths' },
             },
           ],
-          note: { text: 'For scale: 631 m chickens were slaughtered in Germany in 2022.', src: 'slaughter' },
+          note: { text: 'For scale: 631 m chickens were slaughtered in Germany in 2022.', src: 'slaughter', mark: 'viii' },
         },
       },
     },
     {
       id: 'B',
       name: 'Meat weight',
-      unit: 'tonnes of meat',
-      question: 'How much meat is lost?',
-      soWhat: 'Tonnes tell another story — and never convert into animals.',
-      drill: { href: '#paths', label: 'Germany: two paths' }, // a link to a section; the in-grid drill-downs are `cell.drill`
       cells: {
         world: {
           scope: 'World · 2019 · same model as A',
@@ -429,6 +490,7 @@ window.GIGI_DATA.vegan = {
               label: 'edible meat lost · 77.4 Mt carcass weight',
               meter: { value: 16.7, caption: 'of production — “about one sixth”' },
               src: 'klaura',
+              mark: 'iii',
               child: {
                 kind: 'gap',
                 tag: 'Not published',
@@ -440,6 +502,7 @@ window.GIGI_DATA.vegan = {
         },
         europe: {
           scope: 'EU-28 · 2011 · other model',
+          mark: 'v',
           items: [
             {
               kind: 'sourced',
@@ -471,6 +534,7 @@ window.GIGI_DATA.vegan = {
               tags: [{ text: 'Partial indicator', tone: 'flag' }],
               sub: 'other basis: ≈ 125 kt',
               src: ['gfk', 'thuenen'],
+              mark: 'vii',
             },
             {
               kind: 'gap',
@@ -486,9 +550,6 @@ window.GIGI_DATA.vegan = {
     {
       id: 'C',
       name: 'All food waste',
-      unit: 'tonnes, all foods',
-      question: 'Where does meat sit in all food waste?',
-      soWhat: 'By mass, meat is a thin slice of food waste. By lives, it is all of it.',
       cells: {
         world: {
           scope: 'World · 2022 · retail to plate',
@@ -513,6 +574,7 @@ window.GIGI_DATA.vegan = {
         },
         europe: {
           scope: 'EU-27 · 2022',
+          mark: 'v',
           items: [
             {
               kind: 'sourced',
@@ -565,9 +627,6 @@ window.GIGI_DATA.vegan = {
       id: 'D',
       name: 'At the plate',
       focus: true,
-      unit: 'meat eaten per person',
-      question: 'How much meat is eaten?',
-      soWhat: 'This is where we act: the plate. Germany eats 54.9 kg of meat per person a year.',
       cells: {
         world: {
           scope: 'World · 2024',
@@ -579,11 +638,13 @@ window.GIGI_DATA.vegan = {
               tags: [{ text: 'Derived', tone: 'rule' }],
               sub: '374 Mt produced in 2024 (carcass weight)',
               src: ['oecd', 'fao'],
+              mark: 'iv',
             },
           ],
         },
         europe: {
           scope: 'EU-27 · avg. 2022–24',
+          mark: 'v',
           items: [
             {
               kind: 'sourced',
@@ -815,6 +876,7 @@ window.GIGI_DATA.vegan = {
         ],
         digits: 1,
         others: { count: 17, word: 'countries' },
+        mark: 'v',
         note: 'All foods, not meat — Eurostat has no meat share. Top 10 of 27 countries.',
         src: 'eurostat',
       },
@@ -833,6 +895,7 @@ window.GIGI_DATA.vegan = {
         ],
         digits: 0,
         others: { count: 13, word: 'reporting countries' },
+        mark: 'viii',
         tag: { text: 'Proxy', tone: 'flag' },
         note: 'A proxy for where the count is: 93.6% of the animals lost are chickens. Slaughter is production, not consumption, and not a Klaura value. Austria, Estonia, Luxembourg and Slovakia don’t publish it.',
         src: 'slaughter',
