@@ -1,0 +1,24 @@
+# GiGi Ventures — Netlify settings
+# Plain static site: no build step, no framework. The repo root is the site.
+
+[build]
+  publish = "."
+  # no build command on purpose
+
+# Security headers for every page.
+# No Content-Security-Policy beyond frame-ancestors: the pages use small inline scripts and
+# styles, and fonts come from fonts.bunny.net — a stricter CSP needs hashes/nonces first.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Content-Security-Policy = "frame-ancestors 'none'"
+
+# Assets are not fingerprinted (assets/css/base.css, not base.3f9a.css), so they must be
+# revalidated on every visit — otherwise an edit would not show up for returning visitors.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
