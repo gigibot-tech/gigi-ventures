@@ -8,6 +8,12 @@
 /* What each lever can reach */
 .limpact__grid { display: grid; gap: 16px; }
 .limpact__cap { max-width: 80ch; font-size: 1.05rem; font-weight: 600; line-height: 1.4; }
+/* Why the levers don't simply add up — counted with 100 animals */
+.lwhy { display: grid; gap: 10px; margin: 18px 0; padding: 18px 20px; border: 1px solid var(--line-strong); border-radius: var(--r-l); background: var(--card); }
+.lwhy__title { font-size: 1.15rem; font-weight: 800; letter-spacing: -.02em; }
+.lwhy__steps { display: grid; gap: 8px; margin: 0; padding-left: 1.6em; list-style: decimal; line-height: 1.5; }
+.lwhy__steps li::marker { font-family: var(--f-mono); font-weight: 600; }
+.lwhy__note { margin: 0; color: var(--text-2); line-height: 1.5; }
 @media (min-width: 900px) { .limpact__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } }
 .lchart {
   display: grid;
@@ -202,6 +208,11 @@
 @media (max-width: 520px) { .pplot { height: 230px; margin-left: 48px; } }
 
 /* ---- (3) The goals ---- */
+.pgoals-by { display: grid; gap: 22px; }
+.pgoals__row { display: grid; gap: 10px; }
+.pgoals__h { display: flex; align-items: center; gap: 10px; font-size: 1.05rem; font-weight: 800; letter-spacing: -.01em; }
+.pgoals__h::before { content: ""; width: 14px; height: 14px; border-radius: 4px; background: var(--consumed); }
+.pgoals__row--b .pgoals__h::before { background: var(--waste); }
 .pgoals { display: grid; gap: 14px; }
 @media (min-width: 900px) { .pgoals { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; } }
 .pgoal { display: grid; gap: 10px; align-content: start; min-width: 0; padding: 18px 20px; border: 1px solid var(--line-strong); border-radius: var(--r-l); background: var(--card); }
@@ -219,6 +230,11 @@
 .pgoal__n { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .pgoal__pct { font-family: var(--f-mono); font-size: .7rem; line-height: 1.4; color: var(--text-2); }
 .pgoal__go { justify-self: start; }
+.pgoal__resh { margin: 4px 0 -4px; font-family: var(--f-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text-2); }
+.pgoal__more { display: grid; gap: 8px; }
+.pgoal__more > summary { cursor: pointer; font-size: .88rem; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.pgoal__more[open] > summary { margin-bottom: 4px; }
+.pgoal__more > p + p { margin-top: 8px; }
 @media (max-width: 520px) { .pgoal__res li { grid-template-columns: auto minmax(0, 1fr); } .pgoal__pct { grid-column: 1 / -1; } }
 
 /* "Next page" link on the GiGi Vegan page and the way back */

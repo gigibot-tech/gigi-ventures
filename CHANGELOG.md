@@ -5,6 +5,13 @@ The site is plain HTML/CSS/JS with no build step, so there are no version number
 
 ## 2026-11-24
 
+### Changed (the levers page starts from the goals, and says things in plain words)
+- **The page now starts with the goals** — “01 — The goals”: four cards in two rows, one row per lever. *Lever A — eat less meat*: ProVeg, the Albert Schweitzer Foundation. *Lever B — waste less food*: the UN (SDG 12.3), the EU directive. Each card shows what they aim for, by when, and the animals a year that would spare (world, Europe, Germany); our assumptions are folded under “How we read it”. Then come “02 — The two levers” (the explainer), “03 — The total system”, “04 — Reach”, “05 — Projection”. The sources and number notes moved to the end of the page. The hero button is “Start with the goals”.
+- **“Reach” without jargon:** the heading is now “Eating less can spare every animal. Wasting less, about one in five.” “The coral slice”, “not the same size”, “saves on its own” and “both together” are gone. The text says: of every 100 animals raised for meat, the meat of ≈ 22 is lost or wasted and of 78 is eaten. The charts read *One lever at a time: animals spared, of every 100* and *Both levers at the same time*, with *Eat less (A)* / *Waste less (B)* labels instead of “demand” / “waste only”.
+- **Why 55.5 and not 61, counted with 100 animals** (new box under the charts): eat half as much meat → 50 spared (39 eaten + 11 wasted remain); halve that waste → 5.5 more; 50 + 5.5 = 55.5, and adding 50 + 11 = 61 would count 5.5 animals twice.
+- Lever names everywhere on the page: “eat less meat” / “waste less food” (bar legends, projection legend, goal tags) instead of “reduce demand” / “reduce food waste”.
+- Checked: axe clean, no duplicate ids, no heading-level skips, every anchor other pages and the data files use still resolves, console clean.
+
 ### Changed (the two levers live on the levers page; partner buttons open an email)
 - **The two-levers explainer moved to the levers page** as its first section, “01 — The two levers” (the others are renumbered 02–05: total system, reach, projection, goals). It is in that page’s menu; its links now point to the projection on the same page and back to the totals on GiGi Vegan. The levers page’s hero no longer repeats the definitions.
 - **GiGi Vegan keeps only a brief link:** a one-line band under the hero — “Two levers could spare them: eat less meat (lever A) or waste less food (lever B)… The two levers, explained →”. The hero button “See the two levers” is gone (it is “See the totals” again), and the menu’s “Two levers” goes to the levers page (it replaces the separate “Projection” entry).

@@ -122,7 +122,7 @@
       legend.appendChild(li);
     });
     fig.appendChild(legend);
-    fig.appendChild(lTable(L.ui, ['Lever applied at', I.series.waste, I.series.demand], I.steps.map((x, i) => [pc(x, 0), `${fmt(waste[i], 1)}%`, `${fmt(demand[i], 0)}%`])));
+    fig.appendChild(lTable(L.ui, ['Lever pulled', I.series.waste, I.series.demand], I.steps.map((x, i) => [pc(x, 0), `${fmt(waste[i], 1)}%`, `${fmt(demand[i], 0)}%`])));
     return fig;
   };
 
@@ -142,7 +142,7 @@
     const additive = C.mark.d + C.mark.w * I.f;
     const plot = lPlot('lplot--curve', [0, 25, 50, 75, 100]);
     plot.setAttribute('role', 'img');
-    plot.setAttribute('aria-label', `Lives saved against demand cut, for three levels of waste removal. With a ${pc(C.mark.d, 0)} demand cut and ${pc(C.mark.w, 0)} less waste, ${pc(m)} of all animal lives are saved — not ${pc(additive, 0)}.`);
+    plot.setAttribute('aria-label', `Animals spared against how much less meat is eaten, for three levels of waste. Eating ${pc(C.mark.d, 0)} less meat and wasting ${pc(C.mark.w, 0)} less spares ${pc(m)} of all animals — not ${pc(additive, 0)}.`);
     [0, 25, 50, 75, 100].forEach((x) => {
       const t = hidden(el('span', 'lplot__xtick', `${x}%`));
       t.style.setProperty('--x', x);
@@ -171,7 +171,7 @@
     const call = el('p', 'lcurve__call');
     call.style.setProperty('--x', C.mark.d * 100);
     call.style.setProperty('--y', m * 100);
-    call.append(el('strong', null, `${pc(C.mark.d, 0)} + ${pc(C.mark.w, 0)} = ${pc(m)}`), el('span', null, ` not ${pc(additive, 0)}`));
+    call.append(el('strong', null, `${C.callLabel}: ${pc(m)}`), el('span', null, ` not ${pc(additive, 0)}`));
     plot.append(dot, call);
 
     const frame = el('div', 'lchart__frame');
@@ -186,7 +186,7 @@
     });
     fig.appendChild(legend);
     const dRows = [0, 0.25, 0.5, 0.75, 1];
-    fig.appendChild(lTable(L.ui, ['Demand cut', ...C.wasteCuts.map((w) => C.labels[w])], dRows.map((d) => [pc(d, 0), ...C.wasteCuts.map((w) => pc(saved(d, w)))])));
+    fig.appendChild(lTable(L.ui, [C.xLabel, ...C.wasteCuts.map((w) => C.labels[w])], dRows.map((d) => [pc(d, 0), ...C.wasteCuts.map((w) => pc(saved(d, w)))])));
     return fig;
   };
 
@@ -255,7 +255,16 @@
     const pair = el('div', 'lcase__grid');
     pair.append(levGermany(L, fn, used), levSpecies(L, fn, used));
     tangible.appendChild(pair);
-    root.replaceChildren(grid, el('p', 'limpact__cap', D.impact.caption), tangible);
+    const W = D.impact.why;
+    const why = el('div', 'lwhy');
+    why.setAttribute('role', 'group');
+    why.setAttribute('aria-labelledby', 'lwhy-title');
+    const wh = el('h3', 'lwhy__title', W.title);
+    wh.id = 'lwhy-title';
+    const ol = list('lwhy__steps', 'ol');
+    W.steps.forEach((t) => ol.appendChild(el('li', null, t)));
+    why.append(wh, ol, el('p', 'lwhy__note', W.note));
+    root.replaceChildren(grid, why, tangible);
   };
 
   /* ===================== 2 · The projection ===================== */
@@ -459,13 +468,13 @@
     fig.append(frame, readout);
 
     const legend = list('lchart__legend');
-    [['demand', 'Lever A — reduce demand'], ['waste', 'Lever B — reduce food waste']].forEach(([k, t]) => {
+    [['demand', ui.leverA], ['waste', ui.leverB]].forEach(([k, t]) => {
       const li = el('li');
       li.append(hidden(el('span', `lswatch lswatch--${k}`)), t);
       legend.appendChild(li);
     });
     fig.appendChild(legend);
-    fig.appendChild(lTable(ui, ['Year', 'Lever A (demand)', 'Lever B (waste)', 'Together', 'Share of today'], rows.map((x, i) => [String(x.year), count(vals[i].d), count(vals[i].w), count(vals[i].d + vals[i].w), cum ? '' : pc(x.share)])));
+    fig.appendChild(lTable(ui, ['Year', 'Lever A (eat less)', 'Lever B (waste less)', 'Together', 'Share of today'], rows.map((x, i) => [String(x.year), count(vals[i].d), count(vals[i].w), count(vals[i].d + vals[i].w), cum ? '' : pc(x.share)])));
     return fig;
   };
 
@@ -607,15 +616,13 @@
     art.id = `goal-${g.id}`;
     art.setAttribute('aria-labelledby', `goal-${g.id}-h`);
     const head = el('header', 'pgoal__head');
-    const h = el('h3', 'pgoal__org', g.org);
+    const h = el('h4', 'pgoal__org', g.org);
     h.id = `goal-${g.id}-h`;
-    head.append(h, el('span', `mtag pgoal__lever pgoal__lever--${g.lever.toLowerCase()}`, `Lever ${g.lever} · ${g.lever === 'A' ? 'demand' : 'waste'}`));
+    head.append(h, el('span', `mtag pgoal__lever pgoal__lever--${g.lever.toLowerCase()}`, `Lever ${g.lever} · ${g.lever === 'A' ? 'eat less' : 'waste less'}`));
     const said = el('p', 'pgoal__said', `${g.said} `);
     said.appendChild(fn.cite(g.src, used));
     if (g.mark) said.appendChild(marks(g.mark));
     art.append(head, said);
-    if (g.aside) art.appendChild(el('p', 'pgoal__aside', g.aside));
-    art.appendChild(el('p', 'pgoal__reading', g.reading));
 
     const res = list('pgoal__res');
     D.regions.forEach((r) => {
@@ -626,8 +633,13 @@
       li.append(el('span', 'pgoal__reg', r.name), el('strong', 'pgoal__n', `${count(r.baseline * share)} a year`), el('span', 'pgoal__pct', `${pc(share)} of ${count(r.baseline)} · by ${year}${g.model && g.model.yearAssumed ? ` (${ui.assumed})` : ''}`));
       res.appendChild(li);
     });
-    art.appendChild(res);
-    art.appendChild(el('p', 'pgoal__caveat', g.caveat));
+    art.append(el('p', 'pgoal__resh', 'Animals spared, if reached'), res);
+
+    const more = el('details', 'pgoal__more');
+    more.appendChild(el('summary', null, 'How we read it'));
+    if (g.aside) more.appendChild(el('p', 'pgoal__aside', g.aside));
+    more.append(el('p', 'pgoal__reading', g.reading), el('p', 'pgoal__caveat', g.caveat));
+    art.appendChild(more);
     const b = el('button', 'btn btn--sm btn--ink pgoal__go', ui.showIn);
     b.type = 'button';
     b.addEventListener('click', () => {
@@ -639,10 +651,21 @@
     return art;
   };
 
+  // The goals, one row per lever: A (eat less) — ProVeg, ASF; B (waste less) — UN, EU.
   const goals = (root) => {
-    const grid = el('div', 'pgoals');
-    D.goals.forEach((g) => grid.appendChild(goalCard(g)));
-    root.replaceChildren(grid, fn.summary(ui.sources, used));
+    const rows = el('div', 'pgoals-by');
+    [['A', ui.leverA], ['B', ui.leverB]].forEach(([lv, title]) => {
+      const row = el('section', `pgoals__row pgoals__row--${lv.toLowerCase()}`);
+      const hid = `pgoals-${lv.toLowerCase()}`;
+      row.setAttribute('aria-labelledby', hid);
+      const h = el('h3', 'pgoals__h', title);
+      h.id = hid;
+      const grid = el('div', 'pgoals');
+      D.goals.filter((g) => g.lever === lv).forEach((g) => grid.appendChild(goalCard(g)));
+      row.append(h, grid);
+      rows.appendChild(row);
+    });
+    root.replaceChildren(rows, fn.summary(ui.sources, used));
   };
 
   const assumptions = (root) => {
