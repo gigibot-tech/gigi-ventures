@@ -204,12 +204,12 @@ window.GIGI_DATA.projection = {
         bars: [
           {
             id: 'germany-mass', measure: 'Meat weight', scope: 'Germany · 2025 / 2020',
-            total: { value: 'Unknown', text: 'whole chain — Germany doesn’t publish it', unknown: true },
+            total: { value: 'Unknown', text: 'whole chain — Germany doesn’t publish it; our estimate is on GiGi Vegan', unknown: true },
             drill: 'weight-germany',
-            shares: [{ role: 'consumed', label: 'Eaten', text: '4.6 Mt' }, { role: 'wasted', label: 'Wasted, households', text: '1.6%', mark: 'vii' }, { role: 'unknown', kind: 'unknown', label: 'Rest of the chain', text: 'unknown' }],
+            shares: [{ role: 'consumed', label: 'Calculated', text: '4.6 Mt' }, { role: 'wasted', label: 'Wasted, households', text: '1.6%', mark: 'vii' }, { role: 'unknown', kind: 'unknown', label: 'Rest of the chain', text: 'unknown' }],
             segs: [
-              { id: 'lv-germany-mass-eaten', role: 'consumed', kind: 'sourced', v: 4600, name: 'Eaten', value: '4.6 Mt', share: '54.9 kg', sub: 'per person a year', src: 'bzl' },
-              { id: 'lv-germany-mass-hh', role: 'wasted', kind: 'sourced', v: 74.6, name: 'Households', value: '74.6 kt', share: '1.6%', sub: 'of the 4.6 Mt eaten · households only', tags: [{ text: 'Partial indicator', tone: 'flag' }], src: ['gfk', 'thuenen'], mark: 'vii', drill: 'weight-germany' },
+              { id: 'lv-germany-mass-eaten', role: 'consumed', kind: 'sourced', v: 4600, name: 'Calculated consumption', value: '4.6 Mt', share: '54.9 kg', sub: 'per person a year · waste still inside', src: 'bzl' },
+              { id: 'lv-germany-mass-hh', role: 'wasted', kind: 'sourced', v: 74.6, name: 'Households', value: '74.6 kt', share: '1.6%', sub: 'of the 4.6 Mt calculated · households only', tags: [{ text: 'Partial indicator', tone: 'flag' }], src: ['gfk', 'thuenen'], mark: 'vii', drill: 'weight-germany' },
               { role: 'unknown', kind: 'unknown', fixed: 16, name: 'Rest of the chain', value: 'Unknown', sub: 'food service ≈ 85.8 kt — unconfirmed', src: 'ahv' },
             ],
           },

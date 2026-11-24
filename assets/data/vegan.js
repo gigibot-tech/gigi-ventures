@@ -439,10 +439,10 @@ window.GIGI_DATA.vegan = {
       segs: [{ name: 'Pork', v: 28.3 }, { name: 'Poultry', v: 14.7 }, { name: 'Beef & veal', v: 9.7 }, { name: 'Other', v: 2.2 }],
     },
     known: {
-      title: 'What we know about waste next to what is eaten',
+      title: 'What we know about waste next to the calculated consumption',
       sub: 'Germany · households only',
       box: {
-        id: 'cons-known', value: '1.62%', label: 'known household meat waste (74.6 kt) against meat eaten (4.6 Mt)',
+        id: 'cons-known', value: '1.62%', label: 'known household meat waste (74.6 kt) against the calculated meat consumption (4.6 Mt, waste still inside)',
         tags: [{ text: 'Partial indicator', tone: 'flag' }],
         meter: { value: 1.62, caption: 'households only · fish in the 74.6 kt, not in the 4.6 Mt' },
         src: ['gfk', 'bzl'],
