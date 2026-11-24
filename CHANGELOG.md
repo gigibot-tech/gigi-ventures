@@ -5,6 +5,11 @@ The site is plain HTML/CSS/JS with no build step, so there are no version number
 
 ## 2026-11-24
 
+### Changed (menus)
+- **Concept page menu:** “Words” is gone; *Social · AI · Health* sit in one row, and *GiGi Food · GiGi Vegan* in another.
+- **GiGi Vegan menu (and the same pattern on the projection page and GiGi Food):** it no longer looks like the home menu. A small “← GiGi Ventures” link goes up one level; *GiGi Food · GiGi Vegan* are a row with the current project underlined in the brand sun; the page’s own links sit under an “In GiGi Vegan” label with a sun-coloured rule: *Two levers · Waste · Consumption · Projection →*. “Totals” and “Anchors” were removed from the GiGi Vegan menus (also from the desktop header nav there); both sections are still on the page.
+- Checked at 375 px and at the pane width: rows stay on one line, no horizontal overflow.
+
 ### Changed (read-through: the two levers made concrete, wording and consistency)
 - **Two levers, reachable:** the header and mobile menu on GiGi Vegan now have “Two levers” → the explainer on the same page (it comes before “Totals”); the hero button is now “See the two levers”, and “Two levers” in the hero text is a link. The yearly projection page has its own link: “Projection” in the mobile menu, at the end of the explainer, and in the footer. (Before, “Two levers” in the menu jumped straight to the projection page and the explainer had no menu entry.) The projection page links back to the explainer.
 - **Two levers, less abstract:** the explainer now says, for each lever, *where it cuts* (A: at the plate, what people choose to eat; B: at each of five steps where meat is lost, with the share of animal lives lost per step from Klaura 2023 — the plate is the largest at 26.7%), *how* (a plant-based meal instead of a meat one, ProVeg’s goal; better planning, storage and portions), *what it reaches* (every animal vs only the lost ≈ 22%) and a *Germany, a year* example (halve the meat eaten ≈ 373 m of 746 m animals, a scenario; end all household meat waste ≈ 10.5 m, advocacy source, households only). The “A below / A.1” cross-reference that mixed lever letters with section letters is gone.

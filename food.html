@@ -52,13 +52,19 @@
   </header>
   <div class="mobile-menu" id="mobile-menu" hidden>
     <nav aria-label="Mobile">
-      <a href="index.html">GiGi Ventures</a>
-      <a href="#finding">The idea</a>
-      <a href="#ladder">Ladder</a>
-      <a href="#economics">Economics</a>
-      <a href="#vegan">Why vegan</a>
-      <a href="#plan">Pilot</a>
-      <a href="vegan.html">GiGi Vegan</a>
+      <a class="mm-back" href="index.html"><span aria-hidden="true">←</span> GiGi Ventures</a>
+      <div class="mm-row">
+        <a href="food.html" aria-current="page">GiGi Food</a>
+        <a href="vegan.html">GiGi Vegan</a>
+      </div>
+      <p class="mm-label" id="mm-in">In GiGi Food</p>
+      <div class="mm-sub" role="group" aria-labelledby="mm-in">
+        <a href="#finding">The idea</a>
+        <a href="#ladder">Ladder</a>
+        <a href="#economics">Economics</a>
+        <a href="#vegan">Why vegan</a>
+        <a href="#plan">Pilot</a>
+      </div>
     </nav>
     <div class="mobile-menu__foot">
       <a class="btn btn--blue" href="mailto:contact@gigolingo.com?subject=GiGi%20Food%20%E2%80%94%20Berlin%20pilot">Partner with the pilot <span class="btn__arrow btn__arrow--ne" aria-hidden="true">↗</span></a>

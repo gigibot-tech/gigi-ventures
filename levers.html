@@ -54,13 +54,19 @@
   </header>
   <div class="mobile-menu" id="mobile-menu" hidden>
     <nav aria-label="Mobile">
-      <a href="index.html">GiGi Ventures</a>
-      <a href="vegan.html">GiGi Vegan</a>
-      <a href="#system">System</a>
-      <a href="#reach">Reach</a>
-      <a href="#projection">Projection</a>
-      <a href="#goals">Goals</a>
-      <a href="food.html">GiGi Food</a>
+      <a class="mm-back" href="index.html"><span aria-hidden="true">←</span> GiGi Ventures</a>
+      <div class="mm-row">
+        <a href="food.html">GiGi Food</a>
+        <a href="vegan.html" aria-current="true">GiGi Vegan</a>
+      </div>
+      <p class="mm-label" id="mm-in">In the projection</p>
+      <div class="mm-sub" role="group" aria-labelledby="mm-in">
+        <a href="vegan.html#two-levers"><span aria-hidden="true">←</span> The two levers</a>
+        <a href="#system">System</a>
+        <a href="#reach">Reach</a>
+        <a href="#projection">Projection</a>
+        <a href="#goals">Goals</a>
+      </div>
     </nav>
     <div class="mobile-menu__foot">
       <a class="btn btn--blue" href="food.html">GiGi Food: our vegan kitchen <span class="btn__arrow" aria-hidden="true">→</span></a>

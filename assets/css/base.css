@@ -566,6 +566,54 @@ table { border-collapse: collapse; }
   letter-spacing: -.03em;
   text-decoration: none;
 }
+/* Rows: links that belong together sit side by side. */
+.mobile-menu .mm-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 clamp(18px, 5vw, 32px);
+  border-bottom: 1px solid rgba(243, 240, 232, .12);
+}
+.mobile-menu .mm-row a {
+  border-bottom: 0;
+  font-size: clamp(1.55rem, 6.6vw, 2.4rem);
+}
+/* The current project: underlined in the brand sun, not by colour alone. */
+.mobile-menu nav a[aria-current] {
+  text-decoration: underline;
+  text-decoration-color: var(--sun);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 7px;
+}
+/* Sub-pages (GiGi Food, GiGi Vegan, the projection): a way back up, and their own sections underneath. */
+.mobile-menu nav a.mm-back {
+  padding: 0 0 12px;
+  border-bottom: 0;
+  font-family: var(--f-mono);
+  font-size: .78rem;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(243, 240, 232, .72);
+}
+.mobile-menu .mm-label {
+  margin: 22px 0 6px;
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(243, 240, 232, .62);
+}
+.mobile-menu .mm-sub {
+  display: grid;
+  padding-left: 16px;
+  border-left: 3px solid var(--sun);
+}
+.mobile-menu .mm-sub a {
+  padding: 8px 0;
+  border-bottom: 0;
+  font-size: clamp(1.4rem, 5.6vw, 2rem);
+  font-weight: 600;
+}
 .mobile-menu__foot {
   display: grid;
   gap: 12px;
