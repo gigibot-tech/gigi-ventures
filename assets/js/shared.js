@@ -1,5 +1,5 @@
 /* GiGi Ventures — shared.js
-   Header state, mobile menu, reveal-on-scroll, optional time-on-page counters. */
+   Header state, mobile menu, mail-link hint, reveal-on-scroll, optional time-on-page counters. */
 (() => {
   'use strict';
 
@@ -110,6 +110,71 @@
   document.querySelectorAll('[data-year]').forEach((el) => {
     el.textContent = String(new Date().getFullYear());
   });
+
+  /* ---------- Mail links: say what is happening, and offer the address if no mail app opens ---------- */
+  (() => {
+    let toast = null;
+    let hideTimer = 0;
+    const hide = () => {
+      if (toast) toast.classList.remove('is-on');
+      window.clearTimeout(hideTimer);
+    };
+    const copy = (text, btn) => {
+      const done = () => { btn.textContent = 'Copied ✓'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, () => {});
+        return;
+      }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { if (document.execCommand('copy')) done(); } catch (e) { /* nothing to do */ }
+      ta.remove();
+    };
+    const show = (addr) => {
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'mail-toast';
+        toast.setAttribute('role', 'status');
+        const msg = document.createElement('p');
+        msg.className = 'mail-toast__msg';
+        const who = document.createElement('strong');
+        who.className = 'mail-toast__addr';
+        msg.append('Opening your mail app. If nothing opens, write to ', who, '.');
+        const cp = document.createElement('button');
+        cp.type = 'button';
+        cp.className = 'mail-toast__btn';
+        cp.dataset.copy = '';
+        const x = document.createElement('button');
+        x.type = 'button';
+        x.className = 'mail-toast__x';
+        x.setAttribute('aria-label', 'Close');
+        x.textContent = '×';
+        toast.append(msg, cp, x);
+        document.body.appendChild(toast);
+        cp.addEventListener('click', () => copy(toast.dataset.addr, cp));
+        x.addEventListener('click', hide);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
+      }
+      toast.dataset.addr = addr;
+      toast.querySelector('.mail-toast__addr').textContent = addr;
+      toast.querySelector('[data-copy]').textContent = 'Copy address';
+      toast.classList.add('is-on');
+      window.clearTimeout(hideTimer);
+      hideTimer = window.setTimeout(hide, 14000);
+    };
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest && e.target.closest('a[href^="mailto:"]');
+      if (!a) return;
+      let addr = a.getAttribute('href').slice(7).split('?')[0];
+      try { addr = decodeURIComponent(addr); } catch (err) { /* keep it as is */ }
+      show(addr);
+    });
+  })();
 
   window.GiGi = Object.freeze({ reduceMotion });
 })();

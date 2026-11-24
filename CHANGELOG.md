@@ -5,6 +5,13 @@ The site is plain HTML/CSS/JS with no build step, so there are no version number
 
 ## 2026-11-24
 
+### Changed (the two levers live on the levers page; partner buttons open an email)
+- **The two-levers explainer moved to the levers page** as its first section, “01 — The two levers” (the others are renumbered 02–05: total system, reach, projection, goals). It is in that page’s menu; its links now point to the projection on the same page and back to the totals on GiGi Vegan. The levers page’s hero no longer repeats the definitions.
+- **GiGi Vegan keeps only a brief link:** a one-line band under the hero — “Two levers could spare them: eat less meat (lever A) or waste less food (lever B)… The two levers, explained →”. The hero button “See the two levers” is gone (it is “See the totals” again), and the menu’s “Two levers” goes to the levers page (it replaces the separate “Projection” entry).
+- **“Partner with us” on the company page opens an email** (subject “Product partnership — GiGi Ventures”, with a short prefilled body) instead of only scrolling to the partners section.
+- **Every email link now shows a hint** when clicked: “Opening your mail app. If nothing opens, write to contact@gigolingo.com” with a *Copy address* button (closes on × or Esc, hides after 14 s). In a browser without a mail app — such as an embedded preview — the click otherwise looks like nothing happened.
+- Checked: axe clean on all five pages, no duplicate ids, no broken in-page or cross-page anchors (including the JS-rendered ones on the levers page), header nav on one row.
+
 ### Changed (one header on every page)
 - **GiGi Vegan, GiGi Food and the projection page no longer swap the header out.** They now have the same header as the concept page: *Concept | Company* in the same place, the same “Future roles” button and menu. (Before, *Concept | Company* was replaced by *GiGi Food | GiGi Vegan*, and the button changed to “Eat with us” / “Partner”.)
 - **Food and Vegan are a smaller bubble** to the right of *Concept | Company*; the selected project takes its own colour (Food orange, Vegan green; the projection page counts as Vegan). The bubble is on all five pages, unselected on the concept and company pages, so *Concept | Company* sits at the same spot everywhere. It is hidden below 720 px, where the menu already has the Food · Vegan row.

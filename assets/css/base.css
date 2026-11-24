@@ -650,6 +650,59 @@ table { border-collapse: collapse; }
 }
 body.menu-open { overflow: hidden; }
 
+/* Hint after a click on a mailto: link (a mail app may not open, e.g. in an embedded browser). */
+.mail-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 12px 12px 12px 18px;
+  border-radius: 16px;
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 0 12px 40px rgba(12, 14, 18, .35);
+  font-size: .9rem;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translate(-50%, 16px);
+  pointer-events: none;
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+}
+.mail-toast.is-on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.mail-toast__msg { margin: 0; }
+.mail-toast__btn {
+  flex-shrink: 0;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--sun);
+  color: var(--ink);
+  font: 600 .8rem/1 var(--f-body, inherit);
+  cursor: pointer;
+}
+.mail-toast__x {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+@media (max-width: 560px) {
+  .mail-toast { flex-wrap: wrap; width: calc(100vw - 32px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mail-toast { transition: none; }
+}
+
 @media (min-width: 720px) {
   .header-cta { display: inline-flex; }
 }

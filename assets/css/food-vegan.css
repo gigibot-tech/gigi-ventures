@@ -1927,6 +1927,9 @@ a.ddchip:hover { box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--dd); }
 .lex h3 { font-size: 1.3rem; font-weight: 800; line-height: 1.15; letter-spacing: -.03em; }
 .lex p { margin: 0; color: var(--text-2); line-height: 1.5; }
 .lex strong { color: var(--text); }
+.levers-brief { padding: 16px 0; border-bottom: 1px solid var(--line); background: var(--card); }
+.levers-brief p { max-width: 96ch; margin: 0; color: var(--text-2); line-height: 1.5; }
+.levers-brief strong { color: var(--text); }
 .lex__body { display: grid; gap: 12px; min-width: 0; }
 .lex__list { display: grid; gap: 12px; margin: 0; }
 .lex__list > div { display: grid; gap: 2px; padding-top: 10px; border-top: 1px solid var(--line); }
