@@ -505,6 +505,33 @@ table { border-collapse: collapse; }
   opacity: 1;
 }
 
+/* Food and Vegan: a smaller bubble to the right of Concept | Company, in each project's own colour when selected. */
+.sub-switch {
+  display: none;
+  padding: 2px;
+  border-radius: var(--r-pill);
+  border: 1px solid color-mix(in srgb, var(--h-fg, currentColor) 20%, transparent);
+}
+.sub-switch a {
+  padding: 4px 9px;
+  border-radius: var(--r-pill);
+  font-family: var(--f-mono);
+  font-size: .6rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: .8;
+  transition: background-color .2s, color .2s, opacity .2s;
+}
+.sub-switch a:hover { opacity: 1; }
+.sub-switch a[aria-current] { opacity: 1; }
+.sub-switch a[data-p="food"][aria-current] { background: var(--p-food); color: #0c0e12; }
+.sub-switch a[data-p="vegan"][aria-current] { background: var(--p-vegan); color: #ffffff; }
+@media (min-width: 720px) {
+  .sub-switch { display: inline-flex; }
+}
+
 .header-cta { display: none; }
 .site-header[data-theme="blue"] .header-cta { --btn-bg: #ffffff; --btn-fg: var(--blue); }
 

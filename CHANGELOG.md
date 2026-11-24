@@ -5,6 +5,13 @@ The site is plain HTML/CSS/JS with no build step, so there are no version number
 
 ## 2026-11-24
 
+### Changed (one header on every page)
+- **GiGi Vegan, GiGi Food and the projection page no longer swap the header out.** They now have the same header as the concept page: *Concept | Company* in the same place, the same “Future roles” button and menu. (Before, *Concept | Company* was replaced by *GiGi Food | GiGi Vegan*, and the button changed to “Eat with us” / “Partner”.)
+- **Food and Vegan are a smaller bubble** to the right of *Concept | Company*; the selected project takes its own colour (Food orange, Vegan green; the projection page counts as Vegan). The bubble is on all five pages, unselected on the concept and company pages, so *Concept | Company* sits at the same spot everywhere. It is hidden below 720 px, where the menu already has the Food · Vegan row.
+- The desktop nav on the concept page lost its “Food” and “Vegan” links (the bubble replaces them); on GiGi Food, GiGi Vegan and the projection page the “GiGi Ventures” / “GiGi Vegan” links were removed from the desktop nav (the logo and the switch do that job) so the nav and the bubble fit at 1120–1280 px.
+- Open: the food pilot’s “Partner” button is no longer in the food page header (it is still in “The ask”, in the mobile menu and at the end of the page).
+- Checked: no overflow or wrapped nav at 375–1440 px on all five pages, axe clean, no broken anchors.
+
 ### Changed (menus)
 - **Concept page menu:** “Words” is gone; *Social · AI · Health* sit in one row, and *GiGi Food · GiGi Vegan* in another.
 - **GiGi Vegan menu (and the same pattern on the projection page and GiGi Food):** it no longer looks like the home menu. A small “← GiGi Ventures” link goes up one level; *GiGi Food · GiGi Vegan* are a row with the current project underlined in the brand sun; the page’s own links sit under an “In GiGi Vegan” label with a sun-coloured rule: *Two levers · Waste · Consumption · Projection →*. “Totals” and “Anchors” were removed from the GiGi Vegan menus (also from the desktop header nav there); both sections are still on the page.
