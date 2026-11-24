@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="assets/css/levers.css">
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
   <script src="assets/js/shared.js" defer></script>
+  <script src="assets/data/notes.js" defer></script>
   <script src="assets/data/projection.js" defer></script>
   <script src="assets/js/glance.js" defer></script>
   <script src="assets/js/projection.js" defer></script>
@@ -33,6 +34,7 @@
       <nav class="nav" aria-label="Primary">
         <a href="index.html">GiGi Ventures</a>
         <a href="vegan.html">GiGi Vegan</a>
+        <a href="#system">System</a>
         <a href="#reach">Reach</a>
         <a href="#projection">Projection</a>
         <a href="#goals">Goals</a>
@@ -54,6 +56,7 @@
     <nav aria-label="Mobile">
       <a href="index.html">GiGi Ventures</a>
       <a href="vegan.html">GiGi Vegan</a>
+      <a href="#system">System</a>
       <a href="#reach">Reach</a>
       <a href="#projection">Projection</a>
       <a href="#goals">Goals</a>
@@ -77,7 +80,7 @@
           <p class="subhero__lead">Eating less meat acts on every animal. Wasting less food acts on the slice that is thrown away. Here the two levers get a size, a calendar and a yardstick: the goals that ProVeg, the Albert Schweitzer Foundation, the UN and the EU have set.</p>
           <div class="subhero__actions">
             <a class="btn btn--paper" href="#projection">Try the projection <span class="btn__arrow btn__arrow--down" aria-hidden="true">↓</span></a>
-            <a class="btn btn--ghost" href="vegan.html#levers">Back to the total system <span class="btn__arrow" aria-hidden="true">→</span></a>
+            <a class="btn btn--ghost" href="vegan.html#totals">Back to the totals <span class="btn__arrow" aria-hidden="true">→</span></a>
           </div>
         </div>
         <figure class="subhero__art" aria-hidden="true">
@@ -100,11 +103,26 @@
       </div>
     </section>
 
-    <!-- ===================== 01 Reach ===================== -->
+    <!-- ===================== 01 The total system ===================== -->
+    <section id="system" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="system-title">
+      <div class="wrap">
+        <header class="topic-head">
+          <p class="eyebrow">01 — The total system</p>
+          <h2 class="h2" id="system-title">Everything produced, <span class="serif">eaten and wasted.</span></h2>
+          <p class="lead">Per region, one bar: what is consumed and what is wasted, meat weight first and animal lives second. Lever A, less demand, acts on the whole bar; lever B, less food waste, acts only on the wasted part. The detail behind each number is under “Details”; the way down into the waste figures is on GiGi Vegan.</p>
+        </header>
+        <!-- Rendered by assets/js/glance.js from assets/data/projection.js (levers) -->
+        <div class="levers" data-levers>
+          <noscript><p class="gwarn-fallback">These bars are drawn from a data file and need JavaScript. In short: worldwide about 18 bn of ≈ 80 bn animal lives (≈ 22%) are lost with wasted meat; in Europe the wasted share of meat weight is 23% (JRC, EU-28, 2011); in Germany, households waste about 1.6% of the meat that is eaten (74.6 kt of 4.6 Mt).</p></noscript>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 02 Reach ===================== -->
     <section id="reach" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="reach-title">
       <div class="wrap">
         <header class="topic-head">
-          <p class="eyebrow">01 — Reach</p>
+          <p class="eyebrow">02 — Reach</p>
           <h2 class="h2" id="reach-title">The two levers are <span class="serif">not the same size.</span></h2>
           <p class="lead">Waste reduction can only ever touch the coral slice — about a fifth of all animal lives at world level. Demand reduction touches the whole bar. On the left, what each lever saves on its own; on the right, both together.</p>
         </header>
@@ -115,11 +133,11 @@
       </div>
     </section>
 
-    <!-- ===================== 02 Projection ===================== -->
+    <!-- ===================== 03 Projection ===================== -->
     <section id="projection" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="projection-title">
       <div class="wrap">
         <header class="topic-head">
-          <p class="eyebrow">02 — Projection</p>
+          <p class="eyebrow">03 — Projection</p>
           <h2 class="h2" id="projection-title">Year by year: <span class="serif">what a goal would mean in animals.</span></h2>
           <p class="lead">Pick a region and a goal, or set the two levers yourself. The chart shows the animals not slaughtered each year against a flat baseline: green is lever A, coral is lever B. A what-if, not a forecast — the assumptions are listed below it.</p>
         </header>
@@ -130,11 +148,11 @@
       </div>
     </section>
 
-    <!-- ===================== 03 Goals ===================== -->
+    <!-- ===================== 04 Goals ===================== -->
     <section id="goals" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="goals-title">
       <div class="wrap">
         <header class="topic-head">
-          <p class="eyebrow">03 — Goals</p>
+          <p class="eyebrow">04 — Goals</p>
           <h2 class="h2" id="goals-title">Four goals, <span class="serif">read in animal lives.</span></h2>
           <p class="lead">Same model, same assumptions — and a caveat for each, because none of these goals counts animal lives. Each card says what the organisation states, how we read it as a lever, and what that would mean for the world, Europe and Germany.</p>
         </header>
@@ -144,7 +162,7 @@
 
         <details class="sources" id="numbernotes">
           <summary>When a number changes</summary>
-          <!-- Rendered by assets/js/glance.js from assets/data/projection.js (notes) -->
+          <!-- Rendered by assets/js/glance.js from assets/data/notes.js — only the notes whose marks are on this page -->
           <div class="numnotes" data-notes="projection"></div>
         </details>
 
@@ -163,7 +181,12 @@
             <li id="src-sdg">United Nations, <a class="link" href="https://sdgs.un.org/goals/goal12" target="_blank" rel="noopener">Sustainable Development Goal 12</a>, target 12.3: by 2030, halve per-capita food waste at retail and consumer level, and reduce food losses along production and supply chains.</li>
             <li id="src-euwfd">Directive (EU) 2025/1892 amending the Waste Framework Directive; <a class="link" href="https://food.ec.europa.eu/food-safety/food-waste/eu-food-waste-relevant-legislation/food-waste-reduction-targets_en" target="_blank" rel="noopener">European Commission, “Food waste reduction targets”</a>: binding national targets for 2030 — 10% in processing and manufacturing, 30% per capita in retail and consumption together; baseline the 2021–2023 average.</li>
             <li id="src-fleischatlas">Household animal estimate: Meat Atlas (Fleischatlas) 2021, an advocacy source — ≈ 10.5 m land animals in household meat waste in Germany; calculation method not fully published.</li>
-            <li id="src-model">Our own calculation — the assumptions P1–P7 on this page, and the lever assumptions L1–L6 on <a class="link" href="vegan.html#levers">GiGi Vegan</a>.</li>
+            <li id="src-jrc">EU-28 meat waste: European Commission Joint Research Centre (JRC), mass-flow model by product group and supply-chain stage, 2011 data — 61.7 Mt meat available, 14.2 Mt wasted (primary production 0.5, processing 2.9, retail 1.7, households 7.3, food service 1.7 Mt); fresh mass, edible and inedible parts.</li>
+            <li id="src-bzl">Germany: BZL supply balance 2025, provisional — 4.6 Mt calculated meat consumption, 54.9 kg per person (pork 28.3, poultry 14.7, beef &amp; veal 9.7 kg). It is about 72% of the wider “meat use” of 6.37 Mt.</li>
+            <li id="src-gfk">German household waste: GfK household panel 2020 via UBA — 1.87 Mt avoidable food waste, of which 4% meat, sausage and fish (74.6 kt).</li>
+            <li id="src-thuenen">Avoidable share: Thünen Report 71 — about half of household food waste is avoidable. Applied to the 2022 household total (6.3 Mt), 4% gives ≈ 125 kt, the “other basis”.</li>
+            <li id="src-ahv">Food-service meat waste: ≈ 85.8 kt (2018/19), a study estimate carried over from our earlier analysis. We could not re-verify the primary study, so it is marked unconfirmed and used only in scenario C.</li>
+            <li id="src-model">Our own calculation — the assumptions P1–P7 on this page, and the lever assumptions L1–L6 under the bars in <a class="link" href="#system">The total system</a>.</li>
           </ol>
         </details>
       </div>

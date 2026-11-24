@@ -378,9 +378,19 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
+  align-items: flex-end;
+  gap: 16px 28px;
   margin-top: 14px;
 }
+.eco-group { display: grid; gap: 6px; justify-items: center; }
+.eco-group__h {
+  font-family: var(--f-mono);
+  font-size: .66rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.eco-group__chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .eco-chip {
   display: inline-flex;
   align-items: center;
@@ -697,7 +707,47 @@
   .ai__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; }
 }
 
-/* ---------- 06 Food & Vegan ---------- */
+/* ---------- 06 Health: GiGi × YHM ---------- */
+.health { background: var(--paper); }
+.health__grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; }
+.health__copy { display: grid; gap: 22px; align-content: start; }
+.health__copy .eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.steps { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: step; }
+.steps__item {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 18px 20px 18px 64px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  background: var(--card);
+  counter-increment: step;
+}
+.steps__item::before {
+  content: counter(step);
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--p-yhm);
+  color: #ffffff;
+  font-family: var(--f-mono);
+  font-size: .85rem;
+  font-weight: 600;
+}
+.health__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.health__note { font-size: .88rem; line-height: 1.5; color: var(--text-2); max-width: 62ch; }
+.steps__item strong { font-size: 1.05rem; letter-spacing: -.01em; }
+.steps__item span { color: var(--text-2); }
+@media (min-width: 1000px) {
+  .health__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; }
+}
+
+/* ---------- 07 Food & Vegan ---------- */
 .foodveg { background: var(--paper-2); }
 .foodveg__grid {
   display: grid;

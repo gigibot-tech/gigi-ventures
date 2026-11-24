@@ -1,12 +1,11 @@
 /* GiGi Ventures — glance.js
    Renders the data-driven blocks from assets/data/*.js:
-     [data-levers]     → vegan.html  Two levers: consumed vs wasted per region, and what each lever can reach
-     [data-dashboard]  → vegan.html  the tree: all food waste → meat → the plate        (GIGI_DATA.vegan)
-     [data-matrix]     → vegan.html  two dual grids (A|B, C|D) · the chain · the warning (GIGI_DATA.vegan)
-     [data-paths]      → vegan.html  Germany: the animal-lives path vs the weight path
-     [data-europe]     → vegan.html  Europe country by country, one chart per dimension (+ the drill-downs, drawn under their cards)
+     [data-levers]     → levers.html  The total system: consumed vs wasted per region, and what each lever can reach
+     [data-totals]     → vegan.html  A · total food (eaten + wasted) per level, A.1 waste | A.2 consumption, the meat directly under each
+     [data-waste]      → vegan.html  B · ONE section, one switch (weight | animal lives): the chain, the gaps, the foldable drill-downs
+     [data-consumption]→ vegan.html  C · what the eaten meat is made of, Europe from supply to plate
      [data-foodglance] → food.html   KPIs + decision gates                            (GIGI_DATA.food)
-     [data-notes]      → "When a number changes": the ≠a notes behind the marks             (GIGI_DATA.<data-notes>.notes)
+     [data-notes]      → "When a number changes": the ≠a notes behind the marks             (GIGI_DATA.notes)
    The shared helpers are exported as window.GIGI_UI for assets/js/projection.js (the projection page).
    All text goes in with textContent / text nodes (data is treated as untrusted). No dependencies.
    Source footnotes are numbered by the order of `sources` in the data file — the same order as the
@@ -44,16 +43,19 @@
   /* ---------- Number notes: the same thing, a different number ---------- */
   let NOTES = {};
   let NOTE_WORD = 'Number note';
+  const USED = new Set();
   const setNotes = (d) => {
-    NOTES = Object.fromEntries((d.notes || []).map((n) => [n.id, n]));
-    NOTE_WORD = (d.ui && d.ui.noteMark) || NOTE_WORD;
+    const all = (window.GIGI_DATA && window.GIGI_DATA.notes) || [];
+    NOTES = Object.fromEntries(all.map((n) => [n.id, n]));
+    NOTE_WORD = (d && d.ui && d.ui.noteMark) || NOTE_WORD;
   };
-  // ≠a ≠b … — each mark links to the note under the page: what changed, and where the other versions are.
+  // ≠i ≠ii … — each mark links to the note under the page: what changed, and where the other versions are.
   const marks = (ids) => {
     const wrap = el('span', 'nmarks');
     [].concat(ids || []).forEach((id) => {
       const n = NOTES[id];
       if (!n) return;
+      USED.add(id);
       const a = link(`#note-${id}`, `≠${id}`);
       a.setAttribute('aria-label', `${NOTE_WORD} ${id}: ${n.topic}`);
       const sup = el('sup', 'nmark');
@@ -70,14 +72,14 @@
     const target = (key) => sources[key].href || `#src-${key}`;
 
     // "Klaura et al. 2023 [1], GfK 2020 [10]" — each [n] is a link with a full accessible name.
-    const cite = (srcKeys, used) => {
-      const span = el('span', 'fn');
+    const cite = (srcKeys, used, compact) => {
+      const span = el('span', compact ? 'fn fn--compact' : 'fn');
       [].concat(srcKeys).forEach((key, i) => {
         const s = sources[key];
         if (!s) return;
         if (used && !used.includes(key)) used.push(key);
-        if (i) span.append(', ');
-        span.append(`${s.short} `);
+        if (i) span.append(compact ? ' ' : ', ');
+        if (!compact) span.append(`${s.short} `);
         const sup = el('sup');
         const n = number(key);
         const a = link(target(key), `[${n}]`);
@@ -122,21 +124,57 @@
     return tags;
   };
 
+  /* ---------- Drill-down links: a number that goes somewhere wears the colour of where it goes — and says so in words ---------- */
+  let DD = {};
+  let DRILL_TO = 'Drill down to';
+  const ddLink = (dd, href, text) => {
+    const a = link(href, text, `dd dd--${dd}`);
+    if (DD[dd]) a.setAttribute('aria-label', `${text}: ${DRILL_TO.toLowerCase()} ${DD[dd].title.toLowerCase()}`);
+    return a;
+  };
+  // The destination in words, in its colour; a link when it has somewhere to go.
+  const ddChip = (dd, href, where) => {
+    const t = DD[dd];
+    const n = href ? link(href, t.word, `ddchip ddchip--${dd}`) : el('span', `ddchip ddchip--${dd}`, t.word);
+    if (href) n.setAttribute('aria-label', `${t.word}${where ? ` (${where})` : ''}: ${DRILL_TO.toLowerCase()} ${t.title.toLowerCase()}`);
+    return n;
+  };
+
+  // The other-year / other-model version of a number: one slim line inside its box, a 90° arrow in front.
+  const otherRow = (o, ui, fn, used) => {
+    const p = el('p', 'dval__other');
+    if (o.id) p.id = o.id;
+    p.append(hidden(el('span', 'dval__arrow', '↳')), el('span', 'dval__otherk', `≠ ${o.label}:`), ' ', el('strong', null, o.value), ` · ${o.sub}`);
+    (o.tags || []).forEach((t) => p.append(' ', el('span', `mtag mtag--${t.tone || 'flag'}`, t.text)));
+    if (o.src) p.append(' ', fn.cite(o.src, used));
+    if (o.mark) p.appendChild(marks(o.mark));
+    return p;
+  };
+
   // One value box. Solid / dashed / dotted / red is never the only signal: every box carries a text tag.
   const valueBox = (item, ui, fn, used, cls = 'dval') => {
     const kind = item.kind || 'sourced';
     const box = el('div', `${cls} ${cls}--${kind}`);
     box.appendChild(tagsFor(item, ui));
-    box.appendChild(el('p', `${cls}__big`, item.value));
+    const big = el('p', `${cls}__big`);
+    big.appendChild(item.to ? ddLink(item.dd, item.to, item.value) : document.createTextNode(item.value));
+    box.appendChild(big);
     box.appendChild(el('p', `${cls}__label`, item.label));
     if (item.meter) box.appendChild(meter(item.meter, !/%$/.test(item.value) || item.value !== `${item.meter.value}%`));
     if (item.sub) box.appendChild(el('p', `${cls}__sub`, item.sub));
     if (item.src || item.mark) {
       const p = el('p', 'gfact__src');
-      if (item.src) p.append(`${ui.source}: `, fn.cite(item.src, used));
+      if (item.src) p.append(item.compactSrc ? '' : `${ui.source}: `, fn.cite(item.src, used, item.compactSrc));
       if (item.mark) p.appendChild(marks(item.mark));
       box.appendChild(p);
     }
+    if (item.at) {
+      const p = el('p', `${cls}__at${item.at.gap ? ` ${cls}__at--gap` : ''}`);
+      p.append(hidden(el('span', `${cls}__atmark`)), item.at.text);
+      if (item.at.mark) p.appendChild(marks(item.at.mark));
+      box.appendChild(p);
+    }
+    if (item.other) box.appendChild(otherRow(item.other, ui, fn, used));
     if (item.link) box.appendChild(el('p', `${cls}__link`)).appendChild(link(item.link.href, item.link.label, 'link link--go'));
     return box;
   };
@@ -156,7 +194,7 @@
     return warn;
   };
 
-  const legend = (ui) => {
+  const legend = (ui, d) => {
     const key = list('mkey dkey');
     key.setAttribute('aria-label', ui.keyLabel);
     [['solid', ui.keySourced], ['dash', ui.keyScenario], ['dot', ui.keyGap]].forEach(([kind, text]) => {
@@ -164,11 +202,17 @@
       li.append(hidden(el('span', `mkey__swatch mkey__swatch--${kind}`)), text);
       key.appendChild(li);
     });
+    if (d && d.dd && ui.keyDrill) {
+      const li = el('li', 'dkey__drill');
+      li.append(ui.keyDrill);
+      Object.keys(d.dd).forEach((k) => li.append(' ', ddChip(k)));
+      key.appendChild(li);
+    }
     if (ui.keyScope) key.appendChild(el('li', 'dkey__scope', ui.keyScope));
     return key;
   };
 
-  /* ---------- Dashboard (vegan.html) ---------- */
+  /* ---------- Shared blocks of the GiGi Vegan page ---------- */
   const block = (cls, id, title, lead, hideTitle) => {
     const sec = el('section', `dblock ${cls}`);
     sec.setAttribute('aria-labelledby', id);
@@ -179,140 +223,16 @@
     return sec;
   };
 
-  const badge = (text, extra = '') => hidden(el('span', `dbadge${extra}`, text));
-
-  /* · The tree: all food waste → meat (lives + weight in one node) → before / at the plate */
-  const treeNode = (n, cols, ui, gapTag) => {
-    const li = el('li', `tnode${n.focus ? ' tnode--focus' : ''}`);
-    li.dataset.node = n.id;
-    const card = el('div', 'tcard');
-
-    const head = el('div', 'tcard__head');
-    const title = el('p', 'tcard__title');
-    if (n.badge) title.appendChild(badge(n.badge, n.badge.length > 1 ? ' dbadge--wide' : ''));
-    title.appendChild(el('span', null, n.title));
-    if (n.focus) title.appendChild(el('span', 'mtag tcard__focus', ui.focus));
-    head.append(title, el('p', 'tcard__note', n.note));
-    if (gapTag) head.appendChild(el('span', 'mtag mtag--gap', gapTag));
-    card.appendChild(head);
-
-    const rows = list('trows');
-    n.rows.forEach((r) => {
-      const row = el('li', `trow${r.focus ? ' trow--focus' : ''}${r.tone === 'wasted' ? ' trow--wasted' : ''}`);
-      const lab = el('span', 'trow__label', r.label);
-      if (r.drill) {
-        const go = link(`#matrix-${r.drill}`, ui.drill, 'link link--go trow__go');
-        go.setAttribute('aria-label', `${ui.drill}: ${r.label}, in the waste matrix`);
-        lab.append(' ', go);
-      }
-      row.appendChild(lab);
-      r.cells.forEach((c, i) => {
-        const cellEl = el('span', `tcell${c ? '' : ' tcell--none'}${c && c.kind === 'scenario' ? ' tcell--scenario' : ''}`);
-        cellEl.appendChild(el('span', 'tcell__geo', cols[i]));
-        const v = el('span', 'tcell__v');
-        if (c && c.to) {
-          const a = link(`#${c.to}`, c.v, 'tcell__link');
-          a.setAttribute('aria-label', `${c.v}, ${cols[i]}: ${ui.drill} in the waste matrix`);
-          v.appendChild(a);
-        } else {
-          v.textContent = c ? c.v : '—';
-        }
-        if (!c) v.appendChild(el('span', 'sr-only', ' not available'));
-        cellEl.appendChild(v);
-        row.appendChild(cellEl);
-      });
-      rows.appendChild(row);
-    });
-    card.appendChild(rows);
-    li.appendChild(card);
-
-    if (n.children && n.children.length) {
-      const ul = list(`tnodes${gapTag === undefined && n.id === 'C' ? ' tnodes--dotted' : ''}`);
-      n.children.forEach((c, i) => ul.appendChild(treeNode(c, cols, ui, n.id === 'C' && i === 0 ? ui.treeEdgeGap : undefined)));
-      li.appendChild(ul);
-    }
-    return li;
-  };
-
-  const tree = (d) => {
-    const t = d.tree;
-    const sec = block('dtree', 'dtree-title', t.title, t.lead);
-    const cols = hidden(el('div', 'dtree__cols'));
-    t.cols.forEach((c) => cols.appendChild(el('span', null, c)));
-    const top = list('tnodes tnodes--root');
-    top.setAttribute('aria-label', d.ui.treeLabel);
-    top.appendChild(treeNode(t.root, t.cols, { ...d.ui, treeEdgeGap: t.edgeGap }));
-    sec.append(cols, top, el('p', 'dtree__foot', t.foot));
-    return sec;
-  };
-
-  /* · An item; one with a `child` is drawn connected to the part of it lost at consumption */
-  const item = (it, ui, fn, used) => {
-    if (!it.child) return valueBox(it, ui, fn, used);
-    const pair = el('div', 'dpair');
-    const child = valueBox({ ...it.child, tags: [{ text: ui.atConsumption, tone: 'rule' }, ...(it.child.tags || [])] }, ui, fn, used);
-    child.classList.add('dval--child');
-    pair.append(valueBox(it, ui, fn, used), hidden(el('span', 'dpair__joint')), child);
-    return pair;
-  };
-
-  const cell = (c, dim, geo, ui, fn, used) => {
-    const box = el('div', `dcell${dim.focus ? ' dcell--focus' : ''}`);
-    box.id = `cell-${dim.id}-${geo.id}`;
-    box.dataset.dim = dim.id;
-    const label = el('p', 'dcell__dim');
-    label.append(badge(dim.id, ' dbadge--sm'), dim.name);
-    if (dim.focus) label.appendChild(el('span', 'mtag dcell__focus', ui.focus));
-    const scope = el('p', 'dcell__scope', c.scope);
-    if (c.mark) scope.appendChild(marks(c.mark));
-    box.append(label, scope);
-    const items = el('div', 'ditems');
-    c.items.forEach((it) => items.appendChild(item(it, ui, fn, used)));
-    box.appendChild(items);
-    if (c.note) {
-      const note = typeof c.note === 'string' ? { text: c.note } : c.note;
-      const p = el('p', 'dcell__note', note.text);
-      if (note.src) p.append(' ', fn.cite(note.src, used));
-      if (note.mark) p.appendChild(marks(note.mark));
-      box.appendChild(p);
-    }
-    return box;
-  };
-
-  /* · A dual grid: two dimensions side by side, one row per region */
-  const dual = (b, d, fn, used) => {
-    const ui = d.ui;
-    const dims = b.dims.map((id) => d.dims.find((x) => x.id === id));
-    const sec = block(`dual${b.link ? ' dual--link' : ''}`, `dual-${b.id}`, b.title, null);
-    sec.id = `matrix-${b.id}`;
-    const rows = list('dual__rows', 'ol');
-    d.geos.forEach((g) => {
-      const row = el('li', 'dgeo');
-      row.dataset.geo = g.id;
-      row.id = `matrix-${b.id}-${g.id}`;
-      const gh = el('div', 'dgeo__head');
-      gh.append(el('h4', 'dgeo__name', g.name), el('p', 'dgeo__basis', g.basis));
-      row.appendChild(gh);
-      dims.forEach((dim) => row.appendChild(cell(dim.cells[g.id], dim, g, ui, fn, used)));
-      const drills = dims.map((dim) => dim.cells[g.id].drill).filter(Boolean);
-      if (drills.length) row.appendChild(drillPanel(drills, d, fn, used));
-      rows.appendChild(row);
-    });
-    sec.appendChild(rows);
-    return sec;
-  };
-
-  /* · The chain: what "at consumption" means */
+  /* · The chain: what "at consumption" means. The key once per view, one bar per measure under the rows of B. */
   const segClass = (s) => `cseg--${s.at ? (s.at === 'service' ? 'service' : 'home') : 'before'}`;
 
-  const chain = (d, fn, used) => {
+  // The five links, the last two bracketed as "at consumption".
+  const chainKey = (d) => {
     const c = d.chain;
-    const ui = d.ui;
-    const sec = block('dchain', 'dchain-title', c.title, c.lead);
-
-    // The key: the five links, the last two bracketed as "at consumption".
+    const wrap = el('div', 'dchain');
+    wrap.appendChild(el('p', 'dchain__lead', c.lead));
     const stages = list('cstages', 'ol');
-    stages.setAttribute('aria-label', ui.chainLabel);
+    stages.setAttribute('aria-label', d.ui.chainLabel);
     c.stages.slice(0, c.atFrom).forEach((name) => stages.appendChild(el('li', 'cstage', name)));
     const atItem = el('li', 'cstages__at');
     atItem.appendChild(el('span', 'cstages__atlabel', c.atLabel));
@@ -320,60 +240,343 @@
     c.stages.slice(c.atFrom).forEach((name) => atList.appendChild(el('li', 'cstage is-at', name)));
     atItem.appendChild(atList);
     stages.appendChild(atItem);
-    sec.appendChild(stages);
-
-    const bars = list('cbars');
-    c.bars.forEach((b) => {
-      const sum = b.segs.reduce((t, s) => t + s.v, 0);
-      const at = b.segs.filter((s) => s.at).reduce((t, s) => t + s.v, 0);
-      const li = el('li', 'cbar');
-
-      const head = el('div', 'cbar__head');
-      const name = el('p', 'cbar__name');
-      name.append(badge(b.dim, ' dbadge--sm'), el('strong', null, b.title), el('span', 'cbar__scope', b.scope));
-      head.append(name, el('p', 'cbar__total', b.total), el('p', 'cbar__share', `${fmt((at / sum) * 100, 1)}% ${c.shareWord}`));
-
-      const track = hidden(el('div', 'cbar__track'));
-      b.segs.forEach((s) => {
-        const seg = el('span', `cseg ${segClass(s)}`);
-        seg.style.setProperty('--v', s.v);
-        track.appendChild(seg);
-      });
-
-      const items = list('cbar__list');
-      b.segs.forEach((s) => {
-        const it = el('li', s.at ? 'is-at' : '');
-        it.append(hidden(el('span', `cswatch ${segClass(s)}`)), el('span', 'cbar__stage', s.name), el('span', 'cbar__val', s.text));
-        items.appendChild(it);
-      });
-
-      const note = el('p', 'cbar__note');
-      if (b.note) note.append(`${b.note} `);
-      note.append(`${ui.source}: `, fn.cite(b.src, used));
-      li.append(head, track, items, note);
-      bars.appendChild(li);
-    });
-    sec.append(bars, el('p', 'dchain__foot', c.foot));
-    return sec;
+    wrap.appendChild(stages);
+    return wrap;
   };
 
-  // 02 · Drill-down: the tree only.
-  const dashboard = (root, d) => root.replaceChildren(tree(d));
+  // One bar: a measure cut along the chain, with its own total and its own model.
+  const chainBar = (b, d, fn, used) => {
+    const c = d.chain;
+    const ui = d.ui;
+    const sum = b.segs.reduce((t, s) => t + s.v, 0);
+    const at = b.segs.filter((s) => s.at).reduce((t, s) => t + s.v, 0);
+    const box = el('div', 'cbar cbar--waste');
+    box.dataset.bar = b.id;
 
-  // 04 · The waste matrix: A | B, C | D, the chain, the warning.
-  const matrix = (root, d) => {
+    const head = el('div', 'cbar__head');
+    const name = el('p', 'cbar__name');
+    name.append(el('strong', null, b.title), el('span', 'cbar__scope', b.scope));
+    if (b.mark) name.appendChild(marks(b.mark));
+    const share = el('p', 'cbar__share', `${fmt((at / sum) * 100, 1)}% ${c.shareWord}${b.atText ? ` · ${b.atText}` : ''}`);
+    if (b.shareMark) share.appendChild(marks(b.shareMark));
+    head.append(name, el('p', 'cbar__total', b.total), share);
+
+    const track = hidden(el('div', 'cbar__track'));
+    b.segs.forEach((s) => {
+      const seg = el('span', `cseg ${segClass(s)}`);
+      seg.style.setProperty('--v', s.v);
+      track.appendChild(seg);
+    });
+
+    const items = list('cbar__list');
+    b.segs.forEach((s) => {
+      const it = el('li', s.at ? 'is-at' : '');
+      it.append(hidden(el('span', `cswatch ${segClass(s)}`)), el('span', 'cbar__stage', s.name), el('span', 'cbar__val', s.text));
+      items.appendChild(it);
+    });
+
+    const note = el('p', 'cbar__note');
+    if (b.note) note.append(`${b.note} `);
+    note.append(`${ui.source}: `, fn.cite(b.src, used));
+    box.append(head, track, items, note);
+    return box;
+  };
+
+  /* ---------- A · The totals (vegan.html) ---------- */
+  const tile = (t, d, fn, used, extra) => {
+    const box = valueBox({ kind: 'sourced', ...t }, d.ui, fn, used);
+    box.classList.add('ttile');
+    if (extra) box.classList.add(extra);
+    if (t.id) box.id = t.id;
+    return box;
+  };
+
+  // ↓ between two levels: "zoom", never a ratio
+  const zoom = (z) => {
+    const s = el('div', 'rel rel--zoom');
+    const core = el('span', 'rel__core');
+    core.append(hidden(el('span', 'rel__arrow')), hidden(el('span', 'rel__zlabel', z.text)));
+    const tail = el('span', 'rel__tail');
+    tail.appendChild(el('span', 'sr-only', z.label));
+    if (z.mark) tail.appendChild(marks(z.mark));
+    s.append(hidden(el('span', 'rel__pad')), core, tail);
+    return s;
+  };
+
+  // Meat per person on one shared scale: a card with the bar in it.
+  const personCard = (b, max, d, fn, used) => {
+    const card = el('div', 'dval dval--sourced dval--mini ttile tpp');
+    if (b.id) card.id = b.id;
+    const track = hidden(el('div', 'cbar__track'));
+    const a = el('span', 'cseg cseg--home');
+    a.style.setProperty('--v', b.value);
+    const r = el('span', 'cseg cseg--rest');
+    r.style.setProperty('--v', Math.max(max - b.value, 0));
+    track.append(a, r);
+    const cap = el('p', 'tbar__cap');
+    const num = b.to ? ddLink(b.dd, b.to, b.text) : document.createTextNode(b.text);
+    const strong = el('strong');
+    strong.appendChild(num);
+    cap.append(strong, ` ${b.sub}`);
+    card.append(el('p', 'tbar__k', d.ui.perPerson), track, cap);
+    if (b.src) {
+      const s = el('p', 'gfact__src');
+      s.append(`${d.ui.source}: `, fn.cite(b.src, used));
+      card.appendChild(s);
+    }
+    return card;
+  };
+
+  // The compact version of the chain for all food: before the plate | at consumption (the five stages stay in B).
+  const stageBar = (spec, d) => {
+    const cb = d.chain.bars.find((x) => x.id === spec.chain);
+    const sum = (f) => cb.segs.filter(f).reduce((t, s) => t + s.v, 0);
+    const at = sum((s) => s.at);
+    const before = sum((s) => !s.at);
+    const dg = (v) => fmt(v, v >= 100 ? 0 : 1);
+    const wrap = el('div', 'tbar tbar--stage');
+    const track = hidden(el('div', 'cbar__track'));
+    [['cseg--before', before], ['cseg--home', at]].forEach(([c, v]) => {
+      const seg = el('span', `cseg ${c}`);
+      seg.style.setProperty('--v', v);
+      track.appendChild(seg);
+    });
+    const cap = el('p', 'tbar__cap');
+    cap.append(el('strong', null, `${fmt((at / (at + before)) * 100, 1)}%`), ` ${d.chain.shareWord} · ${dg(at)} Mt`);
+    wrap.append(el('p', 'tbar__k', d.chain.atLabel), track, cap, el('p', 'tbar__sub', `${d.ui.beforePlate} · ${dg(before)} Mt`));
+    return wrap;
+  };
+
+  const cellHead = (h, hid) => {
+    const head = el('header', 'thead');
+    const t = el('h4', 'thead__title');
+    t.id = hid;
+    if (h.tag) t.append(el('span', 'dbadge dbadge--wide tgroup__tag', h.tag), ' ');
+    t.append(h.title);
+    head.append(t, el('p', 'thead__sub', h.sub));
+    return head;
+  };
+
+  // The germany species mix, small, right under the number it explains (4.6 Mt · 54.9 kg per person)
+  const speciesInline = (S, d, fn, used) => {
+    const box = el('div', 'cbar tsp tsp--inline');
+    box.appendChild(el('p', 'tsp__title', S.title));
+    const total = S.segs.reduce((t, s) => t + s.v, 0);
+    const cls = ['cseg--home', 'cseg--service', 'cseg--before', 'cseg--rest'];
+    const track = hidden(el('div', 'cbar__track'));
+    const items = list('cbar__list cbar__list--col');
+    S.segs.forEach((s, i) => {
+      const seg = el('span', `cseg ${cls[i % cls.length]}`);
+      seg.style.setProperty('--v', s.v);
+      track.appendChild(seg);
+      const li = el('li');
+      li.append(hidden(el('span', `cswatch ${cls[i % cls.length]}`)), el('span', 'cbar__stage', s.name), el('span', 'cbar__val', `${fmt(s.v, 1)} ${S.unit}`), el('span', 'cbar__pct', `${fmt((s.v / total) * 100, 1)}%`));
+      items.appendChild(li);
+    });
+    const note = el('p', 'cbar__note');
+    note.append(`${S.sub} · ${d.ui.source}: `, fn.cite(S.src, used, true));
+    box.append(track, items, note);
+    return box;
+  };
+
+  // The meat of one column: small boxes, the sources as plain footnote numbers (the full line sits in the drill-down)
+  const meatGroup = (items, label, d, fn, used, extra) => {
+    const grp = el('div', 'tmeat');
+    grp.appendChild(el('p', 'tmeat__k', label));
+    items.forEach((m) => {
+      const box = valueBox({ kind: 'sourced', compactSrc: true, ...m }, d.ui, fn, used);
+      box.classList.add('ttile', 'dval--mini');
+      if (m.id) box.id = m.id;
+      grp.appendChild(box);
+    });
+    if (extra) grp.appendChild(extra);
+    return grp;
+  };
+
+  // One drill-down line per row: where this row's numbers go, in words and in colour.
+  const drillLine = (items, d, geoName) => {
+    const p = el('p', 'tdrill');
+    p.append(el('span', 'tdrill__k', d.ui.drill));
+    items.forEach((it) => p.append(' ', ddChip(it.dd, it.to, geoName)));
+    return p;
+  };
+
+  // The check under a total: do the two parts add up to it?
+  const checkBox = (c, d, fn, used) => {
+    const chk = el('div', `tcheck tcheck--${c.ok ? 'ok' : 'no'}`);
+    const first = el('p', 'tcheck__text');
+    first.append(el('span', 'tcheck__badge', c.ok ? d.ui.checkOk : d.ui.checkNo), ' ', c.text);
+    chk.appendChild(first);
+    if (c.outside) {
+      const out = el('p', 'tcheck__text', `${c.outside} `);
+      if (c.src) out.appendChild(fn.cite(c.src, used));
+      if (c.link) out.append(' ', ddLink(c.link.dd, c.link.to, c.link.label));
+      chk.appendChild(out);
+    }
+    return chk;
+  };
+
+  // The split of a total on one bar: wasted (A.1) on the LEFT, consumed (A.2) on the RIGHT — the order of the columns below.
+  const splitBar = (f, d) => {
+    const bar = el('div', 'tsplitbar');
+    const parts = f.split ? f.split.parts : [{ role: 'wasted', v: 50, name: 'wasted — A.1' }, { role: 'consumed', v: 50, name: 'consumed — A.2' }];
+    // the key first, the bar last: the dashed connectors start right under the bar
+    if (f.split) {
+      const items = list('cbar__list');
+      parts.forEach((p) => {
+        const li = el('li');
+        li.append(hidden(el('span', `cswatch cseg--${p.role}`)), el('span', 'cbar__stage', p.name), el('span', 'cbar__val', p.text));
+        items.appendChild(li);
+      });
+      bar.append(items, el('p', 'tbar__sub', f.split.caption));
+    } else {
+      bar.appendChild(el('p', 'tbar__sub', d.totals.unknownSplit));
+    }
+    if (f.inset) {
+      // the meat inside each part: a marker in the bar, its numbers in words (not to scale)
+      const ul = list('tinset');
+      ['wasted', 'consumed'].forEach((role) => {
+        if (!f.inset[role]) return;
+        const li = el('li', `tinset__item tinset__item--${role}`);
+        li.append(hidden(el('span', 'tinset__mark')), el('span', null, `meat inside: ${f.inset[role].text}`));
+        ul.appendChild(li);
+      });
+      bar.append(ul, el('p', 'tbar__sub', f.inset.note));
+    }
+    const track = el('div', 'cbar__track');
+    track.setAttribute('role', 'img');
+    track.setAttribute('aria-label', f.split ? parts.map((p) => `${p.name} ${p.text}`).join(', ') : d.totals.unknownSplit);
+    parts.forEach((p) => {
+      const seg = el('span', `cseg ${f.split ? `cseg--${p.role}` : 'cseg--unknown'}`);
+      seg.style.setProperty('--v', p.v);
+      if (f.inset && f.inset[p.role]) seg.appendChild(hidden(el('span', 'cseg__meat')));
+      track.appendChild(seg);
+    });
+    bar.appendChild(track);
+    return bar;
+  };
+
+  // Dashed connectors from the middle of each part of the bar down to its column: this part of the total IS that column.
+  const funnel = (split) => {
+    const NS = 'http://www.w3.org/2000/svg';
+    const w = split ? split.parts[0].v : 50;
+    const from = [w / 2, w + (100 - w) / 2]; // middle of the wasted part, middle of the consumed part
+    const to = [24.5, 75.5];                  // middle of column A.1, middle of column A.2
+    const wrap = el('div', `tlink${split ? '' : ' tlink--unknown'}`);
+    wrap.setAttribute('aria-hidden', 'true');
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 100 20');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('focusable', 'false');
+    ['wasted', 'consumed'].forEach((role, i) => {
+      const p = document.createElementNS(NS, 'path');
+      p.setAttribute('class', `tlink__edge tlink__edge--${role}`);
+      p.setAttribute('d', from[i] === to[i] ? `M${from[i]} 0 V20` : `M${from[i]} 0 V9 H${to[i]} V20`);
+      svg.appendChild(p);
+      const tip = el('span', `tlink__tip tlink__tip--${role}`);
+      tip.style.left = `${to[i]}%`;
+      wrap.appendChild(tip);
+    });
+    wrap.prepend(svg);
+    return wrap;
+  };
+
+  // A total: the number, the check, and the split on one bar.
+  const totalStrip = (head, f, d, fn, used, hid) => {
+    const box = el('div', 'tfood');
+    box.setAttribute('role', 'group');
+    box.setAttribute('aria-labelledby', hid);
+    box.appendChild(cellHead(head, hid));
+    const main = el('div', 'tfood__main');
+    main.append(tile(f.tile, d, fn, used), checkBox(f.check, d, fn, used));
+    box.append(main, splitBar(f, d));
+    return box;
+  };
+
+  const column = (key, geo, label, rows) => {
+    const col = el('div', `tcol tcol--${key}`);
+    col.setAttribute('role', 'group');
+    col.setAttribute('aria-label', `${label} — ${geo}`);
+    rows.forEach((r) => col.appendChild(r));
+    return col;
+  };
+
+  // A dashed line down the left side of a level card: from the "meat inside" lines in the food total
+  // to "Total meat — inside the food" — the meat marker in the bar IS that block. Placed from the real layout.
+  const placeRail = (card) => {
+    const from = card.querySelector('.tinset__item');
+    const to = card.querySelector('[id^="tmeat-"]');
+    if (!from || !to) return;
+    const rail = el('div', 'trail');
+    rail.setAttribute('aria-hidden', 'true');
+    rail.appendChild(el('span', 'trail__tip'));
+    card.appendChild(rail);
+    const place = () => {
+      const c = card.getBoundingClientRect();
+      const a = from.getBoundingClientRect();
+      const b = to.getBoundingClientRect();
+      const pad = parseFloat(getComputedStyle(card).paddingLeft) || 10;
+      const x = Math.max(3, pad / 2 - 1);
+      const ya = a.top + a.height / 2 - c.top;
+      const yb = b.top + b.height / 2 - c.top;
+      rail.style.cssText = `left:${x}px;top:${ya}px;height:${Math.max(yb - ya, 0)}px;--stub-a:${Math.max(a.left - c.left - x, 4)}px;--stub-b:${Math.max(b.left - c.left - x, 4)}px`;
+    };
+    place();
+    if (window.ResizeObserver) new ResizeObserver(place).observe(card);
+    window.addEventListener('load', place);
+  };
+
+  const totals = (root, d) => {
+    const T = d.totals;
     const fn = footnotes(d.sources);
     const used = [];
-    const [meat, ...rest] = d.blocks;
-    const warn = warningBox(d.warning, 'gwarn-title', '≠', fn, used);
-    root.replaceChildren(
-      legend(d.ui),
-      dual(meat, d, fn, used),
-      ...rest.map((b) => dual(b, d, fn, used)),
-      chain(d, fn, used),
-      warn,
-      fn.summary(d.ui.sources, used),
-    );
+    const wrap = el('div', 'totals');
+    wrap.appendChild(legend(d.ui, d));
+    T.levels.forEach((lv) => {
+      const geo = d.geos.find((g) => g.id === lv.geo).name;
+      const card = el('section', 'tlevel');
+      const hid = `tlevel-${lv.geo}`;
+      card.setAttribute('aria-labelledby', hid);
+      const h = el('h3', 'tlevel__name', geo);
+      h.id = hid;
+
+      // block 1 — all food: the total, its split, the two parts (A.1 | A.2)
+      const duo1 = el('div', 'tduo2');
+      duo1.style.setProperty('--rows', 2);
+      [['waste', lv.waste, T.heads.waste], ['consumption', lv.consumption, T.heads.consumption]].forEach(([key, part, head]) => {
+        const hidc = `tcol-${key}-${lv.geo}`;
+        const base = el('div', 'tbase');
+        base.appendChild(tile(part.tile, d, fn, used));
+        if (part.bar) base.appendChild(stageBar(part.bar, d));
+        const col = column(key, geo, head.title, [cellHead(head, hidc), base]);
+        col.setAttribute('aria-labelledby', hidc);
+        col.removeAttribute('aria-label');
+        duo1.appendChild(col);
+      });
+
+      // block 2 — the meat inside it: the same shape, then one drill-down line per column
+      const duo2 = el('div', 'tduo2');
+      duo2.style.setProperty('--rows', 2);
+      [['waste', lv.waste, T.heads.meatWaste], ['consumption', lv.consumption, T.heads.meatConsumption]].forEach(([key, part, label]) => {
+        const extra = part.species ? speciesInline(d.consumption.species, d, fn, used) : null;
+        duo2.appendChild(column(key, geo, label, [meatGroup(part.meat, label, d, fn, used, extra), drillLine(part.drill, d, geo)]));
+      });
+
+      card.append(
+        h,
+        totalStrip(T.heads.food, lv.food, d, fn, used, `tfood-${lv.geo}`),
+        funnel(lv.food.split),
+        duo1,
+        totalStrip(T.heads.meat, lv.meat, d, fn, used, `tmeat-${lv.geo}`),
+        funnel(lv.meat.split),
+        duo2,
+      );
+      wrap.appendChild(card);
+      if (lv.zoom) wrap.appendChild(zoom(lv.zoom));
+    });
+    if (T.foot) wrap.appendChild(el('p', 'tfoot', T.foot));
+    root.replaceChildren(wrap, fn.summary(d.ui.sources, used));
+    wrap.querySelectorAll('.tlevel').forEach(placeRail);
   };
 
   /* ---------- Two levers (vegan.html) ---------- */
@@ -460,7 +663,7 @@
       strip.appendChild(one);
     });
     if (b.drill) {
-      const go = link(`#matrix-${b.drill}`, ui.drill, 'link link--go lbar__go');
+      const go = link(`vegan.html#waste-${b.drill}`, ui.drill, 'link link--go lbar__go');
       go.setAttribute('aria-label', `${ui.drill}: ${b.measure}, ${region.name}, in the waste matrix`);
       strip.appendChild(go);
     }
@@ -480,7 +683,7 @@
       if (s.src) foot.appendChild(fn.cite(s.src, used));
       if (s.mark) foot.appendChild(marks(s.mark));
       // Wasted figures lead into the drill-down matrix (that region's row); a scenario leads to its derivation.
-      const go = s.drill ? { href: `#matrix-${s.drill}`, text: ui.drill, name: `${ui.drill}: ${b.measure}, ${region.name}, in the waste matrix` } : s.link ? { href: s.link.href, text: s.link.label, name: s.link.label } : null;
+      const go = s.drill ? { href: `vegan.html#waste-${s.drill}`, text: ui.drill, name: `${ui.drill}: ${b.measure}, ${region.name}, in the waste section` } : s.link ? { href: s.link.href, text: s.link.label, name: s.link.label } : null;
       if (go) {
         const l = link(go.href, go.text, 'link link--go lbar__go');
         l.setAttribute('aria-label', go.name);
@@ -562,69 +765,17 @@
     window.addEventListener('resize', sync);
   };
 
-  /* ---------- Germany: two paths (vegan.html) ---------- */
-  const paths = (root, d) => {
-    const ui = d.ui;
-    const fn = footnotes(d.sources);
-    const used = [];
-
-    const lanes = el('div', 'plane-grid');
-    d.paths.lanes.forEach((lane) => {
-      const sec = el('section', `plane plane--${lane.tone}`);
-      const hid = `plane-${lane.id}`;
-      sec.setAttribute('aria-labelledby', hid);
-      const head = el('header', 'plane__head');
-      const h = el('h3', 'plane__title', lane.title);
-      h.id = hid;
-      head.append(h, el('p', 'plane__verdict', lane.verdict));
-      sec.appendChild(head);
-
-      const steps = list('psteps', 'ol');
-      lane.steps.forEach((s) => {
-        if (s.op) {
-          const op = el('li', `pop${s.invalid ? ' pop--invalid' : ''}`);
-          const code = el('span', 'pop__code', s.op);
-          op.appendChild(code);
-          if (s.ref) op.appendChild(el('span', 'pop__ref', s.ref));
-          if (s.text) op.appendChild(el('span', 'pop__text', s.text));
-          if (s.invalid) op.appendChild(el('span', 'sr-only', ` — ${ui.invalid}`));
-          steps.appendChild(op);
-        } else {
-          const li = el('li', 'pstep');
-          li.appendChild(valueBox(s, ui, fn, used));
-          steps.appendChild(li);
-        }
-      });
-      sec.appendChild(steps);
-      if (lane.note) sec.appendChild(el('p', 'plane__note', lane.note));
-      lanes.appendChild(sec);
-    });
-
-    const box = el('div', 'passume');
-    box.appendChild(el('h3', 'passume__title', ui.assumptions));
-    const ol = list('passume__list', 'ol');
-    d.paths.assumptions.forEach((a) => {
-      const li = el('li');
-      li.id = `assume-${a.id}`;
-      li.append(el('span', 'passume__id', a.id), el('span', null, a.text));
-      ol.appendChild(li);
-    });
-    box.appendChild(ol);
-
-    root.replaceChildren(lanes, box, fn.summary(ui.sources, used));
-  };
-
-  /* ---------- Europe, country by country (vegan.html) ---------- */
-
+  /* ---------- B · Waste: one section, one switch (vegan.html) ---------- */
   const barChart = (c, ui, fn, used) => {
     const digits = c.digits == null ? 1 : c.digits;
     const fig = el('figure', 'hbar is-in');
+    fig.id = c.id;
     const capId = `${c.id}-cap`;
     fig.setAttribute('aria-labelledby', capId);
     const cap = el('figcaption', 'hbar__cap');
     cap.id = capId;
     const title = el('span', 'hbar__title');
-    title.append(hidden(el('span', 'dbadge dbadge--sm', c.dim)), c.title);
+    title.append(c.title);
     cap.append(title, el('span', 'hbar__sub', c.sub));
     if (c.tag) cap.appendChild(el('span', `mtag mtag--${c.tag.tone || 'flag'} hbar__tag`, c.tag.text));
     fig.appendChild(cap);
@@ -700,13 +851,14 @@
   // A four-step chain ending in the animal estimate (Germany).
   const flowFigure = (c, ui, fn, used) => {
     const box = el('div', 'wflow');
+    box.id = c.id;
     const hid = `${c.id}-cap`;
     box.setAttribute('role', 'group');
     box.setAttribute('aria-labelledby', hid);
     const head = el('div', 'wflow__head');
     const title = el('p', 'hbar__title');
     title.id = hid;
-    title.append(hidden(el('span', 'dbadge dbadge--sm', c.dim)), c.title);
+    title.append(c.title);
     head.append(title, el('p', 'hbar__sub', c.sub));
     box.appendChild(head);
 
@@ -731,31 +883,189 @@
     return box;
   };
 
-  // Drill-downs attached to the cards of one region's row; open by default, can be folded away.
-  const drillPanel = (drills, d, fn, used) => {
+  // One Germany path (animal lives | weight): the steps from the households' numbers to the whole chain.
+  const pathLane = (lane, d, fn, used) => {
     const ui = d.ui;
-    const det = el('details', 'ddrill');
-    det.open = true;
+    const sec = el('section', `plane plane--${lane.tone}`);
+    const hid = `plane-${lane.id}`;
+    sec.setAttribute('aria-labelledby', hid);
+    const head = el('header', 'plane__head');
+    const h = el('h4', 'plane__title', lane.title);
+    h.id = hid;
+    head.append(h, el('p', 'plane__verdict', lane.verdict));
+    sec.appendChild(head);
+
+    const steps = list('psteps', 'ol');
+    lane.steps.forEach((s) => {
+      if (s.op) {
+        const op = el('li', `pop${s.invalid ? ' pop--invalid' : ''}`);
+        op.appendChild(el('span', 'pop__code', s.op));
+        if (s.ref) op.appendChild(el('span', 'pop__ref', s.ref));
+        if (s.text) op.appendChild(el('span', 'pop__text', s.text));
+        if (s.invalid) op.appendChild(el('span', 'sr-only', ` — ${ui.invalid}`));
+        steps.appendChild(op);
+      } else {
+        const li = el('li', 'pstep');
+        li.appendChild(valueBox(s, ui, fn, used));
+        steps.appendChild(li);
+      }
+    });
+    sec.appendChild(steps);
+    if (lane.note) sec.appendChild(el('p', 'plane__note', lane.note));
+    return sec;
+  };
+
+  // The assumptions behind the Germany scenarios: named, numbered, folded away.
+  const assumptionsBox = (d) => {
+    const box = el('details', 'sources lassume');
+    box.id = 'assumptions';
+    box.appendChild(el('summary', null, d.ui.assumptions));
+    const ol = list('passume__list', 'ol');
+    d.paths.assumptions.forEach((a) => {
+      const li = el('li');
+      li.id = `assume-${a.id}`;
+      li.append(el('span', 'passume__id', a.id), el('span', null, a.text));
+      ol.appendChild(li);
+    });
+    box.appendChild(ol);
+    return box;
+  };
+
+  // The drill-down line of a row: one foldable panel, named by what is in it, in the colour of its view.
+  const drillBox = (r, v, d, fn, used) => {
+    const charts = (r.drills || []).map((id) => {
+      const src = d.drills[id] ? { ...d.drills[id], id: `drill-${id}` } : d.europe.charts.find((c) => c.id === id);
+      return src;
+    });
+    const lane = r.paths && d.paths.lanes.find((l) => l.id === r.paths);
+    if (!charts.length && !lane) return null;
+    const det = el('details', `ddrill ddrill--${v.dd}`);
+    det.id = `drill-waste-${v.id}-${r.geo}`;
+    det.open = !!r.open;
     const sum = el('summary', 'ddrill__sum');
-    sum.append(el('span', 'ddrill__tag', ui.drillOn), el('span', 'ddrill__what', drills.map((x) => x.label).join(' · ')));
+    const names = charts.map((c) => c.title);
+    if (lane) names.push(r.paths === 'lives' ? 'Germany: how the households’ animals scale up' : 'Germany: why the tonnes don’t scale');
+    sum.append(ddChip(v.dd), el('span', 'ddrill__tag', d.ui.drill), el('span', 'ddrill__what', names.join(' · ')));
     det.appendChild(sum);
     const body = el('div', 'ddrill__body');
-    drills.forEach((x) =>
-      x.ids.forEach((id) => {
-        const c = { ...d.drills[id], id: `drill-${id}` };
-        body.appendChild(c.type === 'flow' ? flowFigure(c, ui, fn, used) : barChart(c, ui, fn, used));
-      }),
-    );
+    charts.forEach((c) => body.appendChild(c.type === 'flow' ? flowFigure(c, d.ui, fn, used) : barChart(c, d.ui, fn, used)));
+    if (lane) {
+      const lp = el('div', 'ddrill__lane');
+      lp.id = r.paths === 'lives' ? 'paths' : 'paths-weight';
+      lp.appendChild(pathLane(lane, d, fn, used));
+      body.appendChild(lp);
+    }
     det.appendChild(body);
     return det;
   };
 
-  const europe = (root, d) => {
+  const wasteRow = (r, v, d, fn, used) => {
+    const li = el('li', `wrow wrow--${v.dd}`);
+    li.id = `waste-${v.id}-${r.geo}`;
+    const g = d.geos.find((x) => x.id === r.geo);
+    li.appendChild(el('h3', 'wrow__name', g.name));
+    const items = el('div', 'wrow__items');
+    r.items.forEach((it) => {
+      if (it.bar) items.appendChild(chainBar(d.chain.bars.find((b) => b.id === it.bar), d, fn, used));
+      else items.appendChild(valueBox(it.box, d.ui, fn, used));
+    });
+    li.appendChild(items);
+    if (r.note) {
+      const note = typeof r.note === 'string' ? { text: r.note } : r.note;
+      const p = el('p', 'wrow__note', note.text);
+      if (note.src) p.append(' ', fn.cite(note.src, used));
+      if (note.mark) p.appendChild(marks(note.mark));
+      li.appendChild(p);
+    }
+    const dr = drillBox(r, v, d, fn, used);
+    if (dr) li.appendChild(dr);
+    return li;
+  };
+
+  let showWasteView = null; // set by waste(); openTarget() uses it to open the view a link points into
+
+  const waste = (root, d) => {
     const fn = footnotes(d.sources);
     const used = [];
-    const grid = el('div', 'eurogrid');
-    d.europe.charts.forEach((c) => grid.appendChild(barChart(c, d.ui, fn, used)));
-    root.replaceChildren(grid);
+    const W = d.waste;
+    const wrap = el('div', 'waste');
+
+    // The switch: two real radio buttons — keyboard, labels and screen readers come for free.
+    const set = el('fieldset', 'wswitch');
+    set.appendChild(el('legend', 'wswitch__legend', d.ui.switchLabel));
+    const panels = {};
+    const opts = el('div', 'wswitch__opts');
+    W.views.forEach((v, i) => {
+      const lab = el('label', `wswitch__opt wswitch__opt--${v.dd}`);
+      const inp = el('input');
+      inp.type = 'radio';
+      inp.name = 'waste-view';
+      inp.value = v.id;
+      inp.checked = i === 0;
+      lab.append(inp, el('span', null, v.label));
+      opts.appendChild(lab);
+    });
+    set.appendChild(opts);
+    wrap.appendChild(set);
+
+    W.views.forEach((v, i) => {
+      const panel = el('div', `wpanel wpanel--${v.dd}`);
+      panel.id = `waste-${v.id}`;
+      panel.dataset.wview = v.id;
+      panel.hidden = i !== 0;
+      panel.appendChild(el('p', 'wpanel__lead', v.lead));
+      panel.appendChild(chainKey(d));
+      const rows = list('wrows', 'ol');
+      v.rows.forEach((r) => rows.appendChild(wasteRow(r, v, d, fn, used)));
+      panel.appendChild(rows);
+      panel.appendChild(el('p', 'dchain__foot', d.chain.foot));
+      panels[v.id] = panel;
+      wrap.appendChild(panel);
+    });
+
+    showWasteView = (id) => {
+      Object.entries(panels).forEach(([k, p]) => { p.hidden = k !== id; });
+      set.querySelectorAll('input').forEach((inp) => { inp.checked = inp.value === id; });
+    };
+    set.addEventListener('change', (e) => {
+      if (e.target && e.target.name === 'waste-view') {
+        showWasteView(e.target.value);
+        if (history.replaceState) history.replaceState(null, '', `#waste-${e.target.value}`);
+      }
+    });
+
+    wrap.append(assumptionsBox(d), warningBox(d.warning, 'gwarn-title', '≠', fn, used), fn.summary(d.ui.sources, used));
+    root.replaceChildren(wrap);
+  };
+
+  /* ---------- C · Consumption (vegan.html) ---------- */
+  const perPersonBlock = (P, d, fn, used) => {
+    const sec = block('dperson', 'perperson-title', P.title, P.sub);
+    const grid = el('div', 'tpp3');
+    P.items.forEach((it) => {
+      const item = el('div', 'tpp3__item');
+      item.appendChild(el('h4', 'tpp3__geo', d.geos.find((g) => g.id === it.geo).name));
+      item.appendChild(personCard(it, P.max, d, fn, used));
+      grid.appendChild(item);
+    });
+    sec.append(grid, el('p', 'dblock__lead', P.note));
+    return sec;
+  };
+
+  const knownBlock = (K, d, fn, used) => {
+    const sec = block('dknown', 'known-title', K.title, K.sub);
+    const box = valueBox({ kind: 'sourced', ...K.box }, d.ui, fn, used);
+    box.classList.add('ttile', 'tknown');
+    if (K.box.id) box.id = K.box.id;
+    sec.appendChild(box);
+    return sec;
+  };
+
+  const consumption = (root, d) => {
+    const fn = footnotes(d.sources);
+    const used = [];
+    const C = d.consumption;
+    root.replaceChildren(perPersonBlock(C.perPerson, d, fn, used), knownBlock(C.known, d, fn, used), fn.summary(d.ui.sources, used));
   };
 
   /* ---------- FoodGlance (food.html) ---------- */
@@ -804,7 +1114,7 @@
   const numberNotes = (root, d) => {
     const ui = d.ui;
     const ol = list('numnotes__list', 'ol');
-    d.notes.forEach((n) => {
+    Object.values(NOTES).filter((n) => USED.has(n.id)).forEach((n) => {
       const li = el('li', 'numnote');
       li.id = `note-${n.id}`;
       const head = el('p', 'numnote__head');
@@ -820,17 +1130,29 @@
     });
     root.replaceChildren(el('p', 'numnotes__lead', ui.notesLead), ol);
   };
+  const renderNotes = () => {
+    document.querySelectorAll('[data-notes]').forEach((root) => {
+      const d = DATA[root.dataset.notes || 'vegan'];
+      if (d) numberNotes(root, d);
+    });
+  };
 
   /* ---------- A footnote may point into a closed <details>: open it first ---------- */
   const openTarget = (hash) => {
     const id = decodeURIComponent((hash || '').replace(/^#/, ''));
     const t = id && document.getElementById(id);
-    const d = t && t.closest('details');
-    if (d && !d.open) d.open = true;
+    if (!t) return;
+    const view = t.closest('[data-wview]'); // a view of the waste switch that is not showing: show it first
+    if (view && view.hidden && showWasteView) showWasteView(view.dataset.wview);
+    let d = t.closest('details');
+    while (d) {
+      if (!d.open) d.open = true;
+      d = d.parentElement && d.parentElement.closest('details');
+    }
   };
   document.addEventListener('click', (e) => {
-    const a = e.target.closest && e.target.closest('a[href^="#"]');
-    if (a) openTarget(a.hash);
+    const a = e.target.closest && e.target.closest('a[href]');
+    if (a && a.hash && a.origin === location.origin && a.pathname === location.pathname) openTarget(a.hash);
   });
   window.addEventListener('hashchange', () => openTarget(location.hash));
   openTarget(location.hash);
@@ -838,19 +1160,22 @@
   /* ---------- Go ---------- */
   const primary = DATA.vegan || DATA.projection;
   if (primary) setNotes(primary);
+  if (DATA.vegan) {
+    DD = DATA.vegan.dd || {};
+    DRILL_TO = DATA.vegan.ui.drillTo || DRILL_TO;
+  }
   // Shared with the projection page's own script (loaded after this one).
-  window.GIGI_UI = { el, list, link, hidden, fmt, pc, footnotes, block, tagsFor, marks, setNotes, openTarget };
+  window.GIGI_UI = { el, list, link, hidden, fmt, pc, footnotes, block, tagsFor, marks, setNotes, renderNotes, openTarget };
   const run = (sel, key, fnc) => document.querySelectorAll(sel).forEach((root) => DATA[key] && fnc(root, DATA[key]));
-  run('[data-levers]', 'vegan', levers);
-  run('[data-dashboard]', 'vegan', dashboard);
-  run('[data-matrix]', 'vegan', matrix);
-  run('[data-paths]', 'vegan', paths);
-  run('[data-europe]', 'vegan', europe);
-  run('[data-foodglance]', 'food', foodGlance);
-  document.querySelectorAll('[data-notes]').forEach((root) => {
-    const d = DATA[root.dataset.notes || 'vegan'];
-    if (d) numberNotes(root, d);
+  document.querySelectorAll('[data-levers]').forEach((root) => {
+    const d = [DATA.projection, DATA.vegan].find((x) => x && x.levers);
+    if (d) levers(root, d);
   });
+  run('[data-totals]', 'vegan', totals);
+  run('[data-waste]', 'vegan', waste);
+  run('[data-consumption]', 'vegan', consumption);
+  run('[data-foodglance]', 'food', foodGlance);
+  renderNotes();
   // A deep link (e.g. vegan.html#lv-world-lives-total) points at something drawn just now: go there.
   if (location.hash.length > 1) {
     const t = document.getElementById(decodeURIComponent(location.hash.slice(1)));

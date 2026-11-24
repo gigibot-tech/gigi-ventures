@@ -34,6 +34,7 @@
         <a href="#ecosystem">Ecosystem</a>
         <a href="#social">Social</a>
         <a href="#ai">AI</a>
+        <a href="#health">Health</a>
         <a href="food.html">Food</a>
         <a href="vegan.html">Vegan</a>
       </nav>
@@ -57,6 +58,7 @@
       <a href="#ecosystem">Ecosystem</a>
       <a href="#social">Social</a>
       <a href="#ai">AI</a>
+      <a href="#health">Health</a>
       <a href="food.html">GiGi Food</a>
       <a href="vegan.html">GiGi Vegan</a>
     </nav>
@@ -161,7 +163,7 @@
           <figure class="eco__figure">
             <svg class="tree" data-tree viewBox="0 0 800 680" role="group" aria-labelledby="tree-title tree-desc">
               <title id="tree-title">The GiGi ecosystem as a tree</title>
-              <desc id="tree-desc">Shared roots: people first, explainable, private by default, interoperable. Non-AI side: Gigolingo, GiGi Food and GiGi Vegan. Near the top, side by side: GiGi Social and GiGi × 4some. AI side: GiGi AI on your device, and the partner iDO × GiGi. On top, an empty leaf for the next project.</desc>
+              <desc id="tree-desc">Shared roots: people first, explainable, private by default, interoperable. Non-AI side: Gigolingo, GiGi Food and GiGi Vegan. Near the top, side by side: GiGi Social and GiGi × 4some, which uses AI to plan meetups. AI side: GiGi AI on your device, and the partners iDO × GiGi and GiGi × YHM, which could use it. The leaves fall into three groups: connect · learn · meet, AI, and food. On top, an empty leaf for the next project.</desc>
 
               <g class="tree__axis" aria-hidden="true">
                 <text x="40" y="34">← NON-AI</text>
@@ -196,6 +198,7 @@
                 <path class="branch" data-branch="lingo" data-grow style="--d: 1s" pathLength="1" d="M400 300 C 330 290, 250 220, 210 182"/>
                 <path class="branch" data-branch="some" data-grow style="--d: 1.05s" pathLength="1" d="M400 250 C 440 200, 520 160, 562 152"/>
                 <path class="branch" data-branch="social" data-grow style="--d: .95s" pathLength="1" d="M400 296 C 418 294, 430 282, 444 266"/>
+                <path class="branch" data-branch="yhm" data-grow style="--d: 1.1s" pathLength="1" d="M525 164 C 560 225, 650 225, 686 182"/>
                 <path class="branch" data-branch="ai" data-grow style="--d: .95s" pathLength="1" d="M400 350 C 500 346, 600 312, 662 292"/>
                 <path class="branch" data-branch="ido" data-grow style="--d: .85s" pathLength="1" d="M400 440 C 470 440, 525 428, 562 414"/>
                 <path class="branch branch--next" d="M400 238 L 400 146"/>
@@ -215,7 +218,7 @@
               </g>
 
               <!-- non-AI side -->
-              <g class="leaf" data-leaf="lingo" tabindex="0" role="button" aria-label="Gigolingo, language learning, non-AI core. Show details." style="--c: var(--p-lingo); --d: 1.6s">
+              <g class="leaf" data-leaf="lingo" tabindex="0" role="button" aria-label="Gigolingo, language learning. Show details." style="--c: var(--p-lingo); --d: 1.6s">
                 <circle class="leaf__ring" cx="180" cy="150" r="48"/>
                 <circle class="leaf__disc" cx="180" cy="150" r="40"/>
                 <text class="leaf__glyph leaf__glyph--dark leaf__glyph--multi" x="180" y="160" text-anchor="middle" data-glyph-cycle>あ</text>
@@ -255,6 +258,15 @@
                 <text class="leaf__name" x="600" y="94" text-anchor="middle">GiGi × 4some</text>
               </g>
 
+              <!-- GiGi × YourHealthMatch: a partner that could use GiGi AI, so it sits on the AI side -->
+              <g class="leaf" data-leaf="yhm" tabindex="0" role="button" aria-label="GiGi × YHM, YourHealthMatch, health matching, partner, could use GiGi AI. Show details." style="--c: var(--p-yhm); --d: 1.8s">
+                <circle class="leaf__ring" cx="722" cy="150" r="48"/>
+                <circle class="leaf__disc" cx="722" cy="150" r="40"/>
+                <text class="leaf__glyph leaf__glyph--light leaf__glyph--small" x="722" y="157" text-anchor="middle">YHM</text>
+                <text class="leaf__cat" x="722" y="76" text-anchor="middle">HEALTH</text>
+                <text class="leaf__name" x="722" y="94" text-anchor="middle">GiGi × YHM</text>
+              </g>
+
               <g class="leaf" data-leaf="ai" tabindex="0" role="button" aria-label="GiGi AI, on-device multimodal AI, concept. Show details." style="--c: var(--p-ai); --d: 1.75s">
                 <circle class="leaf__ring" cx="700" cy="280" r="48"/>
                 <circle class="leaf__disc" cx="700" cy="280" r="40"/>
@@ -279,17 +291,35 @@
                 <text class="leaf__cat" x="448" y="146">YOURS?</text>
               </g>
             </svg>
-            <div class="eco__chips" role="group" aria-label="Choose a leaf">
-              <button type="button" class="eco-chip" data-leaf-chip="social" aria-pressed="true" style="--c: var(--p-social)">GiGi Social</button>
-              <button type="button" class="eco-chip" data-leaf-chip="lingo" aria-pressed="false" style="--c: var(--p-lingo)">Gigolingo</button>
-              <button type="button" class="eco-chip" data-leaf-chip="some" aria-pressed="false" style="--c: var(--p-some)">GiGi × 4some</button>
-              <button type="button" class="eco-chip" data-leaf-chip="ai" aria-pressed="false" style="--c: var(--p-ai)">GiGi AI</button>
-              <button type="button" class="eco-chip" data-leaf-chip="ido" aria-pressed="false" style="--c: var(--p-ido)">iDO × GiGi</button>
-              <button type="button" class="eco-chip" data-leaf-chip="food" aria-pressed="false" style="--c: var(--p-food)">GiGi Food</button>
-              <button type="button" class="eco-chip" data-leaf-chip="vegan" aria-pressed="false" style="--c: var(--p-vegan)">GiGi Vegan</button>
-              <button type="button" class="eco-chip eco-chip--next" data-leaf-chip="next" aria-pressed="false">Next leaf?</button>
+            <div class="eco__chips" role="group" aria-label="Choose a leaf, in three groups">
+              <div class="eco-group" role="group" aria-labelledby="eg-meet">
+                <p class="eco-group__h" id="eg-meet">Connect · learn · meet</p>
+                <div class="eco-group__chips">
+                <button type="button" class="eco-chip" data-leaf-chip="social" aria-pressed="true" style="--c: var(--p-social)">GiGi Social</button>
+                <button type="button" class="eco-chip" data-leaf-chip="lingo" aria-pressed="false" style="--c: var(--p-lingo)">Gigolingo</button>
+                <button type="button" class="eco-chip" data-leaf-chip="some" aria-pressed="false" style="--c: var(--p-some)">GiGi × 4some</button>
+                </div>
+              </div>
+              <div class="eco-group" role="group" aria-labelledby="eg-ai">
+                <p class="eco-group__h" id="eg-ai">AI</p>
+                <div class="eco-group__chips">
+                <button type="button" class="eco-chip" data-leaf-chip="ai" aria-pressed="false" style="--c: var(--p-ai)">GiGi AI</button>
+                <button type="button" class="eco-chip" data-leaf-chip="ido" aria-pressed="false" style="--c: var(--p-ido)">iDO × GiGi</button>
+                <button type="button" class="eco-chip" data-leaf-chip="yhm" aria-pressed="false" style="--c: var(--p-yhm)">GiGi × YHM</button>
+                </div>
+              </div>
+              <div class="eco-group" role="group" aria-labelledby="eg-food">
+                <p class="eco-group__h" id="eg-food">Food</p>
+                <div class="eco-group__chips">
+                <button type="button" class="eco-chip" data-leaf-chip="food" aria-pressed="false" style="--c: var(--p-food)">GiGi Food</button>
+                <button type="button" class="eco-chip" data-leaf-chip="vegan" aria-pressed="false" style="--c: var(--p-vegan)">GiGi Vegan</button>
+                </div>
+              </div>
+              <div class="eco-group eco-group--next">
+                <button type="button" class="eco-chip eco-chip--next" data-leaf-chip="next" aria-pressed="false">Next leaf?</button>
+              </div>
             </div>
-            <figcaption class="eco__caption">Select a leaf to see how it connects. Left to right: from no AI to AI-native.</figcaption>
+            <figcaption class="eco__caption">Three groups: connect · learn · meet, AI, and food. Select a leaf to see how it connects. Left to right: from no AI to AI-native — AI is a layer, so 4some already uses it and YHM could.</figcaption>
           </figure>
 
           <aside class="eco-panel" data-eco-panel aria-live="polite" style="--c: var(--p-social)">
@@ -335,8 +365,8 @@
               <li style="--c: var(--p-some)" data-reveal>
                 <span class="trio__dot" aria-hidden="true"></span>
                 <div>
-                  <h3>GiGi × 4some <span class="status status--live">Beta</span></h3>
-                  <p>Small real-life meetups, four people at a time. Gigi plans, people meet.</p>
+                  <h3>GiGi × 4some <span class="status status--live">Beta</span> <span class="status">Uses AI</span></h3>
+                  <p>Small real-life meetups, four people at a time. Social meetups happen through an AI: Gigi plans, people meet.</p>
                   <p class="trio__links"><a class="link" href="https://0some.netlify.app" target="_blank" rel="noopener">Open the beta <span aria-hidden="true">↗</span></a></p>
                 </div>
               </li>
@@ -421,10 +451,11 @@
         <figure class="orbit" data-reveal>
           <svg viewBox="0 0 600 600" role="img" aria-labelledby="orbit-title orbit-desc">
             <title id="orbit-title">GiGi AI on your device</title>
-            <desc id="orbit-desc">At the centre, GiGi AI running on your device. Around it, three modalities: text, voice and image. On the outer orbit, the apps that share it: GiGi Social, Gigolingo and GiGi × 4some. Just outside the orbit, the partner iDO × GiGi.</desc>
+            <desc id="orbit-desc">At the centre, GiGi AI running on your device. Around it, three modalities: text, voice and image. On the outer orbit, the apps that share it: GiGi Social, Gigolingo and GiGi × 4some, which plans its meetups with it. Just outside the orbit, the partners iDO × GiGi and, ready to use it, GiGi × YHM.</desc>
             <circle class="orbit__ring orbit__ring--outer" cx="300" cy="270" r="220"/>
             <circle class="orbit__ring" cx="300" cy="270" r="128"/>
             <path class="orbit__bridge" d="M456 426 L 516 482"/>
+            <path class="orbit__bridge" style="stroke: var(--p-yhm)" d="M148 426 L 92 484"/>
 
             <circle class="orbit__core" cx="300" cy="270" r="74"/>
             <text class="orbit__core-name" x="300" y="268" text-anchor="middle">GiGi AI</text>
@@ -447,16 +478,58 @@
             <circle class="orbit__app orbit__app--partner" cx="540" cy="505" r="30" style="--c: var(--p-ido)"/>
             <text class="orbit__app-label" x="540" y="560" text-anchor="middle">iDO × GiGi</text>
             <text class="orbit__app-sub" x="540" y="578" text-anchor="middle">PARTNER</text>
+
+            <circle class="orbit__app orbit__app--partner" cx="70" cy="505" r="30" style="--c: var(--p-yhm)"/>
+            <text class="orbit__app-label" x="70" y="560" text-anchor="middle">GiGi × YHM</text>
+            <text class="orbit__app-sub" x="70" y="578" text-anchor="middle">AI-READY</text>
           </svg>
         </figure>
       </div>
     </section>
 
-    <!-- ===================== 06 Food & Vegan ===================== -->
+    <!-- ===================== 06 Health: GiGi × YHM ===================== -->
+    <section id="health" class="section health" data-surface="light" aria-labelledby="health-title">
+      <div class="wrap health__grid">
+        <div class="health__copy">
+          <p class="eyebrow" data-reveal>06 — Health · matching <span class="tag">Live · Germany pilot</span></p>
+          <h2 class="h2" id="health-title" data-reveal>GiGi × YourHealthMatch. <span class="serif">A doctor who speaks your language.</span></h2>
+          <p class="points health__points" data-reveal>Language<span class="points__sep" aria-hidden="true">—</span>insurance<span class="points__sep" aria-hidden="true">—</span>place<span class="points__sep" aria-hidden="true">—</span>then a time.</p>
+          <p class="lead" data-reveal>International students, expats and newly arrived workers in Germany tell us the language they need, their insurance and where they are. We show the practices that fit — and clinics open their own times. The match is the product; a video visit is only one way to hold an appointment.</p>
+
+          <div class="health__actions" data-reveal>
+            <a class="btn btn--blue" href="https://yourhealthmatch.de/#join" target="_blank" rel="noopener">Join the live waitlist <span class="btn__arrow" aria-hidden="true">↗</span></a>
+            <a class="btn btn--ghost" href="https://yourhealthmatch.de/patient/requirements" target="_blank" rel="noopener">Try the match questionnaire <span class="btn__arrow" aria-hidden="true">↗</span></a>
+          </div>
+          <p class="health__note" data-reveal>Both open yourhealthmatch.de in a new tab. The waitlist takes an email and whether you are a patient or a clinic; the questionnaire is a demo profile — language, insurance, place, visit type, time — and what you enter stays in your browser. Nothing is sent to GiGi Ventures.</p>
+
+          <article class="partner" style="--c: var(--p-yhm)" data-reveal>
+            <div class="partner__top">
+              <span class="partner__dot" aria-hidden="true"></span>
+              <h3>GiGi × YHM</h3>
+              <span class="status status--live">Partner · live</span>
+            </div>
+            <p>YourHealthMatch is deployed at yourhealthmatch.de — a static SvelteKit app with Netlify functions. Not a medical practice, not emergency care.</p>
+            <p><strong>AI-ready, not AI-dependent.</strong> Today the match runs on language, insurance and place — rules you can read. GiGi AI could add language help and ranking later: an idea, not a feature.</p>
+            <p class="partner__links">
+              <a class="link" href="https://yourhealthmatch.de" target="_blank" rel="noopener">yourhealthmatch.de <span aria-hidden="true">↗</span></a>
+            </p>
+          </article>
+        </div>
+
+        <ol class="steps" aria-label="How a match works" data-reveal>
+          <li class="steps__item"><strong>Find a doctor</strong><span>Language, insurance and place in; practices that fit out.</span></li>
+          <li class="steps__item"><strong>Book a time</strong><span>Take a time the clinic has opened — or open Doctolib, Doctena and similar, which keep their own appointments.</span></li>
+          <li class="steps__item"><strong>Set up the clinic</strong><span>A practice enters its profile, schedule and open times, so patients can book them.</span></li>
+          <li class="steps__item"><strong>Hold the visit</strong><span>If the appointment is a video visit, the doctor opens the room. If video fails, the booking stays.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===================== 07 Food & Vegan ===================== -->
     <section id="food" class="section foodveg" data-surface="light" aria-labelledby="foodveg-title">
       <div class="wrap">
         <header class="section-head" data-reveal>
-          <p class="eyebrow">06 — Food · two concepts</p>
+          <p class="eyebrow">07 — Food · two projects</p>
           <h2 class="h2" id="foodveg-title">GiGi Food and GiGi Vegan. <span class="serif">Separate, side by side.</span></h2>
         </header>
         <div class="foodveg__grid">
@@ -475,7 +548,7 @@
           </figure>
           <div class="foodveg__cards">
             <article class="concept-card" style="--c: var(--p-food)" data-reveal>
-              <p class="concept-card__kicker">Our concept · an idea to test in Berlin</p>
+              <p class="concept-card__kicker">Our project · an idea to test in Berlin</p>
               <h3 class="concept-card__name"><a href="food.html">GiGi Food</a></h3>
               <p class="concept-card__text">An idea that starts with a €500 grain cooker, not a €250,000 robot: basic meals as infrastructure — free where needed, self-financing by design, and vegan.</p>
               <span class="concept-card__cta" aria-hidden="true">Open GiGi Food →</span>
@@ -491,10 +564,10 @@
       </div>
     </section>
 
-    <!-- ===================== 07 Join ===================== -->
+    <!-- ===================== 08 Join ===================== -->
     <section id="join" class="section join on-blue" data-surface="blue" aria-labelledby="join-title">
       <div class="wrap">
-        <p class="eyebrow" data-reveal>07 — Join</p>
+        <p class="eyebrow" data-reveal>08 — Join</p>
         <h2 class="join__title" id="join-title" data-reveal>Build the giant <em>that gives back.</em></h2>
         <p class="lead join__lead" data-reveal>Engineers, designers, researchers and organisers who would rather build something good than something sticky.</p>
         <ul class="join__roles" role="list" data-reveal>
@@ -531,10 +604,11 @@
             <li><a href="https://0some.netlify.app" target="_blank" rel="noopener">GiGi × 4some <span aria-hidden="true">↗</span></a></li>
             <li><a href="#ai">GiGi AI</a></li>
             <li><a href="https://idoapp.eu" target="_blank" rel="noopener">iDO × GiGi <span aria-hidden="true">↗</span></a></li>
+            <li><a href="https://yourhealthmatch.de" target="_blank" rel="noopener">GiGi × YHM <span aria-hidden="true">↗</span></a></li>
           </ul>
         </div>
         <div>
-          <p class="footer__h">Concepts</p>
+          <p class="footer__h">Projects</p>
           <ul role="list">
             <li><a href="food.html">GiGi Food</a></li>
             <li><a href="vegan.html">GiGi Vegan</a></li>

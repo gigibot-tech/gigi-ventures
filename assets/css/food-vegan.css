@@ -1036,15 +1036,14 @@
 }
 
 /* ==========================================================================
-   GiGi Vegan dashboard — the story as a tree, two dual grids and a chain
-   tree (all food waste → meat → the plate) · A|B and C|D dual grids, one row per region ·
+   GiGi Vegan — A total food · B waste (one section, one switch) · C consumption
    the chain ("at consumption") · Germany: two paths · Europe country by country. Solid = sourced, dashed = scenario,
    dotted = not measured, red pen = a calculation we refuse. Every box also has a text tag.
    ========================================================================== */
 
 .dash { display: grid; gap: 20px; }
 
-/* Dimension badge: A · B · C · D */
+/* Badge: A · A.1 · A.2 */
 .dbadge {
   display: inline-grid;
   place-items: center;
@@ -1060,204 +1059,19 @@
   letter-spacing: 0;
   text-transform: none;
 }
-.dbadge--sm { width: 20px; height: 20px; margin-right: 8px; font-size: .64rem; vertical-align: 2px; }
 
 /* Legend */
 .dkey { margin: 0; gap: 6px 24px; font-size: .86rem; }
 .dkey__scope { color: var(--text-3); }
 
-/* A block = one titled part of the dashboard: tree · dual grid · chain */
+/* A block = one titled part of the page: the species mix · the supply split · the known waste */
 .dblock { display: grid; gap: 14px; min-width: 0; }
 .dblock + .dblock { margin-top: clamp(12px, 2.5vw, 28px); }
 .dblock__title { font-size: clamp(1.25rem, 2vw, 1.6rem); font-weight: 800; line-height: 1.1; letter-spacing: -.03em; }
 .dblock__lead { max-width: 80ch; font-size: .95rem; line-height: 1.5; color: var(--text-2); }
 .dbadge--wide { width: auto; min-width: 24px; padding: 0 7px; }
 
-/* ---- 1 · The tree: a division from all food waste down to the plate ---- */
-.dtree { --tl: var(--text-3); }
-.dtree__cols,
-.trow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 8px; }
-.dtree__cols { display: none; }
-.dtree__foot { max-width: 100ch; font-size: .82rem; line-height: 1.5; color: var(--text-2); }
-.tnodes { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.tnode { position: relative; min-width: 0; }
-.tnode > .tnodes { margin: 10px 0 0 12px; }
-.tnodes .tnodes > .tnode { padding-left: 16px; }
-.tnodes .tnodes > .tnode::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: -10px;
-  width: 14px;
-  height: 38px;
-  border-bottom: 2px solid var(--tl);
-  border-left: 2px solid var(--tl);
-  border-bottom-left-radius: 12px;
-}
-.tnodes .tnodes > .tnode:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  top: 28px;
-  bottom: 0;
-  left: 0;
-  border-left: 2px solid var(--tl);
-}
-.tnodes--dotted > .tnode::before,
-.tnodes--dotted > .tnode::after { border-style: dotted; }
-.tcard {
-  display: grid;
-  gap: 4px;
-  padding: 10px 14px;
-  border: 1px solid var(--line-strong);
-  border-radius: 14px;
-  background: var(--card);
-}
-.tcard__head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
-.tcard__title {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1.05rem;
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -.02em;
-}
-.tcard__note { font-size: .8rem; line-height: 1.35; color: var(--text-2); }
-.tcard__focus { background: var(--accent); color: #ffffff; }
-.tnode--focus > .tcard {
-  padding: 9px 13px;
-  border: 2px solid var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, var(--card));
-}
-.trows { display: grid; margin: 0; padding: 0; list-style: none; }
-.trow { align-items: baseline; padding: 5px 0; border-top: 1px solid var(--line); font-size: .86rem; }
-.trow__label { grid-column: 1 / -1; color: var(--text-2); }
-.tcell { min-width: 0; font-variant-numeric: tabular-nums; }
-.tcell__geo {
-  display: block;
-  font-family: var(--f-mono);
-  font-size: .6rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  color: var(--text-3);
-}
-.tcell__v { font-size: .95rem; font-weight: 700; letter-spacing: -.02em; color: var(--text); }
-.tcell--none .tcell__v { font-weight: 400; color: var(--text-3); }
-.tcell--scenario .tcell__v { padding: 0 5px; border: 1.5px dashed var(--text-2); border-radius: 6px; }
-.trow--focus {
-  margin: 4px -6px -2px;
-  padding: 7px 6px;
-  border-top: 0;
-  border-radius: 9px;
-  background: var(--accent);
-  color: #ffffff;
-}
-.trow--focus .trow__label,
-.trow--focus .tcell__v,
-.trow--focus .tcell__geo { color: #ffffff; }
-.trow--focus .tcell__v { font-size: 1.05rem; }
-@media (min-width: 640px) {
-  .tnode > .tnodes { margin-left: 20px; }
-  .tnodes .tnodes > .tnode { padding-left: 22px; }
-  .tnodes .tnodes > .tnode::before { width: 20px; }
-  .dtree__cols,
-  .trow { grid-template-columns: minmax(0, 1fr) repeat(3, minmax(0, 104px)); }
-  .dtree__cols {
-    display: grid;
-    padding: 0 15px;
-    font-family: var(--f-mono);
-    font-size: .66rem;
-    letter-spacing: .06em;
-    text-align: right;
-    text-transform: uppercase;
-    color: var(--text-3);
-  }
-  .dtree__cols span:first-child { grid-column: 2; }
-  .trow__label { grid-column: auto; }
-  .tcell { text-align: right; }
-  .tcell__geo { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .trow--focus { margin-inline: -8px; padding-inline: 8px; }
-}
-
-/* ---- 2 · Dual grids: two dimensions side by side, one row per region ---- */
-.dual__rows { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
-
-.dgeo {
-  --text-3: #55575d; /* darker muted ink: ≥ 5:1 on the tinted backgrounds */
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 10px;
-  padding: 14px;
-  border-radius: 20px;
-  background: var(--paper-2);
-}
-.dgeo__head { display: grid; gap: 3px; align-content: start; }
-.dgeo__name { font-size: 1.5rem; font-weight: 800; line-height: 1; letter-spacing: -.04em; }
-.dgeo__basis {
-  font-family: var(--f-mono);
-  font-size: .64rem;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--text-3);
-}
-.dcell {
-  container-type: inline-size;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 0;
-  padding: 12px;
-  border-radius: 16px;
-}
-.dcell--focus {
-  background: color-mix(in srgb, var(--accent) 13%, var(--paper));
-  box-shadow: inset 0 0 0 2px var(--accent);
-}
-.dcell__dim { display: flex; align-items: center; gap: 8px; font-size: .92rem; font-weight: 700; }
-.dcell__focus { background: var(--accent); color: #ffffff; }
-.dcell__scope {
-  font-family: var(--f-mono);
-  font-size: .64rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  color: var(--text-3);
-}
-.dcell__note { font-size: .8rem; line-height: 1.4; color: var(--text-2); }
-.ditems { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 10px; align-items: stretch; }
-
-/* A parent and the part of it lost at consumption, drawn connected */
-.dpair { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr); }
-.dpair__joint { display: grid; place-items: center; height: 24px; color: var(--text-2); }
-.dpair__joint::before { content: "↓"; content: "↓" / ""; font-size: 1.15rem; line-height: 1; }
-@container (min-width: 440px) {
-  .dpair { grid-template-columns: minmax(0, 1fr) 30px minmax(0, 1fr); }
-  .dpair__joint { height: auto; }
-  .dpair__joint::before { content: "→"; content: "→" / ""; font-size: 1.4rem; }
-}
-@media (min-width: 720px) {
-  .dgeo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .dgeo__head { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 14px; }
-  .dual--link .dcell + .dcell::before {
-    content: "→";
-    content: "→" / "";
-    position: absolute;
-    top: 66px;
-    left: -16px;
-    z-index: 1;
-    width: 20px;
-    font-size: 1.35rem;
-    line-height: 1;
-    text-align: center;
-    color: var(--text);
-  }
-}
-@media (min-width: 1100px) {
-  .dgeo { grid-template-columns: 170px repeat(2, minmax(0, 1fr)); }
-  .dgeo__head { grid-column: auto; display: grid; padding-top: 12px; }
-}
-
-/* ---- 3 · The chain: what "at consumption" means ---- */
+/* ---- The chain: what "at consumption" means ---- */
 .cstages { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .cstage {
   display: inline-flex;
@@ -1299,7 +1113,6 @@
 }
 .cbar__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
 .cbar__name { display: flex; flex: 1 1 240px; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
-.cbar__name .dbadge { align-self: center; }
 .cbar__scope {
   font-family: var(--f-mono);
   font-size: .66rem;
@@ -1347,7 +1160,6 @@
   color: var(--text);
   font-variant-numeric: tabular-nums;
 }
-.dcell--focus .dval__big { font-size: clamp(1.5rem, 2.2vw, 1.95rem); }
 .dval--gap .dval__big { color: var(--text-2); }
 .dval--invalid .dval__big {
   color: var(--signal-text);
@@ -1362,8 +1174,6 @@
 .mtag--invalid { background: var(--signal-text); color: #ffffff; }
 
 /* Germany: two paths */
-.paths { display: grid; gap: 16px; }
-.plane-grid { display: grid; gap: 16px; }
 .plane {
   display: grid;
   gap: 14px;
@@ -1408,9 +1218,8 @@
 .pop--invalid::before { content: "✗"; content: "✗" / ""; color: var(--signal-text); font-weight: 700; }
 .pop--invalid .pop__code { color: var(--signal-text); text-decoration: line-through; }
 .plane__note { max-width: 92ch; font-size: .86rem; color: var(--text-2); }
-/* Side by side from 900px — lives | weight, a dual grid with a tighter rhythm than the dashboard's */
+/* From 900px: the steps of a path get a tighter rhythm */
 @media (min-width: 900px) {
-  .plane-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
   .plane { gap: 10px; padding: 16px; border-radius: 22px; }
   .psteps { gap: 3px; }
   .pop {
@@ -1481,12 +1290,9 @@
   .ddrill__body { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   .ddrill__body .wflow { grid-column: 1 / -1; }
 }
-@media (min-width: 1100px) { .ddrill { grid-column: 2 / -1; } }
 
-/* Europe, country by country */
-.eurogrid { display: grid; gap: 16px; }
+/* Charts inside the drill-downs */
 .hbar__tag { justify-self: start; margin-top: 6px; }
-@media (min-width: 1000px) { .eurogrid { grid-template-columns: 1fr 1fr; align-items: start; } }
 
 /* ==========================================================================
    Two levers — consumed vs wasted per region, and what each lever can reach
@@ -1723,28 +1529,25 @@
 .numnote__at { display: grid; gap: 3px; margin: 0; padding: 0; list-style: none; font-size: .8rem; line-height: 1.4; color: var(--text-2); }
 
 /* Anchors that land inside the page: clear of the sticky header, and shown when targeted */
-[id^="cell-"],
-[id^="matrix-"],
+[id^="tot-"],
+[id^="waste-"],
+[id^="drill-"],
+[id^="cons-"],
+[id^="paths"],
+[id^="assum"],
+[id^="eu-"],
 [id^="lv-"],
 [id^="note-"] { scroll-margin-top: calc(var(--header-h) + 16px); }
-[id^="cell-"]:target,
-[id^="matrix-"]:target,
+[id^="tot-"]:target,
+[id^="waste-"]:target,
+[id^="drill-"]:target,
+[id^="cons-"]:target,
+[id^="paths"]:target,
+[id^="eu-"]:target,
 [id^="lv-"]:target { outline: 3px solid var(--blue); outline-offset: 4px; border-radius: 12px; }
 
 /* the first group's "Waste only" label hangs to the left of its short bar, clear of the taller neighbour */
 .lgroup:first-child .lvbar--waste .lvbar__v { right: 0; left: auto; justify-items: end; transform: none; text-align: right; }
-
-/* In the tree, wasted meat wears the coral of the two levers (eaten meat stays green) */
-.trow--wasted .trow__label::before {
-  content: "";
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin-right: 7px;
-  border-radius: 3px;
-  background: var(--waste);
-}
-.trow--wasted .tcell:not(.tcell--none) .tcell__v { padding: 1px 6px; border-radius: 6px; background: var(--waste-soft); }
 
 /* ---- Two levers as an overview: shares up front, the numbers folded under "Details" ---- */
 .lsys__tools { display: grid; gap: 10px; justify-items: start; }
@@ -1760,13 +1563,351 @@
 .lassume { margin-top: 4px; }
 .lassume .passume__list { padding-top: 6px; }
 
-/* Tree: every number with a card is a link into the matrix; rows with a "Drill down" say so */
-.tcell__link { color: inherit; text-decoration: underline dotted; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
-.tcell__link:hover { text-decoration-style: solid; }
-.trow__go { margin-left: 6px; font-size: .76rem; font-weight: 500; white-space: nowrap; }
-
-/* The waste matrix: its blocks are separated, each with its own short title */
-[data-matrix] > .dblock { padding-top: clamp(22px, 3vw, 36px); border-top: 1px solid var(--line-strong); }
-[data-matrix] > .dblock + .dblock { margin-top: clamp(28px, 5vw, 64px); }
-[data-matrix] > .dblock > .dblock__title { margin-bottom: 2px; }
 .nmark { text-transform: none; letter-spacing: 0; }
+
+/* ==========================================================================
+   A · Total food — one card per level: the food on top, then A.1 | A.2 side by side, the meat directly under each.
+   A zoom arrow (↓) joins the levels; an elbow (↳) hangs the meat off the food. No connector carries a ratio.
+   Drill-down destinations wear a colour AND their name in words: weight (coral) · animal lives (blue) · consumption (green).
+   ========================================================================== */
+.topic--vegan {
+  --dd-weight: var(--waste);
+  --dd-lives: #3b6fd0;
+  --dd-consumption: var(--consumed);
+}
+.dd {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--dd);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+.dd:hover { background: color-mix(in srgb, var(--dd) 16%, transparent); }
+.dd--weight { --dd: var(--dd-weight); }
+.dd--lives { --dd: var(--dd-lives); }
+.dd--consumption { --dd: var(--dd-consumption); }
+.ddchip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: var(--r-pill);
+  background: var(--dd);
+  color: #ffffff;
+  font-family: var(--f-mono);
+  font-size: .64rem;
+  font-weight: 500;
+  letter-spacing: .05em;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ddchip--weight { --dd: var(--dd-weight); color: var(--ink); }
+.ddchip--lives { --dd: var(--dd-lives); }
+.ddchip--consumption { --dd: var(--dd-consumption); }
+a.ddchip:hover { box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--dd); }
+.dkey__drill { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+
+.totals { --tgap: 10px; display: grid; gap: var(--tgap); }
+.tlevel {
+  --text-3: #55575d;
+  display: grid;
+  gap: 12px;
+  padding: clamp(10px, 2.2vw, 24px);
+  border-radius: clamp(14px, 2.2vw, 22px);
+  background: var(--paper-2);
+}
+.tlevel__name { font-size: clamp(1.3rem, 2.4vw, 1.8rem); font-weight: 800; line-height: 1; letter-spacing: -.03em; }
+.tfoot { max-width: 100ch; margin: 6px 0 0; font-size: .86rem; line-height: 1.5; color: var(--text-2); }
+
+/* A total: the number and the check side by side, then its split on one bar as wide as the two columns below */
+.tfood { --text-3: #55575d; display: grid; gap: 10px; }
+.tfood__main { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; align-items: start; }
+@media (min-width: 800px) { .tfood__main { grid-template-columns: minmax(240px, 340px) minmax(0, 1fr); } }
+.tsplitbar { display: grid; gap: 6px; }
+.tsplitbar .cbar__track { height: 22px; }
+.cseg { position: relative; }
+.cseg--unknown { background: var(--hatch); }
+.cseg--consumed { background: var(--consumed); }
+.cseg--wasted { background: var(--waste); }
+.tcheck {
+  display: grid;
+  gap: 4px;
+  padding: 8px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  font-size: .86rem;
+  line-height: 1.4;
+  color: var(--text-2);
+}
+.tcheck--ok { border-color: var(--consumed); background: color-mix(in srgb, var(--consumed) 8%, var(--paper)); }
+.tcheck--no { border-style: dotted; }
+.tcheck__text { margin: 0; }
+.tcheck__badge {
+  display: inline-block;
+  margin-right: 4px;
+  padding: 1px 8px;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--f-mono);
+  font-size: .64rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.tcheck--ok .tcheck__badge { background: var(--consumed); color: #ffffff; }
+
+/* A.1 | A.2: two columns that share their rows (subgrid) */
+.tduo2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(var(--rows, 2), auto);
+  gap: var(--tgap) clamp(8px, 2vw, 20px);
+}
+.tcol {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-row: 1 / span var(--rows, 2);
+  grid-template-rows: subgrid;
+  row-gap: var(--tgap);
+  min-width: 0;
+}
+.thead { display: grid; gap: 4px; align-content: start; }
+.thead__title { font-size: clamp(1.05rem, 1.8vw, 1.35rem); font-weight: 800; line-height: 1.15; letter-spacing: -.03em; }
+.thead__sub { max-width: 60ch; margin: 0; font-size: .86rem; line-height: 1.4; color: var(--text-2); }
+.tgroup__tag { margin-right: 4px; font-size: .78rem; vertical-align: .18em; letter-spacing: 0; }
+.tbase { display: grid; gap: 8px; align-content: start; }
+.ttile .dval__big { font-size: clamp(1.5rem, 2.4vw, 2.1rem); }
+.tdrill { display: flex; flex-wrap: wrap; align-items: center; align-content: end; gap: 4px 6px; margin: 0; }
+.tdrill__k { font-family: var(--f-mono); font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); }
+
+/* The meat of a column: a small label, then small boxes */
+.tmeat { display: grid; gap: 8px; align-content: start; }
+.tmeat__k { margin: 0; font-family: var(--f-mono); font-size: .64rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); }
+.tsp--inline { max-width: none; padding: 8px 10px; border-radius: 10px; }
+.tsp__title { margin: 0 0 6px; font-size: .84rem; font-weight: 700; line-height: 1.25; color: var(--text); }
+.tsp--inline .cbar__track { height: 12px; }
+.tsp--inline .cbar__list--col { gap: 3px; font-size: .74rem; }
+.ttile.dval--mini { gap: 3px; padding: 7px 10px; border-width: 1.5px; border-radius: 10px; font-size: .78rem; }
+.ttile.dval--mini .dval__big { font-size: clamp(1.15rem, 1.6vw, 1.4rem); }
+.dval--mini .dval__sub,
+.dval--mini .gfact__src { font-size: .64rem; }
+/* the other-year / other-model version: one slim line inside its box, a 90° arrow in front */
+.dval__other {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 5px;
+  margin: 4px 0 0;
+  padding-top: 6px;
+  border-top: 1px dashed var(--line-strong);
+  font-size: .72rem;
+  line-height: 1.35;
+  color: var(--text-2);
+}
+.dval__arrow { font-size: 1rem; line-height: 1; color: var(--text-2); }
+.dval__otherk { font-family: var(--f-mono); font-size: .64rem; letter-spacing: .03em; color: var(--text); }
+.dval__other strong { color: var(--text); font-variant-numeric: tabular-nums; }
+.dval__other .mtag { font-size: .6rem; }
+/* a note mark keeps 8px clear of the next link (target size) and sits on the line, not above it */
+.dval .nmarks,
+.tcheck .nmarks,
+.cbar__head .nmarks,
+.wrow__note .nmarks { margin-left: 8px; }
+.nmarks .nmark + .nmark { margin-left: 8px; }
+/* a note mark sits on the line, not above it: in a small box the raised mark would run into the line before */
+.dval .nmark,
+.tcheck .nmark { vertical-align: baseline; }
+.dval__other { line-height: 1.55; }
+
+/* Connector: zoom ↓ between levels */
+.rel { color: var(--text-2); }
+.rel--zoom { display: grid; justify-items: center; padding: 2px 0; }
+.rel__pad { display: none; }
+.rel__core { display: grid; justify-items: center; gap: 2px; }
+.rel__tail { padding-top: 2px; }
+.rel__arrow::before { content: "↓"; content: "↓" / ""; font-size: 1.5rem; line-height: 1; }
+.rel__zlabel { font-family: var(--f-mono); font-size: .6rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); }
+.rel--zoom .nmarks { display: inline-block; margin: 0; }
+/* Bars: stage split (wasted = coral, before the plate = grey), consumed = green, unknown = hatched */
+.tbar { display: grid; gap: 4px; }
+.tbar__k { margin: 0; font-family: var(--f-mono); font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-3); }
+.tbar .cbar__track,
+.tpp .cbar__track { height: 14px; }
+.tbar__cap { margin: 0; font-size: .86rem; color: var(--text-2); }
+.tbar__cap strong { font-size: 1rem; color: var(--text); font-variant-numeric: tabular-nums; }
+.tbar__sub { margin: 0; font-size: .78rem; line-height: 1.4; color: var(--text-2); }
+.cseg--rest { background: color-mix(in srgb, var(--ink) 10%, var(--paper-2)); }
+.tbar--stage .cseg--home,
+.cbar--waste .cseg--home { background: var(--waste); }
+.cbar--waste .cseg--service { background: repeating-linear-gradient(135deg, var(--waste) 0 3px, color-mix(in srgb, var(--waste) 28%, var(--card)) 3px 6px); }
+.wpanel .cstages__at { border-color: var(--waste); background: color-mix(in srgb, var(--waste) 9%, var(--paper)); }
+.wpanel .cstage.is-at { border-color: var(--waste); }
+
+/* narrow screens: the same duo, smaller type, tighter boxes */
+@media (min-width: 800px) { .totals { --tgap: 10px; } }
+@media (max-width: 799px) {
+  .totals { --tgap: 8px; }
+  .tlevel__name { font-size: 1.25rem; }
+  .thead__title { font-size: 1rem; line-height: 1.2; }
+  .tgroup__tag { margin: 0 4px 3px 0; font-size: .68rem; }
+  .thead__sub { font-size: .72rem; line-height: 1.35; }
+  .tduo2 .dval { gap: 3px; padding: 7px 8px; border-width: 1.5px; border-radius: 9px; font-size: .72rem; }
+  .tduo2 .dval__sub, .tduo2 .gfact__src { font-size: .6rem; line-height: 1.4; }
+  .tduo2 .mtag { padding: 1px 6px; font-size: .56rem; }
+  .tduo2 .ttile .dval__big { font-size: 1.3rem; }
+  .tduo2 .ttile.dval--mini .dval__big { font-size: 1.05rem; }
+  .tduo2 .dval__other { font-size: .62rem; }
+  .tduo2 .gfact__src { line-height: 1.7; }
+  .tduo2 .tbar__k { font-size: .54rem; }
+  .tduo2 .tbar__cap { font-size: .72rem; line-height: 1.35; }
+  .tduo2 .tbar__cap strong { font-size: .86rem; }
+  .tduo2 .tbar__sub { font-size: .64rem; }
+  .tduo2 .cbar__track { height: 11px; }
+  .tdrill__k { font-size: .54rem; }
+  .ddchip { padding: 1px 7px; font-size: .56rem; }
+}
+
+/* B · Waste — one section, one switch */
+.waste { display: grid; gap: 16px; }
+.wswitch { min-width: 0; margin: 0; padding: 0; border: 0; }
+.wswitch__legend { padding: 0; margin-bottom: 6px; font-family: var(--f-mono); font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-2); }
+.wswitch__opts { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--line-strong); border-radius: var(--r-pill); background: var(--card); }
+.wswitch__opt { position: relative; cursor: pointer; }
+.wswitch__opt input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.wswitch__opt span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: var(--r-pill);
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text-2);
+  transition: background-color .2s, color .2s;
+}
+.wswitch__opt:hover span { color: var(--text); }
+.wswitch__opt--weight { --dd: var(--dd-weight); }
+.wswitch__opt--lives { --dd: var(--dd-lives); }
+.wswitch__opt input:checked + span { background: var(--dd); color: #ffffff; }
+.wswitch__opt--weight input:checked + span { color: var(--ink); }
+.wswitch__opt input:focus-visible + span { outline: 3px solid var(--focus); outline-offset: 2px; }
+.wpanel { display: grid; gap: 14px; }
+.wpanel[hidden] { display: none; }
+.wpanel__lead { max-width: 80ch; margin: 0; font-size: 1rem; line-height: 1.5; color: var(--text-2); }
+.dchain { display: grid; gap: 8px; }
+.dchain__lead { max-width: 100ch; margin: 0; font-size: .9rem; line-height: 1.5; color: var(--text-2); }
+.wrows { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.wrow {
+  --dd: var(--dd-weight);
+  --text-3: #55575d;
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: clamp(12px, 2vw, 20px);
+  border-radius: 18px;
+  background: var(--paper-2);
+  box-shadow: inset 5px 0 0 var(--dd);
+}
+.wrow--lives { --dd: var(--dd-lives); }
+.wrow__name { font-size: clamp(1.25rem, 2vw, 1.6rem); font-weight: 800; line-height: 1.1; letter-spacing: -.03em; }
+.wrow__items { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.wrow__items .dval { max-width: 640px; }
+.wrow__note { max-width: 80ch; margin: 0; font-size: .88rem; line-height: 1.45; color: var(--text-2); }
+.ddrill__lane { grid-column: 1 / -1; }
+
+/* C · consumption: species mix, Europe's supply split, the known household waste */
+.cbar__track--tall { height: 24px; }
+.cbar__list--col { flex-direction: column; gap: 6px; }
+.cbar__pct { font-family: var(--f-mono); font-size: .74rem; color: var(--text-2); }
+.tsp { max-width: 720px; }
+
+.tknown { max-width: 420px; }
+.dblock__title .mtag { margin-left: 6px; vertical-align: 4px; }
+
+/* The meat inside the wasted and the consumed part of the food bar: a white-hatched marker, not to scale */
+.cseg__meat {
+  position: absolute;
+  left: 6px;
+  bottom: 3px;
+  width: min(42%, 64px);
+  height: 8px;
+  border: 1.5px solid #ffffff;
+  border-radius: 3px;
+  background: repeating-linear-gradient(135deg, #ffffff 0 2px, transparent 2px 4px);
+}
+.cseg--unknown .cseg__meat { border-color: var(--ink); background: repeating-linear-gradient(135deg, var(--ink) 0 2px, transparent 2px 4px); }
+.tinset { display: grid; gap: 3px; margin: 0; padding: 0; list-style: none; font-size: .8rem; color: var(--text-2); }
+.tinset__item { display: flex; align-items: center; gap: 8px; }
+.tinset__mark {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 9px;
+  border-radius: 3px;
+  background: repeating-linear-gradient(135deg, #ffffff 0 2px, transparent 2px 4px);
+}
+.tinset__item--wasted .tinset__mark { background-color: var(--waste); box-shadow: inset 0 0 0 1.5px var(--waste); }
+.tinset__item--consumed .tinset__mark { background-color: var(--consumed); box-shadow: inset 0 0 0 1.5px var(--consumed); }
+
+/* Dashed connectors from the middle of each part of the bar down to its column: this part of the total IS that column */
+.tlink { position: relative; height: 30px; }
+.tlink svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.tlink__edge { fill: none; stroke-width: 2; stroke-dasharray: 5 4; vector-effect: non-scaling-stroke; }
+.tlink__edge--wasted { stroke: var(--waste); }
+.tlink__edge--consumed { stroke: var(--consumed); }
+.tlink__tip { position: absolute; bottom: -2px; width: 0; height: 0; transform: translateX(-50%); border-right: 6px solid transparent; border-left: 6px solid transparent; border-top: 8px solid var(--text-2); }
+.tlink__tip--wasted { border-top-color: var(--waste); }
+.tlink__tip--consumed { border-top-color: var(--consumed); }
+.tlink--unknown .tlink__edge { stroke: var(--text-3); }
+.tlink--unknown .tlink__tip { border-top-color: var(--text-3); }
+
+/* Wasted = coral in every shade (before the plate: the soft one); consumed = green */
+.tbar--stage .cseg--before,
+.cbar--waste .cseg--before { background: var(--waste-soft); }
+
+/* Not published: small, the point is the gap */
+.ttile.dval--gap { gap: 2px; padding: 6px 10px; }
+.ttile.dval--gap .dval__big { font-size: 1rem; font-weight: 600; letter-spacing: -.01em; }
+.ttile.dval--gap .dval__label { font-size: .8rem; }
+
+/* The zoom row between two levels: the whole card above, one level closer */
+.rel--zoom .rel__zlabel { max-width: 46ch; text-align: center; }
+
+/* B: the switch stays in view while the rows scroll under it */
+.wswitch {
+  position: sticky;
+  top: calc(var(--header-h, 64px) + 6px);
+  z-index: 4;
+  padding: 8px 0 6px;
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+  backdrop-filter: blur(6px);
+}
+@media (max-width: 520px) {
+  .wswitch { padding: 4px 0; }
+  .wswitch__legend { margin-bottom: 3px; font-size: .6rem; }
+  .wswitch__opt span { min-height: 34px; padding: 0 14px; font-size: .88rem; }
+}
+[id^="waste-"] { scroll-margin-top: calc(var(--header-h, 64px) + 110px); }
+
+/* C: per person on one scale, three cards */
+.tpp3 { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+@media (min-width: 800px) { .tpp3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.tpp3__item { display: grid; gap: 6px; align-content: start; }
+.tpp3__geo { font-size: 1.15rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.dperson .tpp { padding: 10px 12px; }
+.dperson .tpp .tbar__cap { font-size: .9rem; }
+
+/* plain footnote numbers side by side: 10px apart, so each is a target of its own */
+.fn--compact sup + sup { margin-left: 10px; }
+
+/* where in the chain a meat number is lost: the share at consumption, or the named gap */
+.dval__at { display: flex; align-items: center; flex-wrap: wrap; gap: 2px 6px; margin: 2px 0 0; font-size: .74rem; line-height: 1.4; color: var(--text); }
+.dval__at--gap { color: var(--text-3); }
+.dval__atmark { flex: 0 0 auto; width: 12px; height: 8px; border-radius: 2px; background: var(--waste); }
+.dval__at--gap .dval__atmark { background: var(--hatch); }
+
+/* the dashed rail down the left side of a level card: "meat inside" in the food total → Total meat */
+.tlevel { position: relative; }
+.trail { position: absolute; pointer-events: none; border-left: 2px dashed var(--text-2); }
+.trail::before { content: ""; position: absolute; top: 0; left: -2px; width: var(--stub-a, 8px); border-top: 2px dashed var(--text-2); }
+.trail::after { content: ""; position: absolute; bottom: 0; left: -2px; width: var(--stub-b, 8px); border-bottom: 2px dashed var(--text-2); }
+.trail__tip { position: absolute; bottom: -5px; left: calc(var(--stub-b, 8px) - 10px); border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 8px solid var(--text-2); }

@@ -665,6 +665,8 @@
   document.querySelectorAll('[data-passume]').forEach(assumptions);
   document.querySelectorAll('[data-goals]').forEach(goals);
 
+  U.renderNotes(); // the marks of this page exist now: list their notes
+
   // A deep link (levers.html#base-world, #goal-sdg …) points at something drawn just now: go there.
   if (location.hash.length > 1) {
     const t = document.getElementById(decodeURIComponent(location.hash.slice(1)));

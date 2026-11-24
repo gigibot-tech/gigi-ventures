@@ -26,13 +26,14 @@
   --crit: #d63a2a;
 
   /* Project identity — CVD-validated as neighbours where they meet:
-     food · social · lingo · some · ido (spectrum), lingo · vegan · food (tree, left),
+     food · social · lingo · some · ido · yhm (spectrum), lingo · yhm · food · vegan (tree, left),
      some · ai · ido (tree, right). Every coloured mark also carries a text label. */
   --p-food: #eb6834;
   --p-social: #2a78d6;
   --p-lingo: #1baf7a;
   --p-some: #6250d6;
   --p-ido: #008300;
+  --p-yhm: #1f4fa8;
   --p-ai: #d0438f;
   --p-vegan: #2f6f3a;
 
@@ -83,6 +84,7 @@
   --p-lingo: #199e70;
   --p-some: #9085e9;
   --p-ido: #0ca30c;
+  --p-yhm: #5b84e0;
   --p-ai: #e0599f;
   --p-vegan: #4f9a5e;
   background: var(--ink);
@@ -117,6 +119,7 @@
   --p-lingo: #1baf7a;
   --p-some: #6250d6;
   --p-ido: #008300;
+  --p-yhm: #1f4fa8;
   --p-ai: #d0438f;
   --p-vegan: #2f6f3a;
   color: var(--text);

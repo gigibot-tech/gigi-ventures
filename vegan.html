@@ -17,6 +17,7 @@
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
   <script src="assets/js/shared.js" defer></script>
   <script src="assets/data/vegan.js" defer></script>
+  <script src="assets/data/notes.js" defer></script>
   <script src="assets/js/glance.js" defer></script>
   <script src="assets/js/food-vegan.js" defer></script>
 </head>
@@ -31,14 +32,14 @@
       </a>
       <nav class="nav" aria-label="Primary">
         <a href="index.html">GiGi Ventures</a>
-        <a href="#levers">Two levers</a>
-        <a href="#dashboard">Drill-down</a>
-        <a href="#europe">Europe</a>
-        <a href="#paths">Germany</a>
+        <a href="#totals">Totals</a>
+        <a href="#waste">Waste</a>
+        <a href="#consumption">Consumption</a>
+        <a href="levers.html">Levers</a>
         <a href="#anchors">Anchors</a>
       </nav>
       <div class="header-actions">
-        <nav class="version-switch" aria-label="Food concepts">
+        <nav class="version-switch" aria-label="Food projects">
           <a href="food.html">GiGi Food</a>
           <a href="vegan.html" aria-current="page">GiGi Vegan</a>
         </nav>
@@ -53,10 +54,10 @@
   <div class="mobile-menu" id="mobile-menu" hidden>
     <nav aria-label="Mobile">
       <a href="index.html">GiGi Ventures</a>
-      <a href="#levers">Two levers</a>
-      <a href="#dashboard">Drill-down</a>
-      <a href="#europe">Europe</a>
-      <a href="#paths">Germany</a>
+      <a href="#totals">Totals</a>
+      <a href="#waste">Waste</a>
+      <a href="#consumption">Consumption</a>
+      <a href="levers.html">Levers</a>
       <a href="#anchors">Anchors</a>
       <a href="food.html">GiGi Food</a>
     </nav>
@@ -77,7 +78,7 @@
           <p class="points subhero__points">Our facts<span class="points__sep" aria-hidden="true">—</span>our report<span class="points__sep" aria-hidden="true">—</span>where we’d anchor.</p>
           <p class="subhero__lead">In 2019, the meat lost or wasted worldwide came from about 18 billion animals — 93.6% of them chickens. Two levers could spare them: eating less meat, or wasting less food. One acts on the whole system, the other on about a fifth of it.</p>
           <div class="subhero__actions">
-            <a class="btn btn--paper" href="#levers">See the two levers <span class="btn__arrow btn__arrow--down" aria-hidden="true">↓</span></a>
+            <a class="btn btn--paper" href="#totals">See the totals <span class="btn__arrow btn__arrow--down" aria-hidden="true">↓</span></a>
             <a class="btn btn--ghost" href="food.html">GiGi Food: our vegan kitchen <span class="btn__arrow" aria-hidden="true">→</span></a>
           </div>
         </div>
@@ -94,85 +95,58 @@
       </div>
     </section>
 
-    <!-- ===================== 01 Two levers: the primary view ===================== -->
-    <section id="levers" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="levers-title">
+    <!-- ===================== A Total food ===================== -->
+    <section id="totals" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="totals-title">
       <div class="wrap">
         <header class="topic-head">
-          <p class="eyebrow">01 — Two levers</p>
-          <h2 class="h2" id="levers-title">Eat less meat, or waste less? <span class="serif">One acts on everything. The other on a slice.</span></h2>
-          <p class="lead">Lever A — reduce demand, plant-based — acts on the whole system. Lever B — reduce food waste — acts only on what is thrown away. The bars show each region’s total system, consumed and wasted, in meat weight and in animal lives. How far each lever can go has its own page.</p>
+          <p class="eyebrow">A — Total food</p>
+          <h2 class="h2" id="totals-title">All the food: <span class="serif">wasted or consumed.</span></h2>
+          <p class="lead">Per level — the world, Europe, Germany — the total food on top, split into what is wasted (A.1, left) and what is consumed (A.2, right). Below it the meat inside the food gets the same treatment: its total, and how that splits into lost and consumed. Each check says whether the two parts really add up. Underlined numbers drill down: coral and blue lead to the waste below, green to the consumption.</p>
         </header>
         <!-- Rendered by assets/js/glance.js from assets/data/vegan.js -->
-        <div class="levers" data-levers>
-          <noscript><p class="gwarn-fallback">This view is drawn from a data file and needs JavaScript. In short: reducing demand (lever A) acts on the whole system; reducing food waste (lever B) acts only on the wasted part, about 22% of animal lives worldwide. Even removing all waste would save less than a 25% cut in demand. The sources are listed at the end of the page.</p></noscript>
+        <div class="dash" data-totals>
+          <noscript><p class="gwarn-fallback">The totals are drawn from a data file and need JavaScript. In short: about 5.5 bn t of food reach consumers worldwide (UNEP, derived), of which 1.05 bn t are wasted; the EU wastes 57.5 Mt and Germany 10.8 Mt of food; Germany eats 4.6 Mt of meat a year (54.9 kg per person). The sources are listed at the end of the page.</p></noscript>
         </div>
-        <p class="lnext"><a class="link link--go" href="levers.html">How far can each lever go? A yearly projection, set against ProVeg, Albert Schweitzer Foundation, UN and EU goals</a></p>
       </div>
     </section>
 
-    <!-- ===================== 02 Drill-down: the tree ===================== -->
-    <section id="dashboard" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="dashboard-title">
+    <!-- ===================== B Waste ===================== -->
+    <section id="waste" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="waste-title">
       <div class="wrap">
         <header class="topic-head">
-          <p class="eyebrow">02 — Drill-down: how it breaks down</p>
-          <h2 class="h2" id="dashboard-title">From all food waste <span class="serif">down to the plate.</span></h2>
-          <p class="lead">Behind the levers: animal lives and weight are two measures of the same lost meat. Set inside all food waste, they narrow down to the one number we care about: how much meat is eaten.</p>
+          <p class="eyebrow">B — Waste</p>
+          <h2 class="h2" id="waste-title">Where the waste happens, <span class="serif">in tonnes or in animals.</span></h2>
+          <p class="lead">One question, two ways to count it: the weight of what is lost, or the animal lives behind the meat that is lost. Pick one — every level shows where along the chain it goes, what is known and what is not, and the drill-downs behind it.</p>
         </header>
         <!-- Rendered by assets/js/glance.js from assets/data/vegan.js -->
-        <div class="dash" data-dashboard>
-          <noscript><p class="gwarn-fallback">This breakdown is drawn from a data file and needs JavaScript. The sources are listed at the end of the page.</p></noscript>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== 03 Europe, country by country ===================== -->
-    <section id="europe" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="europe-title">
-      <div class="wrap">
-        <header class="topic-head">
-          <p class="eyebrow">03 — Europe, country by country</p>
-          <h2 class="h2" id="europe-title">Germany wastes the most food. <span class="serif">Poland slaughters the most chickens.</span></h2>
-          <p class="lead">Two dimensions, two charts — and no ratio between them. Food waste is all foods, by mass. Chickens are a count of animals.</p>
-        </header>
-        <div data-europe>
-          <noscript><p class="gwarn-fallback">These charts are drawn from a data file and need JavaScript.</p></noscript>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== 04 The waste matrix (dual grids · chain) ===================== -->
-    <section id="matrix" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="matrix-title">
-      <div class="wrap">
-        <header class="topic-head">
-          <p class="eyebrow">04 — The waste matrix</p>
-          <h2 class="h2" id="matrix-title">World, Europe and Germany <span class="serif">side by side.</span></h2>
-        </header>
-        <!-- Rendered by assets/js/glance.js from assets/data/vegan.js -->
-        <div class="dash" data-matrix>
-          <noscript><p class="gwarn-fallback">This matrix is drawn from a data file and needs JavaScript. The sources are listed at the end of the page.</p></noscript>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== 05 Germany: two paths ===================== -->
-    <section id="paths" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="paths-title">
-      <div class="wrap">
-        <header class="topic-head">
-          <p class="eyebrow">05 — Germany, two paths</p>
-          <h2 class="h2" id="paths-title">The lives path scales. <span class="serif">The weight path doesn’t.</span></h2>
-          <p class="lead">From Germany’s household numbers to the whole chain: animal lives can be scaled with assumptions we name, one by one. Tonnes can’t — an animal-count share says nothing about kilos.</p>
-        </header>
-        <div class="paths" data-paths>
-          <noscript><p class="gwarn-fallback">This diagram is drawn from a data file and needs JavaScript.</p></noscript>
+        <div class="dash" data-waste>
+          <noscript><p class="gwarn-fallback">This section is drawn from a data file and needs JavaScript. In short: of the 57.5 Mt of food the EU wastes, 37.0 Mt (64%) go at consumption; in Germany it is 8.3 of 10.8 Mt (77%). Worldwide, about 18 bn animal lives are lost with wasted meat, 26.7% of them at consumption. The sources are listed at the end of the page.</p></noscript>
         </div>
         <p class="report__cta"><a class="link" href="mailto:contact@gigolingo.com?subject=GiGi%20Vegan%20%E2%80%94%20full%20report">Ask for the full report (German) <span aria-hidden="true">↗</span></a></p>
       </div>
     </section>
 
-    <!-- ===================== 06 Anchors ===================== -->
+    <!-- ===================== C Consumption ===================== -->
+    <section id="consumption" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="consumption-title">
+      <div class="wrap">
+        <header class="topic-head">
+          <p class="eyebrow">C — Consumption</p>
+          <h2 class="h2" id="consumption-title">From meat on the table <span class="serif">to the plate.</span></h2>
+          <p class="lead">A.2 gave the meat that is consumed. Here is what stands behind those numbers: how much each person has, and what we know about the waste next to it. The mix of the meat — what the 54.9 kg are made of — sits in A.2, under the number it explains.</p>
+        </header>
+        <!-- Rendered by assets/js/glance.js from assets/data/vegan.js -->
+        <div class="dash" data-consumption>
+          <noscript><p class="gwarn-fallback">This drill-down is drawn from a data file and needs JavaScript. In short: per person a year about 28.4 kg of meat are available worldwide, 66.6 kg in the EU and 54.9 kg in Germany (28.3 kg pork, 14.7 kg poultry, 9.7 kg beef and veal, 2.2 kg other) — calculated from supply, not measured at the plate.</p></noscript>
+        </div>
+        <p class="lnext"><a class="link link--go" href="levers.html">How far can each lever go? A yearly projection, set against ProVeg, Albert Schweitzer Foundation, UN and EU goals</a></p>
+      </div>
+    </section>
+
+    <!-- ===================== 04 Anchors ===================== -->
     <section id="anchors" class="section topic-section topic-section--tight" data-surface="light" aria-labelledby="anchors-title">
       <div class="wrap">
         <header class="topic-head" data-reveal>
-          <p class="eyebrow">06 — Where we’d anchor</p>
+          <p class="eyebrow">D — Where we’d anchor</p>
           <h2 class="h2" id="anchors-title">From the whole chain <span class="serif">to one plate.</span></h2>
         </header>
         <div class="anchors">
@@ -241,7 +215,7 @@
         <div class="ask" data-reveal>
           <div>
             <p class="eyebrow">GiGi Food × GiGi Vegan</p>
-            <p class="ask__title">Separate concepts. The same table: every bowl is vegan.</p>
+            <p class="ask__title">Separate projects. The same table: every bowl is vegan.</p>
           </div>
           <div class="ask__actions">
             <a class="btn btn--ink" href="food.html">Open GiGi Food <span class="btn__arrow" aria-hidden="true">→</span></a>
@@ -251,20 +225,20 @@
 
         <details class="sources" id="numbernotes">
           <summary>When a number changes</summary>
-          <!-- Rendered by assets/js/glance.js from assets/data/vegan.js (notes) -->
+          <!-- Rendered by assets/js/glance.js from assets/data/notes.js -->
           <div class="numnotes" data-notes="vegan"></div>
         </details>
 
         <details class="sources" id="sources">
           <summary>Sources &amp; method</summary>
-          <p class="sources__how">Numbers in brackets in the two levers, the dashboard and the charts point to this list; marks (≠i) point to “When a number changes”.</p>
+          <p class="sources__how">Numbers in brackets in the totals, the drill-downs and the charts point to this list; marks (≠i) point to “When a number changes”.</p>
           <ol class="sources__list" role="list">
             <li id="src-klaura">Animal lives and meat loss: Klaura et al. 2023, Leiden University — global model of animal lives embodied in meat loss and waste, six land-animal species, 2019 data (17.97 bn animals; 77.4 Mt carcass weight ≈ 52.4 Mt boneless edible meat, “about one sixth” of production; stage shares; Europe = 43 countries, 2.76 bn animals, 3.61 per person).</li>
             <li id="src-jrc">EU-28 meat waste: European Commission Joint Research Centre (JRC), mass-flow model by product group and supply-chain stage, 2011 data — 61.7 Mt meat available, 14.2 Mt wasted (primary production 0.5, processing 2.9, retail 1.7, households 7.3, food service 1.7 Mt); fresh mass, edible and inedible parts.</li>
-            <li id="src-unep">World food waste: UNEP Food Waste Index Report 2024 — 1.05 bn t in 2022 (households 631 Mt, food service 290 Mt, retail 131 Mt; 132 kg per person). Waste only: losses on farms and in processing are not included.</li>
+            <li id="src-unep">World food waste: UNEP Food Waste Index Report 2024 — 1.05 bn t in 2022 (households 631 Mt, food service 290 Mt, retail 131 Mt; 132 kg per person). Waste only: losses on farms and in processing are not included. The 1.05 bn t is 19% of the food available to consumers (retail, food service and households); dividing the two gives ≈ 5.5 bn t, our derived total of food available. The 2021 report counted 931 Mt = 17% of the food available (2019) — the same order of magnitude.</li>
             <li id="src-eurostat">EU and Germany food waste: Eurostat, food waste by sector (env_wasfw), extracted November 2026. 2022 as revised: EU-27 57.5 Mt (households 30.5 Mt); Germany 10.8 Mt (households 6.3 Mt, food service 2.0 Mt — a 76/24 split at the consumption stage). Latest: EU-27 57.9 Mt in 2024 (released 29 September 2026); for Germany and Romania the latest year is 2023.</li>
             <li id="src-slaughter">Chickens slaughtered: Eurostat, slaughtering in slaughterhouses (apro_mt_pann), 2022, number of animals. Sum of reporting EU countries ≈ 6.16 bn; Austria, Estonia, Luxembourg and Slovakia don’t publish it.</li>
-            <li id="src-oecd">World meat consumption: OECD-FAO Agricultural Outlook 2025–2034 — 29.3 kg per person (retail weight) projected for 2034, 0.9 kg above the base period; ≈ 28.4 kg is our derivation.</li>
+            <li id="src-oecd">World meat consumption: OECD-FAO Agricultural Outlook 2025–2034 — 29.3 kg per person (retail weight) projected for 2034, 0.9 kg above the base period; ≈ 28.4 kg is our derivation. The Outlook counts consumption as food availability, which does not account for waste.</li>
             <li id="src-fao">World meat production: FAO estimate for 2024 — about 374 Mt carcass weight; poultry, at about 150 Mt, is now the largest meat.</li>
             <li id="src-euoutlook">EU meat consumption: European Commission, EU agricultural outlook — 66.6 kg per person (retail weight) and 37.47 Mt (carcass weight), average 2022–24. Different weight bases: the two are never multiplied.</li>
             <li id="src-bzl">Germany: BZL supply balance 2025, provisional — 4.6 Mt calculated meat consumption, 54.9 kg per person (pork 28.3, poultry 14.7, beef &amp; veal 9.7 kg). It is about 72% of the wider “meat use” of 6.37 Mt.</li>
@@ -272,10 +246,11 @@
             <li id="src-thuenen">Avoidable share: Thünen Report 71 — about half of household food waste is avoidable. Applied to the 2022 household total (6.3 Mt), 4% gives ≈ 125 kt, the “other basis”.</li>
             <li id="src-fleischatlas">Household animal estimate: Meat Atlas (Fleischatlas) 2021, an NGO model — ≈ 10.5 m land animals, 8.9 m of them chickens; calculation method not fully published, used only as a scenario input.</li>
             <li id="src-ahv">Food-service meat waste: ≈ 85.8 kt (2018/19), a study estimate carried over from our earlier analysis. We could not re-verify the primary study, so it is marked unconfirmed and used only in scenario C.</li>
-            <li id="src-model">Our model: the lever assumptions L1–L6 (see <a class="link" href="#levers">Two levers</a>), scenarios A, B and C and the assumptions A1–A6 — see <a class="link" href="#paths">Germany, two paths</a>.</li>
+            <li id="src-model">Our model: the lever assumptions L1–L6 (see <a class="link" href="levers.html#system">The total system</a>), scenarios A, B and C and the assumptions A1–A6 — see <a class="link" href="#paths">Germany, two paths</a>.</li>
             <li id="src-faostat">World slaughter counts: FAO (FAOSTAT), live animals slaughtered — 86.3 bn in 2024, 91% of them chickens (78.5 bn). The “≈ 80 bn” for 2019 is a rounded figure; Our World in Data reports 83 bn for 2022. Counts exclude animals that die before slaughter and male chicks culled in egg production.</li>
             <li id="src-destatis">Germany slaughter counts: Destatis press release 049/2026 (13 Feb 2026), preliminary — 48.5 m pigs, cattle, sheep, goats and horses plus 697.3 m chickens, turkeys and ducks in 2025. Destatis gives no total; the sum (≈ 746 m) is ours.</li>
             <li id="src-brief">Figures from our research brief that we have not re-verified: world meat production 335 Mt (2019), Europe-43 total ≈ 12.5 bn animals, EU-27 poultry ≈ 6.4 bn (2020), average meat per animal (chicken ≈ 1.6 kg, bovine ≈ 323 kg). Marked “Brief” or “Approximate” where they appear.</li>
+            <li id="src-faoloss">Food lost before the shop: <a class="link" href="https://www.fao.org/policy-support/policy-themes/food-loss-and-food-waste/en" target="_blank" rel="noopener">FAO, “Food loss and food waste”</a> — 13.2% of food is lost in the supply chain after harvest on farms and before the retail stage (the UN News report on UNEP’s index says “around 13 per cent”). UNEP’s waste figures start at retail, so the two do not overlap — but they are different models and are never added up.</li>
           </ol>
           <ul role="list">
             <li>Chickens: Albert Schweitzer Stiftung, Masthuhn-Report 2025 (more than 110 companies in Germany) and Masthuhn-Report 2026 (64 companies assessed), reported by vegconomist, November 2026. ProVeg: European Parliament vote of 23 October 2020 on plant-based naming; ProVeg Netherlands × Netherlands Nutrition Center, 7 September 2023.</li>
@@ -294,7 +269,7 @@
       </div>
       <div class="footer__cols">
         <div>
-          <p class="footer__h">Concepts</p>
+          <p class="footer__h">Projects</p>
           <ul role="list">
             <li><a href="food.html">GiGi Food</a></li>
             <li><a href="vegan.html">GiGi Vegan</a></li>
