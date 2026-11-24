@@ -1911,3 +1911,29 @@ a.ddchip:hover { box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--dd); }
 .trail::before { content: ""; position: absolute; top: 0; left: -2px; width: var(--stub-a, 8px); border-top: 2px dashed var(--text-2); }
 .trail::after { content: ""; position: absolute; bottom: 0; left: -2px; width: var(--stub-b, 8px); border-bottom: 2px dashed var(--text-2); }
 .trail__tip { position: absolute; bottom: -5px; left: calc(var(--stub-b, 8px) - 10px); border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 8px solid var(--text-2); }
+
+/* A number and its unit: digits big, unit small and muted, tight against them — one cluster */
+.nv { white-space: nowrap; }
+.nv__pre { font-weight: 500; color: var(--text-2); }
+.nv__u { font-size: max(.5em, .66rem); font-weight: 600; letter-spacing: 0; color: var(--text-2); }
+.dd .nv__u { color: inherit; opacity: .75; }
+
+/* Two levers: what they are, before the numbers */
+.levers-explain { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+@media (min-width: 800px) { .levers-explain { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.lex { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 14px; align-items: start; padding: clamp(14px, 2vw, 22px); border: 1px solid var(--line-strong); border-radius: 18px; background: var(--card); }
+.lex__badge { grid-row: 1 / span 2; display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; font-family: var(--f-mono); font-size: 1.05rem; font-weight: 600; color: #ffffff; background: var(--consumed); }
+.lex--b .lex__badge { background: var(--waste); color: var(--ink); }
+.lex h3 { font-size: 1.3rem; font-weight: 800; line-height: 1.15; letter-spacing: -.03em; }
+.lex p { margin: 0; color: var(--text-2); line-height: 1.5; }
+.lex strong { color: var(--text); }
+.lex__foot { max-width: 80ch; margin: 14px 0 0; color: var(--text-2); line-height: 1.5; }
+
+/* An estimate: the same two colours in lighter shades with a dashed edge — never read as a measurement */
+.cseg--est { box-sizing: border-box; border: 2px dashed currentColor; }
+.cseg--wasted.cseg--est { color: var(--waste); background: color-mix(in srgb, var(--waste) 28%, var(--card)); }
+.cseg--consumed.cseg--est { color: var(--consumed); background: color-mix(in srgb, var(--consumed) 24%, var(--card)); }
+.cswatch.cseg--est { border-width: 1.5px; }
+.cseg--est .cseg__meat { border-color: var(--ink); background: repeating-linear-gradient(135deg, var(--ink) 0 2px, transparent 2px 4px); }
+.tcheck--est { border-style: dashed; }
+.tcheck--est .tcheck__badge { background: transparent; color: var(--text); box-shadow: inset 0 0 0 1.5px var(--text-2); }

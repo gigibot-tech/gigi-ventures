@@ -258,6 +258,12 @@
         links: ['GiGi Food — our kitchen is one place we’d act on these facts'],
         href: 'vegan.html', cta: 'Open report →',
       },
+      daysaver: {
+        name: 'GiGi × DaySaver', cat: 'Food · calorie & food tracking · partner · concept', color: 'var(--p-daysaver)',
+        text: 'Food tracking without the homework. Research on diet apps keeps finding the same things: logging takes too long, the numbers overwhelm, and the feedback feels like a verdict. The concept answers with a photo, a plain explanation and no scores — and no punishment if you log it later.',
+        links: ['GiGi Vegan — plant-based by default for people who eat that way', 'GiGi AI — the photo step could use it on the device later (an idea, not a feature)'],
+        href: 'mailto:contact@gigolingo.com?subject=GiGi%20%C3%97%20DaySaver', cta: 'Ask about DaySaver ↗',
+      },
       next: {
         name: 'The next leaf', cat: 'Open · yours?', color: 'var(--text-3)',
         text: 'Building something that makes life better offline? Grow it with us. We bring the ecosystem, the principles and the people.',

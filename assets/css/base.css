@@ -26,7 +26,7 @@
   --crit: #d63a2a;
 
   /* Project identity — CVD-validated as neighbours where they meet:
-     food · social · lingo · some · ido · yhm (spectrum), lingo · yhm · food · vegan (tree, left),
+     food · social · lingo · some · ido · yhm (spectrum), lingo · yhm · food · vegan · daysaver (tree, left),
      some · ai · ido (tree, right). Every coloured mark also carries a text label. */
   --p-food: #eb6834;
   --p-social: #2a78d6;
@@ -36,6 +36,7 @@
   --p-yhm: #1f4fa8;
   --p-ai: #d0438f;
   --p-vegan: #2f6f3a;
+  --p-daysaver: #a8710a;
 
   /* Text + lines on a light surface */
   --surface: var(--paper);
@@ -87,6 +88,7 @@
   --p-yhm: #5b84e0;
   --p-ai: #e0599f;
   --p-vegan: #4f9a5e;
+  --p-daysaver: #c4902a;
   background: var(--ink);
   color: var(--text);
 }
@@ -122,6 +124,7 @@
   --p-yhm: #1f4fa8;
   --p-ai: #d0438f;
   --p-vegan: #2f6f3a;
+  --p-daysaver: #a8710a;
   color: var(--text);
 }
 
@@ -383,13 +386,14 @@ table { border-collapse: collapse; }
   color: inherit;
   flex-shrink: 0;
 }
-.logo__word {
-  font-family: var(--f-display);
-  font-weight: 800;
-  font-size: 1.7rem;
-  line-height: 1;
-  letter-spacing: -.045em;
+/* The GiGi wordmark is a transparent PNG (assets/img/gigi-logo.png, brand blue).
+   On the blue header it would disappear, so it is turned white there. */
+.logo__img {
+  display: block;
+  height: 1.55rem;
+  width: auto;
 }
+[data-theme="blue"] .logo__img { filter: brightness(0) invert(1); }
 .logo__sub {
   font-family: var(--f-mono);
   font-size: .66rem;
@@ -399,28 +403,6 @@ table { border-collapse: collapse; }
   opacity: .72;
   padding-top: .25em;
 }
-/* The two i-dots are the brand device: two people, two colours. */
-.logo__i {
-  position: relative;
-  display: inline-block;
-}
-.logo__i::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: .02em;
-  width: .25em;
-  height: .25em;
-  border-radius: 50%;
-  transform: translateX(-50%);
-  background: var(--dot, var(--blue));
-}
-.logo__i--a { --dot: var(--blue); }
-.logo__i--b { --dot: var(--sun); }
-.on-dark .logo__i--a,
-[data-theme="dark"] .logo__i--a { --dot: #5f78ff; }
-[data-theme="blue"] .logo__i--a { --dot: #fff; }
-
 /* ---------- Header ---------- */
 .site-header {
   position: fixed;
@@ -657,13 +639,10 @@ body.menu-open { overflow: hidden; }
 .footer__cols a:hover { color: var(--text); }
 .footer__small { font-size: .9rem; color: var(--text-2); max-width: 30ch; }
 .footer__big {
+  display: block;
   margin-top: clamp(40px, 6vw, 72px);
-  font-family: var(--f-display);
-  font-weight: 800;
-  font-size: clamp(6rem, 27vw, 24rem);
-  line-height: .78;
-  letter-spacing: -.07em;
-  color: var(--text);
+  width: clamp(14rem, 62vw, 56rem);
+  height: auto;
   user-select: none;
 }
 .footer__legal {

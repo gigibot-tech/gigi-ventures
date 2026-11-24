@@ -3,6 +3,21 @@
 All notable changes to the GiGi Ventures site. Dates are when the change was made.
 The site is plain HTML/CSS/JS with no build step, so there are no version numbers.
 
+## 2026-11-24
+
+### Added (GiGi × DaySaver) and a smaller ecosystem tree
+- **GiGi × DaySaver** — food and calorie tracking — is a new leaf in the Food group: in the ecosystem tree, as a chip, with a panel text, and on the company page (hero list and the Food card, now “Three projects”). Colour `--p-daysaver` (amber, validated against its tree neighbours food · lingo · vegan · social; the dark-surface value was not validated).
+- The copy comes from the DaySaver research doc (`GigolingoConcept/DaySaver.md`): diet apps lose people because logging takes too long, the numbers overwhelm and the feedback feels like a verdict; personas want plain explanations, no scores and no punishment for logging late. The status is *concept*; it is not claimed to use AI (the panel says GiGi AI could help with the photo step later — an idea, not a feature).
+- **Note:** the `daysaver` code folder on this machine is a different app (an iPhone “life-state” detector for home/bed), so none of its README was used.
+- **Ecosystem tree made smaller:** leaves are about 15% smaller (ring 48→41, disc 40→34, glyphs and icons scaled to match), so the left side has room for a fourth leaf; the “Next leaf” label moved to the left of its leaf so it no longer touches “GiGi × 4some”, and GiGi × 4some / GiGi × YHM have more space between their names. Branch and link paths were re-fitted to the new radii.
+- No AI claim, link, number or source was changed elsewhere; the orbit graphic in the GiGi AI section is unchanged (DaySaver is not shown as an AI user).
+
+### Changed (logo)
+- **The GiGi logo is now the blue “GiGi” wordmark PNG** (from the GiGi project folders on this Mac, `gigi-logo.png`; transparent, trimmed to the letters, scaled to 960 px wide → `assets/img/gigi-logo.png`, 50 kB).
+  It replaces the typeset “GıGı” with the two coloured dots in the header of all five pages (company page: header and contact block) and the big footer mark on the concept page. “Ventures” stays next to it in the header.
+- On the blue header (the manifesto section) the PNG is turned white by CSS so it does not vanish; on dark and light headers it stays brand blue. The old `.logo__word` / `.logo__i` styles were removed.
+- Not changed: the tab icon (`assets/favicon.svg`, the two-dot mark), because a three-to-one wordmark is unreadable at 16–32 px.
+
 ## 2026-11-23
 
 ### Changed (three groups, AI as a layer, YHM live)
@@ -20,6 +35,19 @@ The site is plain HTML/CSS/JS with no build step, so there are no version number
   the **company page** (portfolio list, “Food and health” group, hero note, partner text, footer) and the footers of both pages. Sections below it renumber: Food → 07, Join → 08.
 - **New project hue `--p-yhm`** (cobalt `#1f4fa8`, `#5b84e0` on dark), validated with the palette script against its neighbours on the tree (Gigolingo · Food · Vegan) and on the chips.
 - Source of the copy: the YourHealthMatch repository (README, `docs/services.md`, positioning). It says what the service does and what it does not claim (not a medical practice, not emergency care); the live URLs `yourhealthmatch.de` and `yourhealthmatch.netlify.app` answered with HTTP 200 on 2026-11-23.
+
+### Changed (Germany's meat block estimated too)
+- No bar is grey any more — the grey halves of Germany’s meat bar read like 50/50. The **4.6 Mt** (BZL, calculated consumption — waste still inside) is now the meat *total*, split with the EU-28 share (JRC, 2011: 23% wasted): **≈ 1.06 Mt wasted, ≈ 3.54 Mt consumed**, in lighter dashed shades, tagged *Estimate* (note ≠xvi).
+  A.1 shows the estimate for the whole chain above the measured 74.6 kt (households only); A.2 shows ≈ 3.54 Mt, with the species mix under it.
+
+### Changed (Europe and Germany: estimated food totals)
+- The food total for **Europe** (≈ 219 Mt available, ≈ 177 Mt consumed) and **Germany** (≈ 47.6 Mt, ≈ 38.6 Mt) is now **estimated**, so their bars are filled in the two colours — in **lighter shades with a dashed edge**, tagged *Estimate* (note ≠xv).
+  The assumption: the world’s 19% (UNEP) applies, to the retail-to-households part of the Eurostat waste (Europe 41.6 Mt of 57.5 Mt, Germany 9.04 Mt of 10.8 Mt — farm and processing left out, as UNEP leaves them out). It is a scenario, not a measurement, and it bends our rule of never dividing tonnes by a percentage of another model; hence the shades.
+
+### Changed (two levers explained, numbers with small units, dashed rail)
+- **“Two levers” is explained** before the numbers on `vegan.html` (new slim section): lever A — eat less meat — acts on the whole system; lever B — waste less food — acts only on the wasted part (≈ 22% of animal lives) and can never reach more; they do not simply add up (50% + 50% = 55.5%, not 61%). The nav says “Two levers”; the levers page opens with the same definition.
+- **Numbers and units apart:** in every value box and bar total the digits are big and the unit (bn t, Mt, kt, m, kg, %) is small and muted, tight against them — one cluster that never breaks across lines.
+- **A dashed rail** down the left side of each level card joins the “meat inside” lines of the food total to “Total meat — inside the food”; the dashed connectors under the bars are now stepped lines with arrow tips from the middle of each part to its column.
 
 ### Changed (meat totals back, wasted left, funnels, sources in the drill-downs)
 - **The meat has its own total, like the food.** Each level now has two blocks built the same way — a total on top, its split on one bar, a check, dashed lines down to the two columns: **all food** (≈ 5.5 bn t = 1.05 bn t wasted + ≈ 4.5 bn t consumed) and **the meat inside it**

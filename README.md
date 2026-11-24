@@ -4,7 +4,7 @@ Five pages, no build step, no framework, no cookies, no trackers. Fonts come fro
 
 | Page | What it is |
 | --- | --- |
-| `index.html` — **Concept** | The manifesto experience: hero (“Big Tech is ~~sh\*t~~ built to keep you”), 4 changed words, 3 rules (People · Explainable · Private & interoperable by default), the ecosystem tree (leaves in three groups — connect · learn · meet, AI, food; AI is a layer, so 4some uses it and YHM could), **GiGi Social × Gigolingo × 4some** in one section, **GiGi AI** (on-device multimodal, concept) with **iDO × GiGi** next to it, **GiGi × YHM** (YourHealthMatch — matching patients with doctors in Germany, live at yourhealthmatch.de, with buttons to its live waitlist and match questionnaire) as its own section, and GiGi Food / GiGi Vegan as two projects side by side. |
+| `index.html` — **Concept** | The manifesto experience: hero (“Big Tech is ~~sh\*t~~ built to keep you”), 4 changed words, 3 rules (People · Explainable · Private & interoperable by default), the ecosystem tree (leaves in three groups — connect · learn · meet, AI, food; AI is a layer, so 4some uses it and YHM could; food has GiGi Food, GiGi Vegan and the GiGi × DaySaver tracker), **GiGi Social × Gigolingo × 4some** in one section, **GiGi AI** (on-device multimodal, concept) with **iDO × GiGi** next to it, **GiGi × YHM** (YourHealthMatch — matching patients with doctors in Germany, live at yourhealthmatch.de, with buttons to its live waitlist and match questionnaire) as its own section, and GiGi Food / GiGi Vegan as two projects side by side. |
 | `company.html` — **Company** | A conventional company site: portfolio in three groups (food and health included), how we work, **future roles\*** (9, with filters), partners & investors, contact. |
 | `food.html` — **GiGi Food** | An idea that starts with a €500 grain cooker: basic meals as infrastructure — the idea (“Start with the €500 cooker. Not the €250,000 robot.”), the automation ladder, economics, why every bowl is vegan (links to GiGi Vegan), a 365-day pilot plan and the ask. |
 | `vegan.html` — **GiGi Vegan** | **A Total food:** one card per level (World · Europe · Germany) — the total food on top with a check (do waste and consumption add up to all there is? yes for the world inside UNEP’s scope, no for Europe and Germany), then **A.1** waste | **A.2** consumption side by side with the meat directly under each (the other-year version of a number is one slim line inside its box). **B Waste:** one section with one switch, *weight | animal lives*: per level, where along the chain it is lost, what is known and what is a gap, and one foldable drill-down per row (by country, sector, product, species, the two Germany paths). **C Consumption:** what the eaten meat is made of, Europe from supply to plate. Then three anchors (**D**). Numbers that drill down are underlined in the colour of where they go — coral = waste by weight, blue = waste in animal lives, green = consumption — and every row has a “Drill down” line naming the same destinations in words. Numbers that differ between places carry a Roman-numeral mark (≠i) that points to “When a number changes”. |
@@ -27,6 +27,7 @@ gigi-ventures/
 ├── index.html · company.html · food.html · vegan.html · levers.html
 ├── netlify.toml · CHANGELOG.md
 ├── assets/
+│   ├── img/gigi-logo.png   the GiGi wordmark (transparent PNG, trimmed, 960 px wide): header logo on every page + the big footer mark on the concept page
 │   ├── css/base.css        tokens, reset, header, buttons, logo, footer, reveal (shared)
 │   ├── css/concept.css     concept page sections
 │   ├── css/company.css     company page sections
@@ -75,7 +76,7 @@ gigi-ventures/
 - **Tree leaves and panel text:** `index.html` (SVG) and `assets/js/concept.js` → `DATA`.
 - **Hero rewrites:** `assets/js/concept.js` → `phrases`.
 - **Project colours:** `assets/css/base.css` → `--p-*`. They are checked for colour-blind safety where they sit next to each other
-  (tree left: Gigolingo · Vegan · Food; tree right: 4some · AI · iDO), and every coloured mark also carries a text label.
+  (tree left: Gigolingo · Vegan · Food · DaySaver; tree right: 4some · AI · iDO), and every coloured mark also carries a text label.
 
 ## Before going live
 

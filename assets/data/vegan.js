@@ -45,6 +45,7 @@ window.GIGI_DATA.vegan = {
     switchLabel: 'Show the waste as',
     checkOk: 'Adds up',
     checkNo: 'Does not add up',
+    checkEst: 'Estimate',
     notesTitle: 'When a number changes',
     notesLead: 'The same thing shows up with different numbers in different places — another year, model, scope or rounding. Each mark (≠i) on the page points here: what changed, and where to find every version.',
     noteMark: 'Number note',
@@ -227,13 +228,23 @@ window.GIGI_DATA.vegan = {
         food: {
           inset: { note: 'Meat is drawn inside as a marker, not to scale: meat’s share of all food is not reported, and the meat numbers are other models and years.', wasted: { text: '14.2 Mt meat wasted · 2.76 bn animal lives' }, consumed: { text: '47.5 Mt meat consumed' } },
           tile: {
-            id: 'tot-food-europe', kind: 'gap', tag: 'Not published', value: 'Unknown', label: 'all food available to consumers',
-            sub: 'EU-27 · 2022 — no total matches the waste figure',
+            id: 'tot-food-europe', kind: 'scenario', value: '≈ 219 Mt',
+            label: 'food available to consumers — estimate',
+            sub: 'EU-27 · 2022 · retail to households — if Europe wasted the world’s 19% share: 41.6 Mt ÷ 0.19',
+            tags: [{ text: 'Estimate', tone: 'flag' }], src: 'eurostat', mark: 'xv',
+          },
+          split: {
+            est: true,
+            caption: 'of the food available to consumers — an estimate, not a measurement',
+            parts: [
+              { role: 'wasted', v: 19, name: 'wasted — A.1 (retail to households)', text: '41.6 Mt · 19%' },
+              { role: 'consumed', v: 81, name: 'consumed — A.2', text: '≈ 177 Mt · 81%' },
+            ],
           },
           check: {
-            ok: false,
-            text: 'Eurostat counts the waste from farm to home (57.5 Mt), but there is no matching total of all food — so A.2 stays unknown.',
-            outside: 'For meat it does add up — see the meat block below.',
+            est: true,
+            text: 'Nobody publishes the total, so this is a scenario: the world’s 19% (UNEP) applied to Europe’s waste from retail to households — 41.6 Mt of the 57.5 Mt, farm and processing left out, as UNEP leaves them out.',
+            outside: 'Europe may waste more or less than the world average; the lighter shades say so.',
           },
         },
         meat: {
@@ -265,7 +276,7 @@ window.GIGI_DATA.vegan = {
           drill: [{ dd: 'weight', to: '#waste-weight-europe' }, { dd: 'lives', to: '#waste-lives-europe' }],
         },
         consumption: {
-          tile: { id: 'tot-c-europe-food', kind: 'gap', tag: 'Not published', value: 'Unknown', label: 'all food consumed', sub: 'EU-27 · 2022 — needs the total beside it' },
+          tile: { id: 'tot-c-europe-food', kind: 'scenario', value: '≈ 177 Mt', label: 'food consumed — estimate', sub: 'EU-27 · 2022 · retail to households · the estimated total minus the waste', tags: [{ text: 'Estimate', tone: 'flag' }], mark: 'xv' },
           meat: [
             { id: 'tot-c-europe', value: '47.5 Mt', label: 'meat consumed', sub: 'EU-28 · 2011 · derived: 61.7 − 14.2 Mt · incl. inedible parts', tags: [{ text: 'Derived', tone: 'rule' }, { text: 'Other model', tone: 'rule' }], src: 'jrc', mark: 'x', to: '#consumption', dd: 'consumption' },
           ],
@@ -275,41 +286,62 @@ window.GIGI_DATA.vegan = {
       {
         geo: 'germany',
         food: {
-          inset: { note: 'Meat is drawn inside as a marker, not to scale: meat’s share of all food is not reported, and the meat numbers are other models and years.', wasted: { text: '74.6 kt meat wasted in households (partial) · ≈ 10.5 m animal lives' }, consumed: { text: '4.6 Mt meat consumption, calculated' } },
+          inset: { note: 'Meat is drawn inside as a marker, not to scale: meat’s share of all food is not reported, and the meat numbers are other models and years.', wasted: { text: '≈ 1.06 Mt meat wasted (estimate; 74.6 kt measured in households) · ≈ 10.5 m animal lives' }, consumed: { text: '≈ 3.54 Mt meat consumed (estimate)' } },
           tile: {
-            id: 'tot-food-germany', kind: 'gap', tag: 'Not published', value: 'Unknown', label: 'all food available to consumers',
-            sub: 'Germany · 2022 — no total matches the waste figure',
+            id: 'tot-food-germany', kind: 'scenario', value: '≈ 47.6 Mt',
+            label: 'food available to consumers — estimate',
+            sub: 'Germany · 2022 · retail to households — if Germany wasted the world’s 19% share: 9.04 Mt ÷ 0.19',
+            tags: [{ text: 'Estimate', tone: 'flag' }], src: 'eurostat', mark: 'xv',
+          },
+          split: {
+            est: true,
+            caption: 'of the food available to consumers — an estimate, not a measurement',
+            parts: [
+              { role: 'wasted', v: 19, name: 'wasted — A.1 (retail to households)', text: '9.04 Mt · 19%' },
+              { role: 'consumed', v: 81, name: 'consumed — A.2', text: '≈ 38.6 Mt · 81%' },
+            ],
           },
           check: {
-            ok: false,
-            text: 'Eurostat’s 10.8 Mt is counted from farm to home, and there is no matching total of all food — so A.2 stays unknown.',
-            outside: 'For meat there is no balance either — see the meat block below.',
+            est: true,
+            text: 'Nobody publishes the total, so this is a scenario: the world’s 19% (UNEP) applied to Germany’s waste from retail to households — 9.04 Mt of the 10.8 Mt, farm and processing left out.',
+            outside: 'Germany may waste more or less than the world average; the lighter shades say so.',
           },
         },
         meat: {
           tile: {
-            id: 'tot-m-germany', kind: 'gap', tag: 'Not published', value: 'Unknown', label: 'all meat available',
-            sub: 'Germany — no total, and the waste is measured in households only',
+            id: 'tot-m-germany', value: '4.6 Mt', label: 'meat available — calculated consumption',
+            sub: 'Germany · 2025 · provisional · from the supply balance: waste is still inside',
+            tags: [{ text: 'Calculated', tone: 'rule' }], src: 'bzl', mark: 'xvi',
+          },
+          split: {
+            est: true,
+            caption: 'of the meat available — an estimate, not a measurement',
+            parts: [
+              { role: 'wasted', v: 23, name: 'wasted — A.1', text: '≈ 1.06 Mt · 23%' },
+              { role: 'consumed', v: 77, name: 'consumed — A.2', text: '≈ 3.54 Mt · 77%' },
+            ],
           },
           check: {
-            ok: false,
-            text: 'Only the households’ waste is measured (74.6 kt), and the 4.6 Mt are calculated from the supply balance — not a measurement of what is eaten. Nothing can be added up.',
+            est: true,
+            text: 'Only the households’ waste is measured (74.6 kt). For the whole chain this applies the EU-28 share (JRC, 2011: 14.2 of 61.7 Mt, 23%) to the 4.6 Mt calculated from the supply balance.',
+            outside: 'Germany may waste more or less than the EU average; the lighter shades say so.',
           },
         },
         waste: {
           tile: { id: 'tot-w-germany', value: '10.8 Mt', label: 'food wasted — 18.8% of the EU total, the largest', sub: 'Germany · 2022 · farm to households', src: 'eurostat', to: '#waste-weight-germany', dd: 'weight' },
           bar: { kind: 'stage', chain: 'food-germany' },
           meat: [
-            { id: 'tot-wm-germany', value: '74.6 kt', label: 'avoidable household waste of meat, sausage & fish', sub: 'households only · other basis: ≈ 125 kt', tags: [{ text: 'Partial indicator', tone: 'flag' }], src: ['gfk', 'thuenen'], mark: 'vii', to: '#waste-weight-germany', dd: 'weight', at: { gap: true, text: 'the rest of the chain: unknown' } },
+            { id: 'tot-wm-germany-est', kind: 'scenario', value: '≈ 1.06 Mt', label: 'meat wasted along the whole chain — estimate', sub: 'Germany · 2025 · the EU-28 share (23%) applied to the 4.6 Mt', tags: [{ text: 'Estimate', tone: 'flag' }], mark: 'xvi', to: '#waste-weight-germany', dd: 'weight' },
+            { id: 'tot-wm-germany', value: '74.6 kt', label: 'measured: avoidable household waste of meat, sausage & fish', sub: 'households only · other basis: ≈ 125 kt', tags: [{ text: 'Partial indicator', tone: 'flag' }], src: ['gfk', 'thuenen'], mark: 'vii', to: '#waste-weight-germany', dd: 'weight', at: { gap: true, text: 'the rest of the chain: unknown' } },
             { id: 'tot-wl-germany', value: '≈ 10.5 m', label: 'land animals in household meat waste', sub: 'households only · 85% chickens · fish not counted', tags: [{ text: 'Advocacy source', tone: 'flag' }], src: 'fleischatlas', mark: 'vi', to: '#waste-lives-germany', dd: 'lives' },
           ],
           drill: [{ dd: 'weight', to: '#waste-weight-germany' }, { dd: 'lives', to: '#waste-lives-germany' }],
         },
         consumption: {
-          tile: { id: 'tot-c-germany-food', kind: 'gap', tag: 'Not published', value: 'Unknown', label: 'all food consumed', sub: 'Germany · 2022 — needs the total beside it' },
+          tile: { id: 'tot-c-germany-food', kind: 'scenario', value: '≈ 38.6 Mt', label: 'food consumed — estimate', sub: 'Germany · 2022 · retail to households · the estimated total minus the waste', tags: [{ text: 'Estimate', tone: 'flag' }], mark: 'xv' },
           species: true,
           meat: [
-            { id: 'tot-c-germany', value: '4.6 Mt', label: 'meat consumption, calculated', sub: 'Germany · 2025 · provisional · from the supply balance', tags: [{ text: 'Calculated', tone: 'rule' }], src: 'bzl', to: '#consumption', dd: 'consumption' },
+            { id: 'tot-c-germany', kind: 'scenario', value: '≈ 3.54 Mt', label: 'meat consumed — estimate', sub: 'Germany · 2025 · the 4.6 Mt minus the estimated waste', tags: [{ text: 'Estimate', tone: 'flag' }], mark: 'xvi', to: '#consumption', dd: 'consumption' },
           ],
           drill: [{ dd: 'consumption', to: '#consumption' }],
         },

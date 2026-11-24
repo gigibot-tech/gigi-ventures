@@ -354,5 +354,49 @@ window.GIGI_DATA.notes = [
         "scope": "World · 2022 · derived: total − waste"
       }
     ]
+  },
+  {
+    "id": "xv",
+    "topic": "Food available in Europe and Germany: estimates",
+    "text": "Nobody publishes these totals. We take the world’s 19% (UNEP: waste ÷ food available to consumers) and apply it to the retail-to-households part of the Eurostat waste: Europe 41.6 Mt (4.6 retail + 6.5 food service + 30.5 households) ÷ 0.19 ≈ 219 Mt, of which ≈ 177 Mt consumed; Germany 9.04 Mt (0.77 + 1.98 + 6.29) ÷ 0.19 ≈ 47.6 Mt, of which ≈ 38.6 Mt consumed. It is an assumption, not a measurement — and it breaks our rule of never dividing tonnes by a percentage of another model, so it is drawn in lighter, dashed shades and labelled Estimate.",
+    "at": [
+      {
+        "href": "vegan.html#tot-food-europe",
+        "value": "≈ 219 Mt",
+        "where": "A, total food",
+        "scope": "EU-27 · 2022 · estimate: 41.6 Mt ÷ 0.19"
+      },
+      {
+        "href": "vegan.html#tot-food-germany",
+        "value": "≈ 47.6 Mt",
+        "where": "A, total food",
+        "scope": "Germany · 2022 · estimate: 9.04 Mt ÷ 0.19"
+      }
+    ]
+  },
+  {
+    "id": "xvi",
+    "topic": "Germany’s meat: 4.6 Mt, ≈ 1.06 Mt or ≈ 3.54 Mt",
+    "text": "4.6 Mt is the meat Germany consumes per the supply balance (BZL 2025) — calculated, with waste still inside. Only the households’ waste is measured (74.6 kt). For the whole chain we apply the EU-28 share of wasted meat (JRC, 2011: 14.2 of 61.7 Mt, 23%): ≈ 1.06 Mt wasted and ≈ 3.54 Mt consumed. An assumption, not a measurement — drawn in lighter, dashed shades and labelled Estimate.",
+    "at": [
+      {
+        "href": "vegan.html#tot-m-germany",
+        "value": "4.6 Mt",
+        "where": "A, total meat",
+        "scope": "Germany · 2025 · calculated · waste inside"
+      },
+      {
+        "href": "vegan.html#tot-wm-germany-est",
+        "value": "≈ 1.06 Mt",
+        "where": "A.1, meat wasted",
+        "scope": "estimate: 23% of 4.6 Mt"
+      },
+      {
+        "href": "vegan.html#tot-c-germany",
+        "value": "≈ 3.54 Mt",
+        "where": "A.2, meat consumed",
+        "scope": "estimate: 4.6 Mt minus the waste"
+      }
+    ]
   }
 ];

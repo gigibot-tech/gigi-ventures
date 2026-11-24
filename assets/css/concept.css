@@ -355,12 +355,12 @@
   fill: var(--text);
 }
 .leaf__cat { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; fill: var(--text-3); }
-.leaf__glyph { font-family: var(--f-display); font-size: 26px; font-weight: 800; pointer-events: none; }
+.leaf__glyph { font-family: var(--f-display); font-size: 22px; font-weight: 800; pointer-events: none; }
 .leaf__glyph--multi { font-family: var(--f-jp); font-weight: 700; transition: opacity .25s; }
-.leaf__glyph--small { font-size: 21px; }
+.leaf__glyph--small { font-size: 18px; }
 .leaf__glyph--dark { fill: #0c0e12; }
 .leaf__glyph--light { fill: #ffffff; }
-.leaf__glyph--next { fill: var(--text-2); font-size: 30px; font-weight: 500; }
+.leaf__glyph--next { fill: var(--text-2); font-size: 26px; font-weight: 500; }
 .leaf__glyph.is-swapping { opacity: 0; }
 .leaf__icon path,
 .leaf__icon rect { fill: #0c0e12; pointer-events: none; }

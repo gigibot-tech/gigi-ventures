@@ -124,11 +124,23 @@
     return tags;
   };
 
+  /* ---------- A number with its unit: the digits big, the unit small and tight against them — one cluster, never split across lines ---------- */
+  const numUnit = (text) => {
+    const m = /^([≈≥≤<>~]\s*)?(\d[\d.,]*)(?:\s*(\S.*))?$/.exec(String(text).trim());
+    if (!m) return document.createTextNode(text);
+    const wrap = el('span', 'nv');
+    if (m[1]) wrap.appendChild(el('span', 'nv__pre', `${m[1].trim()}\u00a0`));
+    wrap.appendChild(el('span', 'nv__n', m[2]));
+    if (m[3]) wrap.appendChild(el('span', 'nv__u', `\u00a0${m[3].replace(/ /g, '\u00a0')}`));
+    return wrap;
+  };
+
   /* ---------- Drill-down links: a number that goes somewhere wears the colour of where it goes — and says so in words ---------- */
   let DD = {};
   let DRILL_TO = 'Drill down to';
   const ddLink = (dd, href, text) => {
-    const a = link(href, text, `dd dd--${dd}`);
+    const a = link(href, '', `dd dd--${dd}`);
+    a.appendChild(numUnit(text));
     if (DD[dd]) a.setAttribute('aria-label', `${text}: ${DRILL_TO.toLowerCase()} ${DD[dd].title.toLowerCase()}`);
     return a;
   };
@@ -157,7 +169,7 @@
     const box = el('div', `${cls} ${cls}--${kind}`);
     box.appendChild(tagsFor(item, ui));
     const big = el('p', `${cls}__big`);
-    big.appendChild(item.to ? ddLink(item.dd, item.to, item.value) : document.createTextNode(item.value));
+    big.appendChild(item.to ? ddLink(item.dd, item.to, item.value) : numUnit(item.value));
     box.appendChild(big);
     box.appendChild(el('p', `${cls}__label`, item.label));
     if (item.meter) box.appendChild(meter(item.meter, !/%$/.test(item.value) || item.value !== `${item.meter.value}%`));
@@ -259,7 +271,9 @@
     if (b.mark) name.appendChild(marks(b.mark));
     const share = el('p', 'cbar__share', `${fmt((at / sum) * 100, 1)}% ${c.shareWord}${b.atText ? ` · ${b.atText}` : ''}`);
     if (b.shareMark) share.appendChild(marks(b.shareMark));
-    head.append(name, el('p', 'cbar__total', b.total), share);
+    const total = el('p', 'cbar__total');
+    total.appendChild(numUnit(b.total));
+    head.append(name, total, share);
 
     const track = hidden(el('div', 'cbar__track'));
     b.segs.forEach((s) => {
@@ -314,7 +328,7 @@
     r.style.setProperty('--v', Math.max(max - b.value, 0));
     track.append(a, r);
     const cap = el('p', 'tbar__cap');
-    const num = b.to ? ddLink(b.dd, b.to, b.text) : document.createTextNode(b.text);
+    const num = b.to ? ddLink(b.dd, b.to, b.text) : numUnit(b.text);
     const strong = el('strong');
     strong.appendChild(num);
     cap.append(strong, ` ${b.sub}`);
@@ -403,9 +417,9 @@
 
   // The check under a total: do the two parts add up to it?
   const checkBox = (c, d, fn, used) => {
-    const chk = el('div', `tcheck tcheck--${c.ok ? 'ok' : 'no'}`);
+    const chk = el('div', `tcheck tcheck--${c.est ? 'est' : c.ok ? 'ok' : 'no'}`);
     const first = el('p', 'tcheck__text');
-    first.append(el('span', 'tcheck__badge', c.ok ? d.ui.checkOk : d.ui.checkNo), ' ', c.text);
+    first.append(el('span', 'tcheck__badge', c.est ? d.ui.checkEst : c.ok ? d.ui.checkOk : d.ui.checkNo), ' ', c.text);
     chk.appendChild(first);
     if (c.outside) {
       const out = el('p', 'tcheck__text', `${c.outside} `);
@@ -425,7 +439,7 @@
       const items = list('cbar__list');
       parts.forEach((p) => {
         const li = el('li');
-        li.append(hidden(el('span', `cswatch cseg--${p.role}`)), el('span', 'cbar__stage', p.name), el('span', 'cbar__val', p.text));
+        li.append(hidden(el('span', `cswatch cseg--${p.role}${f.split.est ? ' cseg--est' : ''}`)), el('span', 'cbar__stage', p.name), el('span', 'cbar__val', p.text));
         items.appendChild(li);
       });
       bar.append(items, el('p', 'tbar__sub', f.split.caption));
@@ -447,7 +461,7 @@
     track.setAttribute('role', 'img');
     track.setAttribute('aria-label', f.split ? parts.map((p) => `${p.name} ${p.text}`).join(', ') : d.totals.unknownSplit);
     parts.forEach((p) => {
-      const seg = el('span', `cseg ${f.split ? `cseg--${p.role}` : 'cseg--unknown'}`);
+      const seg = el('span', `cseg ${f.split ? `cseg--${p.role}${f.split.est ? ' cseg--est' : ''}` : 'cseg--unknown'}`);
       seg.style.setProperty('--v', p.v);
       if (f.inset && f.inset[p.role]) seg.appendChild(hidden(el('span', 'cseg__meat')));
       track.appendChild(seg);
