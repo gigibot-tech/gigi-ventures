@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang="en" class="no-js vegan-locked">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -14,14 +14,39 @@
   <link rel="stylesheet" href="https://fonts.bunny.net/css?family=bricolage-grotesque:400,500,600,700,800|instrument-serif:400,400i|jetbrains-mono:400,500&display=swap">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/food-vegan.css">
-  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <link rel="stylesheet" href="assets/css/vegan-gate.css">
+  <script>
+    document.documentElement.classList.replace('no-js', 'js');
+    try {
+      if (sessionStorage.getItem('gigi-vegan-unlocked') === 'true') {
+        document.documentElement.classList.remove('vegan-locked');
+      }
+    } catch {}
+  </script>
   <script src="assets/js/shared.js" defer></script>
+  <script src="assets/js/vegan-gate.js" defer></script>
   <script src="assets/data/vegan.js" defer></script>
   <script src="assets/data/notes.js" defer></script>
   <script src="assets/js/glance.js" defer></script>
   <script src="assets/js/food-vegan.js" defer></script>
 </head>
 <body class="topic topic--vegan">
+  <section class="vegan-gate" id="vegan-gate" aria-labelledby="vegan-gate-title">
+    <form class="vegan-gate__card" data-vegan-gate>
+      <a class="logo vegan-gate__logo" href="index.html" aria-label="GiGi Ventures, home">
+        <img class="logo__img" src="assets/img/gigi-logo.png" alt="" width="960" height="329" decoding="async">
+        <span class="logo__sub" aria-hidden="true">Ventures</span>
+      </a>
+      <p class="eyebrow">GiGi Vegan</p>
+      <h1 class="h2" id="vegan-gate-title">This section is private.</h1>
+      <p class="vegan-gate__copy">Enter the password to continue.</p>
+      <label class="vegan-gate__label" for="vegan-password">Password</label>
+      <input class="vegan-gate__input" id="vegan-password" name="password" type="password" autocomplete="current-password" required autofocus>
+      <p class="vegan-gate__error" data-vegan-gate-error role="alert" hidden>That password didn’t match. Try again.</p>
+      <button class="btn btn--blue vegan-gate__submit" type="submit">Continue <span class="btn__arrow" aria-hidden="true">→</span></button>
+    </form>
+  </section>
+
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header" data-theme="dark" data-adaptive>

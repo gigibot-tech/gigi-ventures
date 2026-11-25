@@ -1,0 +1,78 @@
+html.vegan-locked {
+  overflow: hidden;
+}
+
+html.vegan-locked body > :not(#vegan-gate) {
+  display: none !important;
+}
+
+.vegan-gate {
+  display: none;
+  min-height: 100svh;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(24px, 6vw, 72px);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+html.vegan-locked .vegan-gate {
+  display: flex;
+}
+
+.vegan-gate__card {
+  width: min(100%, 460px);
+  padding: clamp(28px, 6vw, 56px);
+  border: 1px solid rgba(243, 240, 232, .16);
+  border-radius: var(--r-l);
+  background: var(--ink-2);
+}
+
+.vegan-gate__logo {
+  display: inline-flex;
+  margin-bottom: 56px;
+  color: var(--paper);
+}
+
+.vegan-gate .eyebrow {
+  color: var(--sun);
+}
+
+.vegan-gate__copy {
+  margin: 12px 0 28px;
+  color: rgba(243, 240, 232, .76);
+}
+
+.vegan-gate__label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: .9rem;
+  font-weight: 600;
+}
+
+.vegan-gate__input {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 14px;
+  border: 1px solid rgba(243, 240, 232, .3);
+  border-radius: var(--r-s);
+  background: var(--ink);
+  color: var(--paper);
+  font: inherit;
+}
+
+.vegan-gate__input:focus-visible {
+  outline: 3px solid var(--sun);
+  outline-offset: 3px;
+}
+
+.vegan-gate__error {
+  margin: 10px 0 0;
+  color: #ff8a7c;
+  font-size: .9rem;
+}
+
+.vegan-gate__submit {
+  margin-top: 18px;
+}
