@@ -31,8 +31,7 @@
   let stored = null;
   try { stored = window.localStorage.getItem(STORE); } catch (e) { /* storage blocked: fine */ }
   const asked = new URLSearchParams(window.location.search).get('lang');
-  const browser = String((navigator.languages && navigator.languages[0]) || navigator.language || 'en').slice(0, 2).toLowerCase();
-  const lang = LANGS.includes(asked) ? asked : LANGS.includes(stored) ? stored : (browser === 'de' ? 'de' : 'en');
+  const lang = LANGS.includes(asked) ? asked : LANGS.includes(stored) ? stored : 'en';
   if (LANGS.includes(asked)) {
     try { window.localStorage.setItem(STORE, asked); } catch (e) { /* ignore */ }
   }

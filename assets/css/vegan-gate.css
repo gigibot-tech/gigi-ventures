@@ -1,5 +1,6 @@
 html.vegan-locked {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 html.vegan-locked body > :not(#vegan-gate) {
@@ -8,10 +9,12 @@ html.vegan-locked body > :not(#vegan-gate) {
 
 .vegan-gate {
   display: none;
+  min-height: 100vh;
   min-height: 100svh;
+  min-height: 100dvh;
   align-items: center;
   justify-content: center;
-  padding: clamp(24px, 6vw, 72px);
+  padding: clamp(12px, 3vh, 32px) clamp(16px, 5vw, 56px);
   background: var(--ink);
   color: var(--paper);
 }
@@ -22,7 +25,10 @@ html.vegan-locked .vegan-gate {
 
 .vegan-gate__card {
   width: min(100%, 460px);
-  padding: clamp(28px, 6vw, 56px);
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: clamp(20px, 5vw, 40px);
   border: 1px solid rgba(243, 240, 232, .16);
   border-radius: var(--r-l);
   background: var(--ink-2);
@@ -30,13 +36,19 @@ html.vegan-locked .vegan-gate {
 
 .vegan-gate__logo {
   display: inline-flex;
-  margin-bottom: 24px;
   color: var(--paper);
+}
+
+.vegan-gate__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: clamp(22px, 4vh, 40px);
 }
 
 .vegan-gate__lang {
   width: max-content;
-  margin-bottom: 32px;
   border-color: rgba(243, 240, 232, .32);
 }
 
@@ -47,8 +59,13 @@ html.vegan-locked .vegan-gate {
   color: var(--sun);
 }
 
+.vegan-gate__card .h2 {
+  max-width: 13ch;
+  font-size: clamp(2rem, 8vw, 3.4rem);
+}
+
 .vegan-gate__copy {
-  margin: 12px 0 28px;
+  margin: 8px 0 20px;
   color: rgba(243, 240, 232, .76);
 }
 
@@ -83,5 +100,25 @@ html.vegan-locked .vegan-gate {
 }
 
 .vegan-gate__submit {
-  margin-top: 18px;
+  margin-top: 14px;
+}
+
+@media (max-width: 380px) {
+  .vegan-gate__card { padding: 20px 18px; }
+  .vegan-gate__card .h2 { font-size: clamp(1.8rem, 8vw, 2.2rem); }
+  .vegan-gate__top { gap: 8px; }
+  .vegan-gate__logo { gap: 6px; }
+  .vegan-gate__logo .logo__img { height: 1.3rem; }
+  .vegan-gate__logo .logo__sub { font-size: .56rem; }
+}
+
+@media (max-height: 480px) {
+  .vegan-gate { padding-block: 8px; }
+  .vegan-gate__card { padding: 14px 22px; }
+  .vegan-gate__top { margin-bottom: 12px; }
+  .vegan-gate__logo .logo__img { height: 1.2rem; }
+  .vegan-gate__card .h2 { max-width: none; font-size: clamp(1.5rem, 6vh, 2.1rem); }
+  .vegan-gate__copy { margin: 4px 0 10px; }
+  .vegan-gate__input { min-height: 44px; }
+  .vegan-gate__submit { margin-top: 8px; }
 }
