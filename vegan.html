@@ -23,6 +23,7 @@
       }
     } catch {}
   </script>
+  <script src="assets/js/i18n.js" data-page="vegan"></script>
   <script src="assets/js/shared.js" defer></script>
   <script src="assets/js/vegan-gate.js" defer></script>
   <script src="assets/data/vegan.js" defer></script>
@@ -70,6 +71,10 @@
           <a href="vegan.html" data-p="vegan" aria-label="GiGi Vegan" aria-current="page">Vegan</a>
         </nav>
         <a class="btn btn--sm btn--blue header-cta" href="company.html#careers">Future roles</a>
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" data-lang-set="en" lang="en" translate="no" aria-label="English" aria-pressed="true">EN</button>
+          <button type="button" data-lang-set="de" lang="de" translate="no" aria-label="Deutsch" aria-pressed="false">DE</button>
+        </div>
         <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
           <span class="sr-only">Menu</span>
           <span class="menu-btn__bars" aria-hidden="true"></span>
@@ -92,6 +97,10 @@
       </div>
     </nav>
     <div class="mobile-menu__foot">
+      <div class="lang-switch lang-switch--menu" role="group" aria-label="Language">
+        <button type="button" data-lang-set="en" lang="en" translate="no" aria-label="English" aria-pressed="true">EN</button>
+        <button type="button" data-lang-set="de" lang="de" translate="no" aria-label="Deutsch" aria-pressed="false">DE</button>
+      </div>
       <a class="btn btn--blue" href="food.html">GiGi Food: our vegan kitchen <span class="btn__arrow" aria-hidden="true">→</span></a>
       <span>contact@gigolingo.com</span>
     </div>

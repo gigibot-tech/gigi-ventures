@@ -532,6 +532,63 @@ table { border-collapse: collapse; }
   .sub-switch { display: inline-flex; }
 }
 
+/* EN | DE — a third small pill beside Concept | Company. The choice is stored and the page reloads (assets/js/i18n.js). */
+.lang-switch {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: var(--r-pill);
+  border: 1px solid color-mix(in srgb, var(--h-fg, currentColor) 20%, transparent);
+}
+.lang-switch button {
+  padding: 4px 8px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: inherit;
+  font-family: var(--f-mono);
+  font-size: .6rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .8;
+  cursor: pointer;
+  transition: background-color .2s, color .2s, opacity .2s;
+}
+.lang-switch button:hover { opacity: 1; }
+.lang-switch button[aria-pressed="true"] {
+  background: var(--h-inv-bg);
+  color: var(--h-inv-fg);
+  opacity: 1;
+  cursor: default;
+}
+.no-js .lang-switch { display: none; }
+.header-actions > .lang-switch { display: none; }
+@media (min-width: 720px) {
+  .header-actions > .lang-switch { display: inline-flex; }
+}
+/* In the mobile menu it is bigger, on the dark menu surface. */
+.lang-switch--menu {
+  justify-self: start;
+  padding: 3px;
+  border-color: rgba(243, 240, 232, .32);
+}
+.lang-switch--menu button {
+  min-width: 52px;
+  min-height: 44px;
+  padding: 0 14px;
+  font-size: .78rem;
+  color: var(--paper);
+}
+.lang-switch--menu button[aria-pressed="true"] { background: var(--paper); color: var(--ink); }
+
+/* German: long compounds must break rather than push the layout. */
+html[lang="de"] body { hyphens: auto; overflow-wrap: break-word; }
+html[lang="de"] .btn,
+html[lang="de"] .nav a,
+html[lang="de"] .version-switch a,
+html[lang="de"] .sub-switch a,
+html[lang="de"] .eyebrow { hyphens: manual; }
+
 .header-cta { display: none; }
 .site-header[data-theme="blue"] .header-cta { --btn-bg: #ffffff; --btn-fg: var(--blue); }
 
