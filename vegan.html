@@ -17,6 +17,13 @@
   <link rel="stylesheet" href="assets/css/vegan-gate.css">
   <script>
     document.documentElement.classList.replace('no-js', 'js');
+    let cameFromHome = false;
+    try {
+      const previous = new URL(document.referrer);
+      const path = previous.pathname.replace(/\/+$/, '') || '/';
+      cameFromHome = previous.origin === window.location.origin && (path === '/' || /\/index\.html$/i.test(path));
+    } catch {}
+    if (cameFromHome) document.documentElement.classList.remove('vegan-locked');
     try {
       if (sessionStorage.getItem('gigi-vegan-unlocked') === 'true') {
         document.documentElement.classList.remove('vegan-locked');
