@@ -40,17 +40,27 @@
   root.lang = lang;
   root.dataset.lang = lang;
 
-  /* German: load the dictionaries right now (parser-blocking, same origin) and keep the page hidden until it is applied. */
+  let dictionariesReady = Promise.resolve();
+
+  /* German: load this page's dictionaries before applying any translations. */
   if (lang === 'de' && me && me.src) {
     const dir = me.src.replace(/js\/i18n\.js(\?.*)?$/, 'i18n/');
     const page = (me.dataset && me.dataset.page) || 'index';
     root.dataset.i18n = 'pending';
-    doc.write('<style>html[data-i18n="pending"] body{visibility:hidden}</style>');
-    ['common', page].forEach((name) => doc.write(`<script src="${dir}de.${name}.js"><\/script>`));
-    window.setTimeout(() => root.removeAttribute('data-i18n'), 3000); // never leave the page blank
+    const style = doc.createElement('style');
+    style.textContent = 'html[data-i18n="pending"] body{visibility:hidden}';
+    doc.head.appendChild(style);
+    dictionariesReady = Promise.all(['common', page].map((name) => new Promise((resolve) => {
+      const script = doc.createElement('script');
+      script.src = `${dir}de.${name}.js`;
+      script.onload = resolve;
+      script.onerror = resolve;
+      doc.head.appendChild(script);
+    })));
+    window.setTimeout(() => root.removeAttribute('data-i18n'), 5000); // never leave the page blank
   }
 
-  const dict = lang === 'de' ? (window.GIGI_DICT || {}) : null;
+  let dict = null;
   const misses = new Set();
 
   /* ---------- Helpers ---------- */
@@ -211,6 +221,7 @@
 
   /* ---------- Go ---------- */
   const start = () => {
+    dict = lang === 'de' ? (window.GIGI_DICT || {}) : null;
     syncSwitches();
     if (!dict) return;
     head(null);
@@ -228,7 +239,8 @@
     });
     obs.observe(doc.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ATTRS });
   };
-  if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', start); else start();
+  const startWhenReady = () => dictionariesReady.then(start);
+  if (doc.readyState === 'complete') startWhenReady(); else window.addEventListener('load', startWhenReady, { once: true });
 
   window.GIGI_I18N = Object.freeze({
     lang,

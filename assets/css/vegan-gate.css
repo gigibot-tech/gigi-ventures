@@ -30,9 +30,18 @@ html.vegan-locked .vegan-gate {
 
 .vegan-gate__logo {
   display: inline-flex;
-  margin-bottom: 56px;
+  margin-bottom: 24px;
   color: var(--paper);
 }
+
+.vegan-gate__lang {
+  width: max-content;
+  margin-bottom: 32px;
+  border-color: rgba(243, 240, 232, .32);
+}
+
+.vegan-gate__lang button { color: var(--paper); }
+.vegan-gate__lang button[aria-pressed="true"] { background: var(--paper); color: var(--ink); }
 
 .vegan-gate .eyebrow {
   color: var(--sun);

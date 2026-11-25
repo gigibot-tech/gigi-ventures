@@ -22,7 +22,7 @@
     const live = $('[data-hero-live]');
     if (!strike || !rewrite) return;
 
-    const phrases = [
+    const englishPhrases = [
       'built to keep you.',
       'selling your data.',
       'selling your evenings.',
@@ -30,6 +30,16 @@
       'a slot machine with a feed.',
       'paid for with your attention.',
     ];
+    const german = document.documentElement.lang === 'de';
+    const phrases = german ? [
+      'ist darauf ausgelegt, Sie festzuhalten.',
+      'verkauft Ihre Daten.',
+      'verkauft Ihre Abende.',
+      'ist auf Empörung optimiert.',
+      'ist ein Glücksspielautomat mit Feed.',
+      'wird durch Ihre Aufmerksamkeit finanziert.',
+    ] : englishPhrases;
+    if (german) $('.hero-title__line').textContent = 'Big Tech';
     let index = 0;
 
     const setWords = (text) => {
@@ -58,7 +68,7 @@
       cycle.addEventListener('click', () => {
         index = (index + 1) % phrases.length;
         const next = phrases[index];
-        if (live) live.textContent = `Big Tech is ${next}`;
+        if (live) live.textContent = `${german ? 'Big Tech' : 'Big Tech is'} ${next}`;
         if (reduceMotion) {
           setWords(next);
           return;
