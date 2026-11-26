@@ -460,6 +460,7 @@ table { border-collapse: collapse; }
   gap: 2px;
 }
 .nav a {
+  white-space: nowrap;
   padding: 8px 12px;
   border-radius: var(--r-pill);
   font-size: .95rem;
@@ -580,6 +581,22 @@ table { border-collapse: collapse; }
   color: var(--paper);
 }
 .lang-switch--menu button[aria-pressed="true"] { background: var(--paper); color: var(--ink); }
+
+/* The header has a fixed amount of room. Where a language does not fit all of it, the "Future roles" button steps aside
+   (it is also in the mobile menu, and on every page's own call to action). German labels are longer, so it steps aside in more places. */
+@media (min-width: 1120px) and (max-width: 1159px) {
+  .site-header .header-cta { display: none; }
+}
+@media (min-width: 720px) and (max-width: 799px) {
+  html[lang="de"] .header-cta { display: none; }
+}
+@media (min-width: 1120px) and (max-width: 1399px) {
+  html[lang="de"] .header-cta { display: none; }
+  html[lang="de"] .nav a { padding: 8px 9px; font-size: .9rem; }
+}
+@media (min-width: 1120px) and (max-width: 1199px) {
+  html[lang="de"] .nav a { padding: 8px 6px; }
+}
 
 /* German: long compounds must break rather than push the layout. */
 html[lang="de"] body { hyphens: auto; overflow-wrap: break-word; }

@@ -40,12 +40,26 @@ gigi-ventures/
 │   ├── js/glance.js        renders the data files (totals + relation arrows, tree, dual grids, chain, consumption chapter, paths, Europe charts, total-system bars, food glance) + footnotes + number notes
 │   ├── js/projection.js    the levers page: reach charts, the projection model, goal cards (uses window.GIGI_UI from glance.js)
 │   ├── js/shared.js        header colour per section, mobile menu, reveal on scroll
+│   ├── js/i18n.js          EN ⇄ DE: picks the language, loads the German dictionaries, translates the page (and later renders) in place
+│   ├── i18n/de.common.js   German text shared by all pages (header, menus, footer, mail hint) — { "English text": "German text" }
+│   ├── i18n/de.<page>.js   German text of one page (index · company · food · vegan · levers)
 │   ├── js/concept.js       hero rewrite, 8-language Gigolingo demo, ecosystem tree
 │   ├── js/food-vegan.js    free-meal calculator, segmented-bar labels
 │   ├── js/company.js       role counts, team filters, #role-… deep links
 │   └── favicon.svg
 └── README.md
 ```
+
+## Languages (EN ⇄ DE)
+
+English is the source: it is what the HTML and `assets/data/*.js` contain. The EN | DE pill in the header (and in the mobile menu) stores the choice
+in `localStorage` (`gigi-lang`) and reloads the page; `?lang=de` / `?lang=en` does the same from a link. English is the default.
+- **Add or change a German text:** find the English sentence in `assets/i18n/de.<page>.js` (or `de.common.js` if it appears on several pages) and edit the value.
+  The English text itself is the key — copy it exactly. A sentence with inline markup (links, `<sup>`) is keyed by its inner HTML.
+- **Numbers are not translated:** write them the English way in the German text (`1,050` · `4.6` · `€0.11` · `1.05 bn`); `i18n.js` shows `1.050` · `4,6` · `0,11 €` · `1,05 Mrd.`.
+- **An English edit without a German edit** simply stays English on the German page. In the browser console on a German page, `GIGI_I18N.misses` lists every text that found no translation.
+- **Text a script builds itself** goes through `GIGI_I18N.t('English {n}', { n })`; everything rendered later (charts, panels, tooltips) is translated by a `MutationObserver`.
+- Tone: German uses the same plain, direct voice as the English; the header gives up the “Future roles” button at some widths (1120–1399 px) so the longer German labels fit on one line.
 
 ## Where to edit
 

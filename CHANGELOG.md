@@ -3,6 +3,14 @@
 All notable changes to the GiGi Ventures site. Dates are when the change was made.
 The site is plain HTML/CSS/JS with no build step, so there are no version numbers.
 
+## 2026-11-26
+
+### Added (German version, EN ⇄ DE)
+- **Every page is available in German.** An EN | DE pill sits in the header (next to Concept | Company and Food | Vegan) and at the top of the footer block in the mobile menu. The choice is remembered (`localStorage`), a link can force it with `?lang=de`, English is the default.
+- **How it works:** `assets/js/i18n.js` loads `assets/i18n/de.common.js` and `de.<page>.js` — plain `{ "English text": "German text" }` objects — and translates text, `aria-label`/`title`/`alt`, the page title and description, and the `mailto:` subject and body. Charts, panels and the mail hint are translated when they appear. No ids were added to the pages and the data files stay English-only; see README → “Languages”.
+- **German number style** is applied automatically (1,050 → 1.050 · 4.6 → 4,6 · €0.11 → 0,11 € · bn → Mrd.); “SDG 12.3” stays as it is.
+- **Header fit:** German labels are longer, so nav links no longer wrap (`white-space: nowrap`), and the “Future roles” button steps aside at 720–799 px (German only), 1120–1159 px, and 1120–1399 px (German); it is still in the mobile menu. Checked from 720 to 1500 px on Concept, Company, Food and the levers page in both languages: one line, nothing clipped.
+
 ## 2026-11-24
 
 ### Changed (the levers page starts from the goals, and says things in plain words)
